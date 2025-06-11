@@ -29,7 +29,7 @@ jobs:
           {
             "content": ":white_check_mark: Push to \`$REPO\` on \`$BRANCH\` by \`$ACTOR\`\nCommit: $COMMIT\n<$LINK>"
           }
-EOF
+          EOF
 
           echo "=== payload.json ==="
           cat payload.json
