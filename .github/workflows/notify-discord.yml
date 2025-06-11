@@ -1,0 +1,39 @@
+name: Commit feed to Discord
+
+on:
+  push:
+    branches: ["**"]
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+
+    env:                       # ← this block is where we expose the secret
+      WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Get commit data
+        id: info
+        run: |
+          echo "Repo=${{ github.repository }}" >> $GITHUB_ENV
+          echo "Branch=${GITHUB_REF##*/}"       >> $GITHUB_ENV
+          echo "Author=${{ github.actor }}"     >> $GITHUB_ENV
+          echo "Timestamp=$(date -u '+%A %m-%d-%Y %I:%M %p EST')" >> $GITHUB_ENV
+          echo "CommitInfo=$(git log -1 --pretty=format:'%h %s')"  >> $GITHUB_ENV
+          echo "Link=${{ github.event.head_commit.url }}" >> $GITHUB_ENV
+
+      - name: Post to Discord
+        run: |
+          echo ":white_check_mark: GitHub push detected"      >  message.txt
+          echo "Repo:   $Repo"                                 >> message.txt
+          echo "Branch: $Branch"                               >> message.txt
+          echo "Author: $Author"                               >> message.txt
+          echo "Time:   $Timestamp"                            >> message.txt
+          echo "Commit: $CommitInfo"                           >> message.txt
+          echo "Link:   $Link"                                 >> message.txt
+
+          PAYLOAD=$(jq -Rs '{content: .}' < message.txt)
+          curl -s -H "Content-Type: application/json" -d "$PAYLOAD" "$WEBHOOK"
