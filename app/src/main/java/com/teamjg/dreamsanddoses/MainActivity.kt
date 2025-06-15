@@ -1,4 +1,4 @@
-package com.TeamJG.DreamsAndDoses
+package com.teamjg.dreamsanddoses
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -11,7 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.TeamJG.DreamsAndDoses.ui.theme.MyApplicationTheme
+import com.teamjg.dreamsanddoses.ui.theme.MyApplicationTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

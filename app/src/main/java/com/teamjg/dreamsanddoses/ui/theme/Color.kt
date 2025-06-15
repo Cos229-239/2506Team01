@@ -1,4 +1,4 @@
-package com.TeamJG.DreamsAndDoses.ui.theme
+package com.teamjg.dreamsanddoses.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

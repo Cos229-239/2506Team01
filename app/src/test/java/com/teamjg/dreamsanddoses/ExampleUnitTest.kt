@@ -1,4 +1,4 @@
-package com.TeamJG.DreamsAndDoses
+package com.teamjg.dreamsanddoses
 
 import org.junit.Test
 
