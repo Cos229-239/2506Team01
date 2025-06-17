@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.TeamJG.DreamsAndDoses"
+    namespace = "com.teamjg.dreamsanddoses"
     compileSdk = 35
 
     defaultConfig {

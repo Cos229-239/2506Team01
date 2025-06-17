@@ -1,6 +1,5 @@
-package com.TeamJG.DreamsAndDoses.ui.theme
+package com.teamjg.dreamsanddoses.ui.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
