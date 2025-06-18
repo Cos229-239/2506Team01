@@ -54,4 +54,5 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
     implementation("androidx.navigation:navigation-compose:2.9.0")
+    implementation("androidx.compose.animation:animation:1.8.2")
 }
