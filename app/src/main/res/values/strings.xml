@@ -1,3 +1,18 @@
 <resources>
-    <string name="app_name">DreamsAndDoses</string>
+    <string name="app_name">Dreams and Doses</string>
+
+    <!-- Navigation / Content Labels -->
+    <string name="home_screen">Home Screen</string>
+    <string name="journal_screen">Journal Screen</string>
+    <string name="calendar_screen">Calendar Screen</string>
+    <string name="settings_screen">Settings Screen</string>
+    <string name="pills_screen">Prescription Dosage Assistant</string>
+
+    <!-- Navigation Buttons -->
+    <string name="create_new">Create New</string>
+    <string name="settings">Settings</string>
+    <string name="journal">Journal</string>
+    <string name="calendar">Calendar</string>
+    <string name="pills">Pills</string>
+    <string name="back">Back</string>
 </resources>
