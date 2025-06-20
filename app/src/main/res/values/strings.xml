@@ -15,4 +15,6 @@
     <string name="calendar">Calendar</string>
     <string name="pills">Pills</string>
     <string name="back">Back</string>
+    <string name="files">Files</string>
+    <string name="dreams">Dreams</string>
 </resources>
