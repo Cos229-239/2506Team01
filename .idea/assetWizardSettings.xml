@@ -37,7 +37,7 @@
                                             <option name="values">
                                               <map>
                                                 <entry key="color" value="000000" />
-                                                <entry key="imagePath" value="C:\Users\Jacob\OneDrive\Desktop\File_Icon.png" />
+                                                <entry key="imagePath" value="C:\Users\Jacob\OneDrive\Desktop\dreams_icon.png" />
                                                 <entry key="opacityPercent" value="80" />
                                                 <entry key="paddingPercent" value="-5" />
                                               </map>
@@ -72,8 +72,8 @@
                                   <option name="values">
                                     <map>
                                       <entry key="assetType" value="IMAGE" />
-                                      <entry key="imageAsset" value="C:\Users\Jacob\OneDrive\Desktop\File_Icon.png" />
-                                      <entry key="outputName" value="ic_files_icon" />
+                                      <entry key="imageAsset" value="C:\Users\Jacob\OneDrive\Desktop\dreams_icon.png" />
+                                      <entry key="outputName" value="ic_dreams_icon" />
                                       <entry key="theme" value="CUSTOM" />
                                       <entry key="themeColor" value="1d1b20" />
                                     </map>
