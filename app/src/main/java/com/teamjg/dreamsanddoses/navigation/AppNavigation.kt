@@ -7,6 +7,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.teamjg.dreamsanddoses.uis.*
 import com.teamjg.dreamsanddoses.uis.calendarUI.CalendarScreen
+import com.teamjg.dreamsanddoses.uis.loginUI.LoginScreen
 
 
 /* Centralized object to store route names */
@@ -18,6 +19,7 @@ object Routes {
     const val PILLS = "pills"
     const val FILES = "files"
     const val DREAMS = "dreams"
+    const val LOGIN = "login"
 
 }
 
@@ -29,7 +31,7 @@ fun AppNavigation(
     // Sets up the navigation graph with a start destination
     NavHost(
         navController = navController,
-        startDestination = Routes.HOME
+        startDestination = Routes.LOGIN
     ) {
         // Each screen is added as a route with its corresponding composable
         composable(Routes.HOME) { HomeScreen(navController) }
@@ -39,5 +41,6 @@ fun AppNavigation(
         composable(Routes.PILLS) { PillsScreen(navController) }
         composable(Routes.FILES) { FilesScreen(navController) }
         composable(Routes.DREAMS) { DreamsScreen(navController) }
+        composable(Routes.LOGIN) { LoginScreen(navController) }
     }
 }
