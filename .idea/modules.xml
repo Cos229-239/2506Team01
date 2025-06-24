@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/2506Team01.DreamsAndDoses.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/2506Team01.DreamsAndDoses.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/2506Team01.DreamsAndDoses.app.androidTest~1.iml" filepath="$PROJECT_DIR$/.idea/modules/app/2506Team01.DreamsAndDoses.app.androidTest~1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/2506Team01.DreamsAndDoses.app.main.iml" filepath="$PROJECT_DIR$/.idea/modules/app/2506Team01.DreamsAndDoses.app.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/2506Team01.DreamsAndDoses.app.unitTest~1.iml" filepath="$PROJECT_DIR$/.idea/modules/app/2506Team01.DreamsAndDoses.app.unitTest~1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/DreamsAndDoses.iml" filepath="$PROJECT_DIR$/.idea/modules/DreamsAndDoses.iml" />
+    </modules>
+  </component>
+</project>
