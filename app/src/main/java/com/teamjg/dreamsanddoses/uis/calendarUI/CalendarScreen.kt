@@ -14,7 +14,6 @@ import com.teamjg.dreamsanddoses.navigation.NavigationBarType
 import com.teamjg.dreamsanddoses.navigation.TopNavigationBar
 import com.teamjg.dreamsanddoses.navigation.AnimatedScreenWrapper
 
-
 /**
  * Main Calendar screen composable that displays
  * a calendar header and grid, wrapped in a scaffold

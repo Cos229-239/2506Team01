@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import kotlinx.coroutines.delay
 
+
 /**
  * Wrapper composable that adds animated entrance/exit to any screen content
  * @param navController The NavController used to handle navigation (e.g., popping the backstack)

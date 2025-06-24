@@ -10,7 +10,6 @@ import androidx.navigation.NavController
 import com.teamjg.dreamsanddoses.navigation.NavigationBarType
 import com.teamjg.dreamsanddoses.navigation.TopNavigationBar
 
-
 /**  Journal screen composable
      Uses Scaffold with a top navigation bar configured for Journal
      Placeholder for journal content and future search functionality  **/

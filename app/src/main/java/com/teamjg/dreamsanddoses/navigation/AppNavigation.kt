@@ -9,7 +9,6 @@ import com.teamjg.dreamsanddoses.uis.loginUI.LoginScreen
 import com.teamjg.dreamsanddoses.uis.*
 import com.teamjg.dreamsanddoses.uis.calendarUI.CalendarScreen
 
-
 /* Centralized object to store route names */
 object Routes {
     const val HOME = "home"

@@ -18,7 +18,6 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.teamjg.dreamsanddoses.R
 
-
 // Enum-like sealed class to identify each top bar variant by screen type
 sealed class NavigationBarType {
     object Home : NavigationBarType()

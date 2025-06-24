@@ -16,6 +16,7 @@ import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
 
+
 // Constants for calendar layout logic
 private const val DAYS_IN_WEEK = 7
 private const val MAX_WEEKS_DISPLAYED = 6
