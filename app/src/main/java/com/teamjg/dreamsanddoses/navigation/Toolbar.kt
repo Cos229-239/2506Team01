@@ -1,0 +1,208 @@
+package com.teamjg.dreamsanddoses.navigation
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import com.teamjg.dreamsanddoses.R
+
+// Enum-like sealed class to identify each top bar variant by screen type
+sealed class NavigationBarType {
+    object Home : NavigationBarType()
+    object Calendar : NavigationBarType()
+    object Journal : NavigationBarType()
+    object Pills : NavigationBarType()
+    object Files : NavigationBarType()
+    object Settings : NavigationBarType()
+    object Dreams : NavigationBarType()
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun TopNavigationBar(
+    type: NavigationBarType,                // Determines which icon to show
+    navController: NavController? = null,   // Optional NavController for back button
+    useIconHeader: Boolean = false,         // Whether to show an icon/logo in the center
+    onSearchClick: (() -> Unit)? = null     // Optional lambda for search button click
+) {
+    val backgroundColor = MaterialTheme.colorScheme.surfaceVariant
+
+    // Icon resource for standard vector icons
+    val headerIconVector: ImageVector? = when (type) {
+        is NavigationBarType.Calendar -> Icons.Default.DateRange
+        is NavigationBarType.Journal -> Icons.Default.Edit
+        is NavigationBarType.Settings -> Icons.Default.Settings
+        is NavigationBarType.Home -> Icons.Default.Home
+        else -> null
+    }
+
+    // Icon resource for custom image-based icons
+    val headerIconPainter: Painter? = when (type) {
+        is NavigationBarType.Dreams -> painterResource(id = R.drawable.ic_dreams_icon)
+        is NavigationBarType.Files -> painterResource(id = R.drawable.ic_files_icon)
+        is NavigationBarType.Pills -> painterResource(id = R.drawable.ic_prescription_dosage_assistant)
+        else -> null
+    }
+
+    // Logic to conditionally show the search icon
+    val showSearch = type is NavigationBarType.Settings ||
+            type is NavigationBarType.Files ||
+            type is NavigationBarType.Pills
+
+    // Main top app bar container
+    Surface(
+        modifier = Modifier
+            .fillMaxWidth()
+            .windowInsetsPadding(WindowInsets.statusBars),
+        color = backgroundColor,
+        shadowElevation = 4.dp
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(80.dp)
+                .padding(horizontal = 8.dp),
+            contentAlignment = Alignment.Center
+        ) {
+            // Back button positioned on the left
+            Row(
+                modifier = Modifier.fillMaxSize(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                navController?.let {
+                    IconButton(
+                        onClick = { it.popBackStack() },
+                        modifier = Modifier.size(48.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = "Back",
+                            modifier = Modifier.size(32.dp),
+                            tint = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                }
+            }
+
+            // Center icon, either vector or painter
+            if (useIconHeader) {
+                headerIconVector?.let {
+                    Icon(it, contentDescription = "Header Icon", modifier = Modifier.size(36.dp))
+                } ?: headerIconPainter?.let {
+                    Icon(it, contentDescription = "Header Icon", modifier = Modifier.size(36.dp))
+                }
+            }
+
+            // Search button positioned on the right
+            Row(
+                modifier = Modifier.fillMaxSize(),
+                horizontalArrangement = Arrangement.End,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                if (showSearch && onSearchClick != null) {
+                    IconButton(
+                        onClick = onSearchClick,
+                        modifier = Modifier.size(48.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Search,
+                            contentDescription = "Search",
+                            modifier = Modifier.size(32.dp),
+                            tint = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun BottomNavigationBar(navController: NavController) {
+    // BottomAppBar provides the visual background and elevation
+    BottomAppBar(
+        tonalElevation = 4.dp,
+        containerColor = MaterialTheme.colorScheme.surface
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceEvenly,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            // Settings screen button
+            IconButton(onClick = {
+                navController.navigate(Routes.SETTINGS) {
+                    launchSingleTop = true
+                    popUpTo(Routes.HOME)
+                }
+            }) {
+                Icon(Icons.Default.Settings, contentDescription = "Settings", tint = MaterialTheme.colorScheme.onSurfaceVariant)
+            }
+
+            // Pills screen button
+            IconButton(onClick = {
+                navController.navigate(Routes.PILLS) {
+                    launchSingleTop = true
+                    popUpTo(Routes.HOME)
+                }
+            }) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_prescription_dosage_assistant),
+                    contentDescription = "Pills",
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+
+            // Center action button
+            Box(
+                modifier = Modifier
+                    .size(72.dp)
+                    .background(
+                        color = MaterialTheme.colorScheme.primary,
+                        shape = CircleShape
+                    )
+                    .clickable { /* TODO: handle creation */ },
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Add,
+                    contentDescription = "Create New",
+                    tint = MaterialTheme.colorScheme.onPrimary,
+                    modifier = Modifier.size(48.dp)
+                )
+            }
+
+            // Journal screen button
+            IconButton(onClick = {
+                navController.navigate(Routes.JOURNAL) {
+                    launchSingleTop = true
+                    popUpTo(Routes.HOME)
+                }
+            }) {
+                Icon(Icons.Default.Edit, contentDescription = "Journal", tint = MaterialTheme.colorScheme.onSurfaceVariant)
+            }
+
+            // Calendar screen button
+            IconButton(onClick = {
+                navController.navigate(Routes.CALENDAR) {
+                    launchSingleTop = true
+                    popUpTo(Routes.HOME)
+                }
+            }) {
+                Icon(Icons.Default.DateRange, contentDescription = "Calendar", tint = MaterialTheme.colorScheme.onSurfaceVariant)
+            }
+        }
+    }
+}
