@@ -55,4 +55,11 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-test-manifest")
     implementation("androidx.navigation:navigation-compose:2.9.0")
     implementation("androidx.compose.animation:animation:1.8.3")
+
+    // Dante added concerning FireBase Authentication setup
+
+        implementation(platform("com.google.firebase:firebase-bom:33.15.0"))
+        implementation("com.google.firebase:firebase-analytics")
+        implementation("com.google.firebase:firebase-auth")
+
 }

@@ -8,6 +8,7 @@ import androidx.navigation.compose.rememberNavController
 import com.teamjg.dreamsanddoses.uis.*
 import com.teamjg.dreamsanddoses.uis.calendarUI.CalendarScreen
 import com.teamjg.dreamsanddoses.uis.loginUI.LoginScreen
+import com.teamjg.dreamsanddoses.uis.loginUI.RegisterScreen
 
 
 /* Centralized object to store route names */
@@ -20,6 +21,7 @@ object Routes {
     const val FILES = "files"
     const val DREAMS = "dreams"
     const val LOGIN = "login"
+    const val REGISTER = "register"
 
 }
 
@@ -42,5 +44,13 @@ fun AppNavigation(
         composable(Routes.FILES) { FilesScreen(navController) }
         composable(Routes.DREAMS) { DreamsScreen(navController) }
         composable(Routes.LOGIN) { LoginScreen(navController) }
+
+        composable(Routes.REGISTER) {
+            RegisterScreen(onBackToLogin = {
+                navController.navigate(Routes.LOGIN) {
+                    popUpTo(Routes.LOGIN) { inclusive = true }
+                }
+            })
+        }
     }
 }

@@ -165,7 +165,7 @@ fun LoginScreen(navController: NavController) {
             Text(text = "\uF8FF  Continue with Apple") // Apple logo character
         }
 
-        Spacer(modifier = Modifier.weight(1f)) // pushes content below to bottom
+        Spacer(modifier = Modifier.weight(1f))
 
 // Guest button area
         Column(
