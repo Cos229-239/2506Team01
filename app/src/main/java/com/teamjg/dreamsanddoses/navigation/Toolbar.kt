@@ -11,12 +11,14 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.teamjg.dreamsanddoses.R
+
 
 // Enum-like sealed class to identify each top bar variant by screen type
 sealed class NavigationBarType {
@@ -37,7 +39,7 @@ fun TopNavigationBar(
     useIconHeader: Boolean = false,         // Whether to show an icon/logo in the center
     onSearchClick: (() -> Unit)? = null     // Optional lambda for search button click
 ) {
-    val backgroundColor = MaterialTheme.colorScheme.surfaceVariant
+    val color = Color.LightGray
 
     // Icon resource for standard vector icons
     val headerIconVector: ImageVector? = when (type) {
@@ -66,13 +68,13 @@ fun TopNavigationBar(
         modifier = Modifier
             .fillMaxWidth()
             .windowInsetsPadding(WindowInsets.statusBars),
-        color = backgroundColor,
-        shadowElevation = 4.dp
+        color = color,
+        shadowElevation = 0.dp
     ) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(80.dp)
+                .height(120.dp)
                 .padding(horizontal = 8.dp),
             contentAlignment = Alignment.Center
         ) {
@@ -99,9 +101,9 @@ fun TopNavigationBar(
             // Center icon, either vector or painter
             if (useIconHeader) {
                 headerIconVector?.let {
-                    Icon(it, contentDescription = "Header Icon", modifier = Modifier.size(36.dp))
+                    Icon(it, contentDescription = "Header Icon", modifier = Modifier.size(75.dp))
                 } ?: headerIconPainter?.let {
-                    Icon(it, contentDescription = "Header Icon", modifier = Modifier.size(36.dp))
+                    Icon(it, contentDescription = "Header Icon", modifier = Modifier.size(75.dp))
                 }
             }
 
@@ -130,7 +132,7 @@ fun TopNavigationBar(
 }
 
 @Composable
-fun BottomNavigationBar(navController: NavController) {
+fun BottomNavigationBar(navController: NavController, type: NavigationBarType) {
     // BottomAppBar provides the visual background and elevation
     BottomAppBar(
         tonalElevation = 4.dp,
@@ -148,7 +150,10 @@ fun BottomNavigationBar(navController: NavController) {
                     popUpTo(Routes.HOME)
                 }
             }) {
-                Icon(Icons.Default.Settings, contentDescription = "Settings", tint = MaterialTheme.colorScheme.onSurfaceVariant)
+                Icon(Icons.Default.Settings,
+                    contentDescription = "Settings",
+                    tint = Color.Black
+                )
             }
 
             // Pills screen button
@@ -161,7 +166,7 @@ fun BottomNavigationBar(navController: NavController) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_prescription_dosage_assistant),
                     contentDescription = "Pills",
-                    tint = MaterialTheme.colorScheme.onSurfaceVariant
+                    tint = Color.Black
                 )
             }
 
@@ -173,16 +178,33 @@ fun BottomNavigationBar(navController: NavController) {
                         color = MaterialTheme.colorScheme.primary,
                         shape = CircleShape
                     )
-                    .clickable { /* TODO: handle creation */ },
+                    .clickable {
+                        if (type is NavigationBarType.Files) {
+                            // TODO: handle camera launch
+                        } else {
+                            // TODO: handle standard creation
+                        }
+                    },
                 contentAlignment = Alignment.Center
             ) {
-                Icon(
-                    imageVector = Icons.Default.Add,
-                    contentDescription = "Create New",
-                    tint = MaterialTheme.colorScheme.onPrimary,
-                    modifier = Modifier.size(48.dp)
-                )
+                if (type is NavigationBarType.Files) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_camera_icon),
+                        contentDescription = "Open Camera",
+                        tint = MaterialTheme.colorScheme.onPrimary,
+                        modifier = Modifier.size(48.dp)
+                    )
+                } else {
+                    Icon(
+                        imageVector = Icons.Default.Add,
+                        contentDescription = "Create New",
+                        tint = MaterialTheme.colorScheme.onPrimary,
+                        modifier = Modifier.size(48.dp)
+                    )
+                }
             }
+
+
 
             // Journal screen button
             IconButton(onClick = {
@@ -191,7 +213,9 @@ fun BottomNavigationBar(navController: NavController) {
                     popUpTo(Routes.HOME)
                 }
             }) {
-                Icon(Icons.Default.Edit, contentDescription = "Journal", tint = MaterialTheme.colorScheme.onSurfaceVariant)
+                Icon(Icons.Default.Edit,
+                    contentDescription = "Journal",
+                    tint = Color.Black)
             }
 
             // Calendar screen button
@@ -201,7 +225,9 @@ fun BottomNavigationBar(navController: NavController) {
                     popUpTo(Routes.HOME)
                 }
             }) {
-                Icon(Icons.Default.DateRange, contentDescription = "Calendar", tint = MaterialTheme.colorScheme.onSurfaceVariant)
+                Icon(Icons.Default.DateRange,
+                    contentDescription = "Calendar",
+                    tint = Color.Black)
             }
         }
     }

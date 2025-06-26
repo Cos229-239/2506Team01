@@ -1,34 +1,19 @@
 package com.teamjg.dreamsanddoses.uis.loginUI
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.material3.TextField
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.teamjg.dreamsanddoses.R
 
 //Dante added concerning Login screen
 @Composable
@@ -49,7 +34,7 @@ fun LoginScreen(navController: NavController) {
 
         //App title for Login screen
         Text(
-            text = "Dreams and Doses",
+            text = "Dreams & Doses",
             fontSize = 24.sp,
             fontWeight = FontWeight.Bold,
             color = Color.Black
@@ -57,12 +42,13 @@ fun LoginScreen(navController: NavController) {
 
         Spacer(modifier = Modifier.height(10.dp))
 
-        // icon placeholder
-        Box(
-            modifier = Modifier
-                .size(80.dp)
-                .border(2.dp, Color.Black)
+        Icon(
+            painter = painterResource(id = R.drawable.ic_main_logo_icon),
+            contentDescription = "App Logo",
+            tint = Color.Unspecified,
+            modifier = Modifier.size(80.dp)
         )
+
 
         Spacer(modifier = Modifier.height(40.dp))
 
@@ -173,7 +159,14 @@ fun LoginScreen(navController: NavController) {
         ) {
             TextButton(
                 onClick = { /* ----TODO: Temporary login !!---- */
-                    navController.navigate("home") }
+                    navController.navigate("home")
+//                    {
+//                        popUpTo("login") {
+//                            inclusive = true
+//                        }
+//                        launchSingleTop = true
+//                    }
+                }
             ) {
                 Text(text = "Continue as guest")
             }

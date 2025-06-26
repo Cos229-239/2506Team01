@@ -1,5 +1,6 @@
 package com.teamjg.dreamsanddoses.uis
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -16,12 +17,16 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.teamjg.dreamsanddoses.R
 import com.teamjg.dreamsanddoses.navigation.BottomNavigationBar
+import com.teamjg.dreamsanddoses.navigation.NavigationBarType
 
 // Main Home screen with logo, widgets, quick access buttons, and bottom navigation
 @Composable
 fun HomeScreen(navController: NavController) {
-    Scaffold(
-        bottomBar = { BottomNavigationBar(navController) } // Bottom navigation bar
+    // This will override system back navigation on this screen
+    BackHandler { /* Do nothing = disable back press & back swipe */ }
+    
+        Scaffold(
+        bottomBar = { BottomNavigationBar(navController, NavigationBarType.Home) } // Bottom navigation bar
     ) { innerPadding ->
         Box(
             modifier = Modifier
@@ -41,7 +46,7 @@ fun HomeScreen(navController: NavController) {
                     painter = painterResource(id = R.drawable.ic_main_logo_icon),
                     contentDescription = "App Logo",
                     modifier = Modifier
-                        .size(width = 140.dp, height = 100.dp)
+                        .size(115.dp)
                         .align(Alignment.CenterHorizontally)
                         .padding(bottom = 24.dp)
                 )
