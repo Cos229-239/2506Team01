@@ -3,6 +3,7 @@ package com.teamjg.dreamsanddoses.uis.calendarUI
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import java.time.LocalDate
 
 
 /**  ViewModel managing the UI state for the Calendar screen.
@@ -13,6 +14,13 @@ class CalendarViewModel : ViewModel() {
     private val _uiState = MutableStateFlow(CalendarUiState())
     val uiState: StateFlow<CalendarUiState> = _uiState
 
+    //Handles when a date is selected
+    fun onDaySelected(date: LocalDate)
+    {
+        _uiState.value = _uiState.value.copy(
+            selectedDate = date //Saves the date clicked
+        )
+    }
     // Navigate to the previous month by updating the UI state
     fun goToPreviousMonth() {
         _uiState.value = _uiState.value.copy(
@@ -26,4 +34,5 @@ class CalendarViewModel : ViewModel() {
             currentMonth = _uiState.value.currentMonth.plusMonths(1)
         )
     }
+
 }
