@@ -37,7 +37,8 @@ fun TopNavigationBar(
     type: NavigationBarType,                // Determines which icon to show
     navController: NavController? = null,   // Optional NavController for back button
     useIconHeader: Boolean = false,         // Whether to show an icon/logo in the center
-    onSearchClick: (() -> Unit)? = null     // Optional lambda for search button click
+    onSearchClick: (() -> Unit)? = null,     // Optional lambda for search button click
+    onArchiveClick: (() -> Unit)? = null
 ) {
     val color = Color.LightGray
 
@@ -62,6 +63,8 @@ fun TopNavigationBar(
     val showSearch = type is NavigationBarType.Settings ||
             type is NavigationBarType.Files ||
             type is NavigationBarType.Pills
+
+    val showArchive = type is NavigationBarType.Files
 
     // Main top app bar container
     Surface(
@@ -107,12 +110,28 @@ fun TopNavigationBar(
                 }
             }
 
-            // Search button positioned on the right
+            // Search and Archive button positioned on the right
             Row(
-                modifier = Modifier.fillMaxSize(),
-                horizontalArrangement = Arrangement.End,
+                modifier = Modifier
+                    .wrapContentWidth()
+                    .align(Alignment.CenterEnd), // keeps it pinned right
+                horizontalArrangement = Arrangement.spacedBy(4.dp), // space between icons
                 verticalAlignment = Alignment.CenterVertically
             ) {
+                if (showArchive) {
+                    IconButton(
+                        onClick = onArchiveClick ?: {},
+                        modifier = Modifier.size(48.dp)
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_archive_icon),
+                            contentDescription = "Archive",
+                            modifier = Modifier.size(32.dp),
+                            tint = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                }
+
                 if (showSearch && onSearchClick != null) {
                     IconButton(
                         onClick = onSearchClick,

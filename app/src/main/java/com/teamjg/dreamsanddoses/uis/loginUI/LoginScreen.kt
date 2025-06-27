@@ -45,7 +45,7 @@ fun LoginScreen(navController: NavController) {
         Icon(
             painter = painterResource(id = R.drawable.ic_main_logo_icon),
             contentDescription = "App Logo",
-            tint = Color.Unspecified,
+            tint = Color.Black,
             modifier = Modifier.size(80.dp)
         )
 
