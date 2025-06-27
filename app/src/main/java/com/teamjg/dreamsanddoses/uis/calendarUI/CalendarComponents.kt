@@ -74,19 +74,15 @@ fun CalendarWeekdayHeader()
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp),
-        horizontalArrangement = Arrangement.SpaceBetween
+        horizontalArrangement = Arrangement.SpaceEvenly //Give better spacing for the boxes
     )
     {
-        for (day in daysOfWeek) {
-            Box(
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(vertical = 8.dp),
-                contentAlignment = Alignment.Center
+        daysOfWeek.forEach { day ->
+            Text(
+                text = day,
+                style = MaterialTheme.typography.labelMedium,
+                modifier = Modifier.weight(1f, fill = false) //Equal the width
             )
-            {
-                Text(text = day, style = MaterialTheme.typography.labelMedium)
-            }
         }
     }
 }
@@ -98,23 +94,31 @@ fun CalendarWeekdayHeader()
 fun CalendarGrid(currentMonth: YearMonth, selectedDate: LocalDate?, onDayClick: (LocalDate) -> Unit) {
     val days = remember(currentMonth) { buildCalendarDays(currentMonth) }
 
-    LazyVerticalGrid(
-        columns = GridCells.Fixed(7),
+    Column(
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp)
-    ) {
-        items(days) { day ->
-            Box(
-                modifier = Modifier
-                    .aspectRatio(1f)
-                    .border(1.dp, Color.Black)
-            ) {
-                CalendarDayCell(
-                    day = day,
-                    isSelected = day.date == selectedDate,
-                    onClick = { if (day.date != null) onDayClick(day.date) }
-                )
+    )
+    {
+        days.chunked(DAYS_IN_WEEK).forEach { week ->
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceEvenly
+            ){
+                week.forEach { day ->
+                    Box(
+                        modifier = Modifier
+                            .weight(1f)
+                            .aspectRatio(1f)
+                    )
+                    {
+                        CalendarDayCell(
+                            day = day,
+                            isSelected = day.date == selectedDate,
+                            onClick = {if (day.date != null) onDayClick(day.date)}
+                        )
+                    }
+                }
             }
         }
     }
@@ -126,24 +130,21 @@ fun CalendarGrid(currentMonth: YearMonth, selectedDate: LocalDate?, onDayClick: 
 fun CalendarDayCell(day: CalendarDay, isSelected: Boolean, onClick: () -> Unit) {
     Box(
         modifier = Modifier
+            .fillMaxWidth()
             .aspectRatio(1f)
-            .padding(0.dp)
-            .border(1.dp, Color.Transparent)
-            .then(
-                if (isSelected) Modifier.background(
-                    MaterialTheme.colorScheme.primary.copy(alpha = 0.3f)
-                ) else Modifier
+            .padding(2.dp)
+            .border(
+                width = 1.dp,
+                color = if (isSelected) MaterialTheme.colorScheme.primary
+                else Color.LightGray
             )
             .clickable(onClick = onClick),
         contentAlignment = Alignment.Center
     ) {
         Text(
             text = day.label,
-            modifier = Modifier.padding(4.dp),
-            color = if (day.isCurrentMonth)
-                MaterialTheme.colorScheme.onSurface
-            else
-                MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
+           color = if (day.isCurrentMonth) MaterialTheme.colorScheme.onSurface
+           else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
         )
     }
 }
@@ -168,6 +169,10 @@ private fun buildCalendarDays(currentMonth: YearMonth): List<CalendarDay> {
     for(day in 1..daysInMonth)
     { val date = LocalDate.of(currentMonth.year, currentMonth.month, day)
         dayList.add(CalendarDay(date = date, label = day.toString(), isCurrentMonth = true))
+    }
+    while (dayList.size < 42)
+    {
+        dayList.add(CalendarDay(date = null, label = "", isCurrentMonth = false))
     }
 
     return dayList
