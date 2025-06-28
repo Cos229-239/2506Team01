@@ -77,7 +77,7 @@ fun TopNavigationBar(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(120.dp)
+                .height(115.dp)
                 .padding(horizontal = 8.dp),
             contentAlignment = Alignment.Center
         ) {
