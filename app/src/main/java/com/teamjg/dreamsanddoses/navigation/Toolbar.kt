@@ -164,13 +164,20 @@ fun BottomNavigationBar(navController: NavController, type: NavigationBarType) {
         ) {
             // Settings screen button
             IconButton(onClick = {
-                navController.navigate(Routes.SETTINGS) {
-                    launchSingleTop = true
-                    popUpTo(Routes.HOME)
+                if (type is NavigationBarType.Settings) {
+                    navController.navigate(Routes.HOME) {
+                        launchSingleTop = true
+                        popUpTo(Routes.HOME)
+                    }
+                } else {
+                    navController.navigate(Routes.SETTINGS) {
+                        launchSingleTop = true
+                        popUpTo(Routes.HOME)
+                    }
                 }
             }) {
-                Icon(Icons.Default.Settings,
-                    contentDescription = "Settings",
+                Icon(imageVector = if (type is NavigationBarType.Settings) Icons.Default.Home else Icons.Default.Settings,
+                    contentDescription = if (type is NavigationBarType.Settings) "Home" else "Settings",
                     tint = Color.Black
                 )
             }
@@ -222,6 +229,7 @@ fun BottomNavigationBar(navController: NavController, type: NavigationBarType) {
                     )
                 }
             }
+
 
 
 
