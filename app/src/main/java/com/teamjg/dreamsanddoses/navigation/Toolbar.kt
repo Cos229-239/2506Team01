@@ -35,9 +35,9 @@ sealed class NavigationBarType {
 @Composable
 fun TopNavigationBar(
     type: NavigationBarType,                // Determines which icon to show
-    navController: NavController? = null,   // Optional NavController for back button
+    navController: NavController? = null,   // NavController for back button
     useIconHeader: Boolean = false,         // Whether to show an icon/logo in the center
-    onSearchClick: (() -> Unit)? = null,     // Optional lambda for search button click
+    onSearchClick: (() -> Unit)? = null,     // Lambda for search button click
     onArchiveClick: (() -> Unit)? = null
 ) {
     val color = Color.LightGray

@@ -9,7 +9,9 @@ import com.teamjg.dreamsanddoses.uis.loginUI.LoginScreen
 import com.teamjg.dreamsanddoses.uis.*
 import com.teamjg.dreamsanddoses.uis.calendarUI.CalendarScreen
 import com.teamjg.dreamsanddoses.uis.filesScreen.FilesScreen
+import com.teamjg.dreamsanddoses.uis.settingsUI.AccountSettingsScreen
 import com.teamjg.dreamsanddoses.uis.settingsUI.SettingsScreen
+import com.teamjg.dreamsanddoses.uis.settingsUI.SubSettingsScreen
 
 /* Centralized object to store route names */
 object Routes {
@@ -21,7 +23,7 @@ object Routes {
     const val FILES = "files"
     const val DREAMS = "dreams"
     const val LOGIN = "login"
-
+    const val ACCOUNT_SETTINGS = "accountSettings"
 
 }
 
@@ -44,5 +46,11 @@ fun AppNavigation(
         composable(Routes.FILES) { FilesScreen(navController) }
         composable(Routes.DREAMS) { DreamsScreen(navController) }
         composable(Routes.LOGIN) { LoginScreen(navController) }
+        composable("sub_settings") { SubSettingsScreen(navController) }
+        composable(Routes.ACCOUNT_SETTINGS) { AccountSettingsScreen(navController) }
+//        composable("notification_settings") { NotificationSettingsScreen(navController) }
+//        composable("privacy_settings") { PrivacySettingsScreen(navController) }
+//        composable("appearance_settings") { AppearanceSettingsScreen(navController) }
+
     }
 }
