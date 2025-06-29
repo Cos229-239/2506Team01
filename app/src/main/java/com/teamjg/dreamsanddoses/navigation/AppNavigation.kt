@@ -9,6 +9,7 @@ import com.teamjg.dreamsanddoses.uis.loginUI.LoginScreen
 import com.teamjg.dreamsanddoses.uis.*
 import com.teamjg.dreamsanddoses.uis.calendarUI.CalendarScreen
 import com.teamjg.dreamsanddoses.uis.filesScreen.FilesScreen
+import com.teamjg.dreamsanddoses.uis.settingsUI.SettingsScreen
 
 /* Centralized object to store route names */
 object Routes {

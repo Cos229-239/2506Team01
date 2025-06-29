@@ -1,5 +1,6 @@
 package com.teamjg.dreamsanddoses.uis.loginUI
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
@@ -18,6 +19,10 @@ import com.teamjg.dreamsanddoses.R
 //Dante added concerning Login screen
 @Composable
 fun LoginScreen(navController: NavController) {
+
+    // Disable (Android) back button and back swipe to prevent accidental exit
+    BackHandler { /* no-op */ }
+
     // User input fields
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
