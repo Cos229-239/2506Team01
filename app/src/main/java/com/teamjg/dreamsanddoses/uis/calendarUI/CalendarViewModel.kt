@@ -7,7 +7,7 @@ import java.time.LocalDate
 
 
 /**  ViewModel managing the UI state for the Calendar screen.
-     Holds the current month and exposes navigation functions  **/
+Holds the current month and exposes navigation functions  **/
 class CalendarViewModel : ViewModel() {
 
     // Backing state flow holding the current calendar UI state

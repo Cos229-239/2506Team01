@@ -34,7 +34,7 @@ data class CalendarDay(
 )
 
 /** Composable to display the calendar's header section,
-    including month/year label and navigation buttons **/
+including month/year label and navigation buttons **/
 @Composable
 fun CalendarHeader(
     currentMonth: YearMonth,
@@ -74,83 +74,82 @@ fun CalendarWeekdayHeader()
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp),
-        horizontalArrangement = Arrangement.SpaceEvenly //Give better spacing for the boxes
+        horizontalArrangement = Arrangement.SpaceBetween
     )
     {
-        daysOfWeek.forEach { day ->
-            Text(
-                text = day,
-                style = MaterialTheme.typography.labelMedium,
-                modifier = Modifier.weight(1f, fill = false) //Equal the width
+        for (day in daysOfWeek) {
+            Box(
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(vertical = 8.dp),
+                contentAlignment = Alignment.Center
             )
+            {
+                Text(text = day, style = MaterialTheme.typography.labelMedium)
+            }
         }
     }
 }
 
 /**  Composable to render a scrollable 7x6 grid of days for a given month.
-     Uses LazyVerticalGrid for performance and layout flexibility  **/
+Uses LazyVerticalGrid for performance and layout flexibility  **/
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun CalendarGrid(currentMonth: YearMonth, selectedDate: LocalDate?, onDayClick: (LocalDate) -> Unit) {
     val days = remember(currentMonth) { buildCalendarDays(currentMonth) }
 
-    Column(
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(7),
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp)
-    )
-    {
-        days.chunked(DAYS_IN_WEEK).forEach { week ->
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceEvenly
-            ){
-                week.forEach { day ->
-                    Box(
-                        modifier = Modifier
-                            .weight(1f)
-                            .aspectRatio(1f)
-                    )
-                    {
-                        CalendarDayCell(
-                            day = day,
-                            isSelected = day.date == selectedDate,
-                            onClick = {if (day.date != null) onDayClick(day.date)}
-                        )
-                    }
-                }
+    ) {
+        items(days) { day ->
+            Box(
+                modifier = Modifier
+                    .aspectRatio(1f)
+                    .border(1.dp, Color.Black)
+            ) {
+                CalendarDayCell(
+                    day = day,
+                    isSelected = day.date == selectedDate,
+                    onClick = { if (day.date != null) onDayClick(day.date) }
+                )
             }
         }
     }
 }
 
 /**  Composable that represents a single calendar day cell.
-     Adjusts text color based on whether it belongs to the current month  **/
+Adjusts text color based on whether it belongs to the current month  **/
 @Composable
 fun CalendarDayCell(day: CalendarDay, isSelected: Boolean, onClick: () -> Unit) {
     Box(
         modifier = Modifier
-            .fillMaxWidth()
             .aspectRatio(1f)
-            .padding(2.dp)
-            .border(
-                width = 1.dp,
-                color = if (isSelected) MaterialTheme.colorScheme.primary
-                else Color.LightGray
+            .padding(0.dp)
+            .border(1.dp, Color.Transparent)
+            .then(
+                if (isSelected) Modifier.background(
+                    MaterialTheme.colorScheme.primary.copy(alpha = 0.3f)
+                ) else Modifier
             )
             .clickable(onClick = onClick),
         contentAlignment = Alignment.Center
     ) {
         Text(
             text = day.label,
-           color = if (day.isCurrentMonth) MaterialTheme.colorScheme.onSurface
-           else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
+            modifier = Modifier.padding(4.dp),
+            color = if (day.isCurrentMonth)
+                MaterialTheme.colorScheme.onSurface
+            else
+                MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
         )
     }
 }
 
 /**  Utility function to generate all 42 calendar cells (7 days × 6 weeks).
-     Fills overflow days from previous and next months for full grid display  **/
+Fills overflow days from previous and next months for full grid display  **/
 private fun buildCalendarDays(currentMonth: YearMonth): List<CalendarDay> {
     val firstDayOfMonth = LocalDate.of(currentMonth.year, currentMonth.month, 1)
     val firstDayIndex = firstDayOfMonth.dayOfWeek.value % DAYS_IN_WEEK
@@ -165,14 +164,10 @@ private fun buildCalendarDays(currentMonth: YearMonth): List<CalendarDay> {
         dayList.add(CalendarDay(date = null, label = "", isCurrentMonth = false))
     }
 
-        //Only add days for current month.
+    //Only add days for current month.
     for(day in 1..daysInMonth)
     { val date = LocalDate.of(currentMonth.year, currentMonth.month, day)
         dayList.add(CalendarDay(date = date, label = day.toString(), isCurrentMonth = true))
-    }
-    while (dayList.size < 42)
-    {
-        dayList.add(CalendarDay(date = null, label = "", isCurrentMonth = false))
     }
 
     return dayList
