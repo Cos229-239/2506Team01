@@ -77,7 +77,8 @@ fun CalendarWeekdayHeader()
         horizontalArrangement = Arrangement.SpaceBetween
     )
     {
-        for (day in daysOfWeek) {
+        for (day in daysOfWeek)
+        {
             Box(
                 modifier = Modifier
                     .weight(1f)
@@ -90,7 +91,6 @@ fun CalendarWeekdayHeader()
         }
     }
 }
-
 /**  Composable to render a scrollable 7x6 grid of days for a given month.
 Uses LazyVerticalGrid for performance and layout flexibility  **/
 @OptIn(ExperimentalFoundationApi::class)
