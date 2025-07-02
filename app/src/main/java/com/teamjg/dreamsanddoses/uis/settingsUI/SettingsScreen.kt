@@ -24,6 +24,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.ui.text.font.FontWeight
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -66,7 +67,7 @@ fun SettingsScreen(navController: NavController) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             // Section: Navigation buttons to sub-settings screens
-            listOf("Account", "Notifications", "Privacy", "Appearance").forEach { label ->
+            listOf("Account", "Notifications & Sounds", "Display Options", "Security & Privacy").forEach { label ->
                 ActionButton(
                     text = label,
                     backgroundColor = Color(0xFFE0E0E0),
@@ -77,29 +78,11 @@ fun SettingsScreen(navController: NavController) {
                 )
             }
 
-            Spacer(modifier = Modifier.height(16.dp))
-
-            // Section: Toggle switches for user preferences
-            ToggleRow("Dark Mode", darkMode) { darkMode = it }
-            ToggleRow("Orientation Locked", orientation) { orientation = it }
-            ToggleRow("Orange Tint", orangeTint) { orangeTint = it }
-
-            Spacer(modifier = Modifier.height(16.dp))
-
             // Section: Actions related to session and preferences
-            ActionButton("Apply", Color(0xFFE0E0E0))
-            ActionButton("Discard Changes", Color(0xFFE0E0E0))
-
-            // Show logout confirmation dialog on click
-            ActionButton("Logout", Color.Black, Color.White) {
-                showLogoutDialog = true
-            }
-
-            // Placeholder for future account switch functionality
-            ActionButton("Switch Account", Color.Gray, Color.White) {
-                // TODO: Handle switch account logic
-                showLogoutDialog = true
-            }
+//            ActionButton("Apply", Color(0xFFE0E0E0),
+//                onClick = { /* TODO: Apply setting changes */ })
+//            ActionButton("Discard Changes", Color(0xFFE0E0E0),
+//                onClick = { /* TODO: Discard setting changes */ })
         }
 
         if (showBottomSheet.value) {
@@ -138,6 +121,7 @@ fun SettingsScreen(navController: NavController) {
                             Text(
                                 text = "$currentSetting Settings",
                                 style = MaterialTheme.typography.headlineSmall,
+                                fontWeight = FontWeight.Bold,
                                 modifier = Modifier.padding(start = 4.dp)
                             )
                         }
@@ -146,18 +130,40 @@ fun SettingsScreen(navController: NavController) {
 
                         // TODO: Content block (placeholder)
                         when (currentSetting) {
-                            "Account" -> Text("Account settings content here...")
-                            "Notifications" -> Text("Notification settings content here...")
-                            "Privacy" -> Text("Privacy settings content here...")
-                            "Appearance" -> Text("Appearance settings content here...")
+                            "Account" -> Column {
+
+                                ActionButton("Change Password", Color.Black, Color.White) {
+                                    showLogoutDialog = true
+                                }
+
+                                // Temporarily places the Logout and Switch Accounts at the bottom of the window
+                                // Should solve itself once it becomes more populated
+                                //Spacer(modifier = Modifier.height(480.dp))
+
+                                ActionButton("Switch Account", Color.Black, Color.White) {
+                                    // TODO: Handle switch account logic
+                                    showLogoutDialog = true
+                                }
+                                ActionButton("Logout", Color.Gray, Color.White) {
+                                    showLogoutDialog = true
+                                }
+
+                            }
+
+                            "Notifications & Sounds" -> Text("Notifications & Sounds settings content here...")
+                            "Security & Privacy" -> Text("Security & Privacy settings content here...")
+                            //"Appearance" -> Text("Appearance settings content here...")
+                            "Display Options" -> Column {
+                                ToggleRow("Dark Mode", darkMode) { darkMode = it }
+                                ToggleRow("Orientation Locked", orientation) { orientation = it }
+                                ToggleRow("Orange Tint", orangeTint) { orangeTint = it }
+                            }
                         }
                     }
                 }
             }
         }
     }
-
-
         // Dialog: Confirm logout action
         if (showLogoutDialog) {
             LogoutConfirmationDialog(
@@ -172,30 +178,3 @@ fun SettingsScreen(navController: NavController) {
 
         }
     }
-
-
-@Composable
-fun AccountSettingsScreen(navController: NavController) {
-
-    Scaffold(
-        // Top navigation bar with journal icon and optional search
-        topBar = {
-            TopNavigationBar(
-                type = NavigationBarType.Journal,
-                navController = navController,
-                useIconHeader = true,
-                onSearchClick = { /* TODO: implement search action */ }
-            )
-        }
-    ) { innerPadding ->
-        Column(
-            modifier = Modifier
-                .padding(innerPadding) // Respect Scaffold padding
-                .fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Spacer(modifier = Modifier.height(8.dp)) // Spacing at top
-            // TODO: Insert journal content here
-        }
-    }
-}
