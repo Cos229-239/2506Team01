@@ -36,20 +36,19 @@ fun FilesScreen(navController: NavController) {
     /* Spawn in the bottom toolbar */
     Scaffold(
         bottomBar = { BottomNavigationBar(navController, NavigationBarType.Files) },
-    ) {
-        innerPadding ->
+    ) { innerPadding ->
         // Padding space for the Scaffold's safe area
         Box(
             modifier = Modifier
-            .fillMaxSize()
-            .background(Color.LightGray)
-            .padding(innerPadding)
-            .padding(horizontal = 16.dp, vertical = 8.dp)
+                .fillMaxSize()
+                .background(Color.LightGray)
+                .padding(innerPadding)
+                .padding(horizontal = 16.dp, vertical = 8.dp)
         )
     }
 
     // Add or remove tabs here
-    val tabs = listOf("Notes", "Journal", "Lists", "All Files","Medications", "Dreams", "Imports", "Exports" )
+    val tabs = listOf("Notes", "Journal", "Lists", "All Files", "Medications", "Dreams", "Imports", "Exports")
 
     // Pager state remembers the currently selected tab (starts at "All Files")
     val pagerState = rememberPagerState(initialPage = 3) { tabs.size }
