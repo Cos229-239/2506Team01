@@ -12,15 +12,19 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 // Dante added concerning FireBase Authentication setup
-//import android.widget.Toast
-//import androidx.compose.ui.platform.LocalContext
-//import com.google.firebase.auth.FirebaseAuth
+import android.widget.Toast
+import androidx.compose.ui.platform.LocalContext
+import com.google.firebase.auth.FirebaseAuth
 
 @Composable
 fun RegisterScreen(onBackToLogin: () -> Unit) {
     var name by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+
+    // Dante added concerning FireBase Authentication setup
+    val context = LocalContext.current
+    val auth = FirebaseAuth.getInstance()
 
     Column(
         modifier = Modifier
@@ -65,7 +69,17 @@ fun RegisterScreen(onBackToLogin: () -> Unit) {
 
         Button(
             // Dante added concerning FireBase Authentication setup
-            onClick = { /* Handle registration logic */ },
+            onClick = {
+
+                auth.createUserWithEmailAndPassword(email, password)
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            Toast.makeText(context, "Registered successfully!", Toast.LENGTH_SHORT).show()
+                            onBackToLogin()
+                        } else {
+                            Toast.makeText(context, "Error: ${task.exception?.message}", Toast.LENGTH_LONG).show()
+                        }
+                    } },
             modifier = Modifier.fillMaxWidth()
         ) {
             Text("Register")

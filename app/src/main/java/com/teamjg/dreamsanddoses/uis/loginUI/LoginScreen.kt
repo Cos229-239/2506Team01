@@ -30,6 +30,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 
+// Dante added concerning FireBase Authentication setup
+import android.widget.Toast
+import androidx.compose.ui.platform.LocalContext
+import com.google.firebase.auth.FirebaseAuth
+import com.teamjg.dreamsanddoses.navigation.Routes
 
 //Dante added concerning Login screen
 @Composable
@@ -37,6 +42,10 @@ fun LoginScreen(navController: NavController) {
     // User input fields
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+
+    // Dante added concerning FireBase Authentication setup
+    val context = LocalContext.current
+    val auth = FirebaseAuth.getInstance()
 
     Column(
         modifier = Modifier
@@ -97,8 +106,16 @@ fun LoginScreen(navController: NavController) {
         Spacer(modifier = Modifier.height(16.dp))
 
         Button(
-            onClick = { /* ----TODO: Temporary login !!---- */
-                navController.navigate("home") },
+            onClick = {
+                auth.signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            Toast.makeText(context, "Login successful!", Toast.LENGTH_SHORT).show()
+                            navController.navigate("home")
+                        } else {
+                            Toast.makeText(context, "Error: ${task.exception?.message}", Toast.LENGTH_LONG).show()
+                        }
+                    }},
             modifier = Modifier.fillMaxWidth()
         ) {
             Text("Continue")
@@ -114,7 +131,7 @@ fun LoginScreen(navController: NavController) {
 
 // Register now
         TextButton(
-            onClick = { /* Navigate to register screen */ }
+            onClick = { navController.navigate(Routes.REGISTER) }
         ) {
             Text(text = "Register now")
         }

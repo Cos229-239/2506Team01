@@ -1,3 +1,5 @@
+import org.gradle.kotlin.dsl.apply
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -9,7 +11,7 @@ android {
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.TeamJG.DreamsAndDoses"
+        applicationId = "com.teamjg.dreamsanddoses"
         minSdk = 30
         targetSdk = 35
         versionCode = 1
@@ -61,5 +63,9 @@ dependencies {
         implementation(platform("com.google.firebase:firebase-bom:33.15.0"))
         implementation("com.google.firebase:firebase-analytics")
         implementation("com.google.firebase:firebase-auth")
+    implementation("com.google.firebase:firebase-auth-ktx")
+    implementation("com.google.firebase:firebase-common-ktx")
+    implementation("com.google.android.gms:play-services-auth:21.0.0")
 
 }
+apply(plugin = "com.google.gms.google-services")
