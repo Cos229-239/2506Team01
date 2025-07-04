@@ -5,14 +5,10 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.teamjg.dreamsanddoses.uis.DreamsScreen
-import com.teamjg.dreamsanddoses.uis.HomeScreen
-import com.teamjg.dreamsanddoses.uis.journalUI.JournalScreen
-import com.teamjg.dreamsanddoses.uis.PillsScreen
+import com.teamjg.dreamsanddoses.uis.*
 import com.teamjg.dreamsanddoses.uis.calendarUI.CalendarScreen
-import com.teamjg.dreamsanddoses.uis.filesScreen.FilesScreen
 import com.teamjg.dreamsanddoses.uis.loginUI.LoginScreen
-import com.teamjg.dreamsanddoses.uis.settingsUI.SettingsScreen
+
 
 /* Centralized object to store route names */
 object Routes {
