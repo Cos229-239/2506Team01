@@ -124,13 +124,13 @@ fun FilesScreen(navController: NavController) {
             // Render the correct screen based on selected tab index
             when (page) {
                 0 -> NotesTabContent()
-                1 -> JournalTabContent()
+                1 -> JournalTabContent(navController)
                 2 -> ListsTabContent()
                 3 -> AllFilesTabContent()
-                4 -> MedicationsTabContent()
-                5 -> DreamsTabContent()
+                4 -> MedicationsTabContent(navController)
+                5 -> DreamsTabContent(navController)
                 6 -> ImportedTabContent()
-                7 -> ExportedTabContent()
+                7 -> ExportedTabContent(navController)
             }
         }
 

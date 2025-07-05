@@ -21,8 +21,13 @@ object Routes {
     const val FILES = "files"
     const val DREAMS = "dreams"
     const val LOGIN = "login"
+    const val PDF_VIEWER = "pdf_viewer/{fileName}"
 
-
+    //Create a PDF viewer route with the name of file
+    fun createPDFViewerRoute(fileName: String): String
+    {
+        return "pdf_viewer/$fileName"
+    }
 }
 
 //Main navigation host, managing all top-level screens
@@ -44,5 +49,9 @@ fun AppNavigation(
         composable(Routes.FILES) { FilesScreen(navController) }
         composable(Routes.DREAMS) { DreamsScreen(navController) }
         composable(Routes.LOGIN) { LoginScreen(navController) }
+        composable(Routes.PDF_VIEWER) {backStackEntry ->
+            val fileName = backStackEntry.arguments?.getString("fileName") ?: ""
+            PDFViewerScreen(navController, fileName)
+        }
     }
 }

@@ -17,12 +17,14 @@ import androidx.compose.ui.unit.dp
 
 /**
  * Represents a single file entry card.
+ * This card shows a file name and provides action buttons for managing the file
  *
- * @param fileName Name of the file displayed on the card.
- * @param showActionsOnTap When true, tapping the card toggles the visibility of action buttons.
- * @param onArchiveClick Callback when Archive button is clicked.
- * @param onDeleteClick Callback when Delete button is clicked.
- * @param onExportClick Callback for Export button (only shown if non-null).
+ * @param fileName Name of the file displayed on the card
+ * @param showActionsOnTap When true, tapping the card toggles the visibility of action buttons
+ * @param onArchiveClick Callback when Archive button is clicked
+ * @param onDeleteClick Callback when Delete button is clicked
+ * @param onExportClick Callback for Export button (only shown if non-null)
+ * @param onViewClick Callback for View button (only shown if non-null)
  */
 
 @Composable
@@ -31,7 +33,10 @@ fun FileCard(
     showActionsOnTap: Boolean = false,
     onArchiveClick: () -> Unit = {},
     onDeleteClick: () -> Unit = {},
-    onExportClick: (() -> Unit)? = null
+    onExportClick: (() -> Unit)? = null,
+    onViewClick: (() -> Unit)? = null,
+    modifier: Modifier = Modifier
+
 ) {
     // Tracks whether the action buttons are currently visible (expanded state)
     var expanded by remember { mutableStateOf(false) }
@@ -39,10 +44,12 @@ fun FileCard(
     Card(
         shape = MaterialTheme.shapes.medium,
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .defaultMinSize(minHeight = 110.dp)
-            .clickable(enabled = showActionsOnTap) { if (showActionsOnTap) expanded = !expanded }
+            .clickable(enabled = showActionsOnTap) {
+                if (showActionsOnTap) expanded = !expanded
+            }
     ) {
         Row(
             modifier = Modifier.padding(16.dp),
@@ -62,18 +69,31 @@ fun FileCard(
                 modifier = Modifier.padding(start = 12.dp)
             ) {
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    // Archive button (outlined style)
-                    OutlinedButton(
-                        onClick = onArchiveClick,
-                        contentPadding = PaddingValues(horizontal = 12.dp, vertical = 8.dp)
-                    ) {
-                        Text("Archive")
+                    // View button (only shown for exported files)
+                    if (onViewClick != null) {
+                        Button(
+                            onClick = {
+                                println("DEBUG: View button clicked for $fileName")
+                                onViewClick.invoke()
+                            },
+                            contentPadding = PaddingValues(horizontal = 12.dp, vertical = 8.dp)
+                        ) {
+                            Text("View")
+                        }
                     }
 
                     // Delete button (outlined style)
                     OutlinedButton(
-                        onClick = onDeleteClick,
-                        contentPadding = PaddingValues(horizontal = 12.dp, vertical = 8.dp)
+                        onClick =
+                            {
+                            println("DEBUG: Delete button clicked for $fileName")
+                            onDeleteClick()
+                        },
+                        contentPadding = PaddingValues(horizontal = 12.dp, vertical = 8.dp),
+                        colors = ButtonDefaults.outlinedButtonColors
+                            (
+                            contentColor = MaterialTheme.colorScheme.error
+                        )
                     ) {
                         Text("Delete")
                     }
@@ -81,15 +101,16 @@ fun FileCard(
                     // Export button (only shown if callback is provided)
                     if (onExportClick != null) {
                         Button(
-                            onClick = onExportClick,
-                            contentPadding = PaddingValues(horizontal = 12.dp, vertical = 8.dp)
+                            onClick = {
+                                println("DEBUG: Export button clicked for $fileName")
+                                onExportClick.invoke()
+                            }
                         ) {
-                            Text("Export")
+                            Text("Export PDF")
                         }
                     }
                 }
             }
-
         }
     }
 }
@@ -99,12 +120,17 @@ fun FileCard(
  *
  * @param files A list of file names to be rendered.
  * @param showActionsOnTap If true, actions will be hidden until a card is tapped.
+ * @param onExportClick Callback for export functionality (shown on cards that can be exported)
+ * @param onViewClick Callback for view functionality (shown on cards that can be viewed)
  */
 
 @Composable
 fun FileCardList(
     files: List<String>,
-    showActionsOnTap: Boolean = false
+    showActionsOnTap: Boolean = false,
+    onExportClick: (() -> Unit)? = null,
+    onViewClick: ((String) -> Unit)? = null,
+    onDeleteClick:((String) -> Unit)? = null,
 ) {
     LazyColumn(
         modifier = Modifier
@@ -116,9 +142,18 @@ fun FileCardList(
             FileCard(
                 fileName = files[index],
                 showActionsOnTap = showActionsOnTap,
-                onArchiveClick = { /* shared logic, to be implemented later */ },
-                onDeleteClick = { /* shared logic */ },
-                onExportClick = if (showActionsOnTap) { { /* shared export logic */ } } else null
+                onArchiveClick = {
+                    // Pretty sure I don't need this onArchiveClick, but I'm keeping it just in case
+                    println("DEBUG: Archive clicked for ${files[index]}")
+                },
+                onDeleteClick = {
+                    println("DEBUG: Delete clicked for ${files[index]}")
+                    onDeleteClick?.invoke(files[index])
+                },
+                onExportClick = onExportClick,
+                onViewClick = if (onViewClick != null) {
+                    { onViewClick(files[index]) }
+                } else null
             )
         }
     }

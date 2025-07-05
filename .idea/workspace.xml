@@ -1,12 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AndroidLayouts">
+    <shared>
+      <config />
+    </shared>
+    <layouts>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/xml/file_paths.xml">
+        <config>
+          <theme>@style/Theme.MyApplication</theme>
+        </config>
+      </layout>
+    </layouts>
+  </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f3a1914d-3b43-47b3-9c6c-387d6b062614" name="Changes" comment="Finally fixed Calendar. Implemented the lines and also fixed some basic functionality. Made each day clickable, and a box appears when you click any day.">
+    <list default="true" id="f3a1914d-3b43-47b3-9c6c-387d6b062614" name="Changes" comment="I successfully implemented PDF exporting for the journal, the medications, and dreams. You can view them as well, and delete them if desired from the exported pdfs tab in files.">
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/teamjg/dreamsanddoses/uis/PDFViewerScreen.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/teamjg/dreamsanddoses/uis/filesScreen/PDFExporter.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/xml/file_paths.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/teamjg/dreamsanddoses/uis/calendarUI/CalendarComponents.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/teamjg/dreamsanddoses/uis/calendarUI/CalendarComponents.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/teamjg/dreamsanddoses/navigation/AppNavigation.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/teamjg/dreamsanddoses/navigation/AppNavigation.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/teamjg/dreamsanddoses/uis/filesScreen/DreamTab.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/teamjg/dreamsanddoses/uis/filesScreen/DreamTab.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/teamjg/dreamsanddoses/uis/filesScreen/ExportedTab.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/teamjg/dreamsanddoses/uis/filesScreen/ExportedTab.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/teamjg/dreamsanddoses/uis/filesScreen/FileCard.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/teamjg/dreamsanddoses/uis/filesScreen/FileCard.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/teamjg/dreamsanddoses/uis/filesScreen/FilesScreen.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/teamjg/dreamsanddoses/uis/filesScreen/FilesScreen.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/teamjg/dreamsanddoses/uis/filesScreen/JournalTab.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/teamjg/dreamsanddoses/uis/filesScreen/JournalTab.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/teamjg/dreamsanddoses/uis/filesScreen/MedicationsTab.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/teamjg/dreamsanddoses/uis/filesScreen/MedicationsTab.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,6 +60,16 @@
         </projects_view>
       </state>
     </system>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Kotlin Class" />
+        <option value="Class" />
+        <option value="Kotlin File" />
+        <option value="resourceFile" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
@@ -87,7 +119,7 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.project.gradle&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.sourceCode.XML&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
@@ -163,6 +195,19 @@
       <workItem from="1750990415155" duration="1357000" />
       <workItem from="1750993321473" duration="135000" />
       <workItem from="1751053421117" duration="4183000" />
+      <workItem from="1751480783975" duration="3193000" />
+      <workItem from="1751493805741" duration="3359000" />
+      <workItem from="1751556319151" duration="4750000" />
+      <workItem from="1751563563884" duration="1890000" />
+      <workItem from="1751586325517" duration="5342000" />
+      <workItem from="1751591854033" duration="4744000" />
+      <workItem from="1751598478958" duration="163000" />
+      <workItem from="1751652867180" duration="328000" />
+      <workItem from="1751653496975" duration="412000" />
+      <workItem from="1751653922169" duration="2367000" />
+      <workItem from="1751656321276" duration="852000" />
+      <workItem from="1751657189600" duration="2223000" />
+      <workItem from="1751741476881" duration="204000" />
     </task>
     <task id="LOCAL-00001" summary="Test 06-17-25">
       <option name="closed" value="true" />
@@ -188,7 +233,15 @@
       <option name="project" value="LOCAL" />
       <updated>1750962028622</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Geno I can't fix it anymore than this. Here you go">
+      <option name="closed" value="true" />
+      <created>1751410503588</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1751410503588</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -210,6 +263,8 @@
     <MESSAGE value="Test 06-17-25" />
     <MESSAGE value="Same Version as Safety. Merged together." />
     <MESSAGE value="Finally fixed Calendar. Implemented the lines and also fixed some basic functionality. Made each day clickable, and a box appears when you click any day." />
-    <option name="LAST_COMMIT_MESSAGE" value="Finally fixed Calendar. Implemented the lines and also fixed some basic functionality. Made each day clickable, and a box appears when you click any day." />
+    <MESSAGE value="Geno I can't fix it anymore than this. Here you go" />
+    <MESSAGE value="I successfully implemented PDF exporting for the journal, the medications, and dreams. You can view them as well, and delete them if desired from the exported pdfs tab in files." />
+    <option name="LAST_COMMIT_MESSAGE" value="I successfully implemented PDF exporting for the journal, the medications, and dreams. You can view them as well, and delete them if desired from the exported pdfs tab in files." />
   </component>
 </project>
