@@ -107,15 +107,20 @@ fun LoginScreen(navController: NavController) {
 
         Button(
             onClick = {
-                auth.signInWithEmailAndPassword(email, password)
-                    .addOnCompleteListener { task ->
-                        if (task.isSuccessful) {
-                            Toast.makeText(context, "Login successful!", Toast.LENGTH_SHORT).show()
-                            navController.navigate("home")
-                        } else {
-                            Toast.makeText(context, "Error: ${task.exception?.message}", Toast.LENGTH_LONG).show()
+                if (email.isNotBlank() && password.isNotBlank()) {
+                    auth.signInWithEmailAndPassword(email, password)
+                        .addOnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                Toast.makeText(context, "Login successful!", Toast.LENGTH_SHORT).show()
+                                navController.navigate("home") // or your destination
+                            } else {
+                                Toast.makeText(context, "Error: ${task.exception?.message}", Toast.LENGTH_LONG).show()
+                            }
                         }
-                    }},
+                } else {
+                    Toast.makeText(context, "Please enter both email and password", Toast.LENGTH_SHORT).show()
+                }
+                    },
             modifier = Modifier.fillMaxWidth()
         ) {
             Text("Continue")
@@ -138,17 +143,6 @@ fun LoginScreen(navController: NavController) {
 
         Spacer(modifier = Modifier.height(16.dp))
 
-// Google sign-in button
-        /*Button(
-            onClick = { /* Handle Google sign-in */ },
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(48.dp),
-            colors = ButtonDefaults.buttonColors(containerColor = Color.LightGray)
-        ) {
-            Text(text = "Continue with Google")
-        }*/
-
         Button(
             onClick = { /* Handle Google sign-in */ },
             modifier = Modifier
@@ -160,17 +154,6 @@ fun LoginScreen(navController: NavController) {
         }
 
         Spacer(modifier = Modifier.height(8.dp))
-
-// Apple sign-in button
-        /*Button(
-            onClick = { /* Handle Apple sign-in */ },
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(48.dp),
-            colors = ButtonDefaults.buttonColors(containerColor = Color.LightGray)
-        ) {
-            Text(text = "Continue with Apple")
-        }*/
 
         Button(
             onClick = { /* Handle Apple sign-in */ },
