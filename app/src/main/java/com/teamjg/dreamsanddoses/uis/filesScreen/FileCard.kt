@@ -86,9 +86,9 @@ fun FileCard(
                     OutlinedButton(
                         onClick =
                             {
-                            println("DEBUG: Delete button clicked for $fileName")
-                            onDeleteClick()
-                        },
+                                println("DEBUG: Delete button clicked for $fileName")
+                                onDeleteClick()
+                            },
                         contentPadding = PaddingValues(horizontal = 12.dp, vertical = 8.dp),
                         colors = ButtonDefaults.outlinedButtonColors
                             (

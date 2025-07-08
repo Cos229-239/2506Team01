@@ -4,22 +4,20 @@
     <shared>
       <config />
     </shared>
-    <layouts>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/xml/file_paths.xml">
-        <config>
-          <theme>@style/Theme.MyApplication</theme>
-        </config>
-      </layout>
-    </layouts>
   </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f3a1914d-3b43-47b3-9c6c-387d6b062614" name="Changes" comment="I successfully implemented PDF exporting for the journal, the medications, and dreams. You can view them as well, and delete them if desired from the exported pdfs tab in files.">
+    <list default="true" id="f3a1914d-3b43-47b3-9c6c-387d6b062614" name="Changes" comment="FINALLY !!!!! Joseph firebase integration implemented &#10;&#10;******DOUBLE CHECK UR PASSWORDS">
       <change afterPath="$PROJECT_DIR$/app/src/main/java/com/teamjg/dreamsanddoses/uis/PDFViewerScreen.kt" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/app/src/main/java/com/teamjg/dreamsanddoses/uis/filesScreen/PDFExporter.kt" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/app/src/main/res/xml/file_paths.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.11.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.11.1/executionHistory/executionHistory.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.11.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.11.1/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/teamjg/dreamsanddoses/navigation/AppNavigation.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/teamjg/dreamsanddoses/navigation/AppNavigation.kt" afterDir="false" />
@@ -35,7 +33,7 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[DeviceId(pluginId=LocalEmulator, isTemplate=false, identifier=path=C:\Users\jacob\.android\avd\Pixel_8.avd)]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[DeviceId(pluginId=LocalEmulator, isTemplate=false, identifier=path=C:\Users\Jacob\.android\avd\Resizable_Experimental.avd)]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -64,8 +62,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Kotlin Class" />
-        <option value="Class" />
+        <option value="Python Script" />
         <option value="Kotlin File" />
         <option value="resourceFile" />
       </list>
@@ -74,10 +71,11 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="dev_Jacob" />
+        <entry key="$PROJECT_DIR$" value="dev_Joseph" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="SWAP_SIDES_IN_COMPARE_BRANCHES" value="true" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
   &quot;lastFilter&quot;: {
@@ -88,7 +86,7 @@
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/Cos229-239/2506Team01.git&quot;,
-    &quot;accountId&quot;: &quot;a86f7244-8d98-4310-a2ba-1bf13404af66&quot;
+    &quot;accountId&quot;: &quot;ad8e24e7-b664-4868-8cd4-aca78d77fe61&quot;
   }
 }</component>
   <component name="ProblemsViewState">
@@ -112,17 +110,23 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;dev__Jacob&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;dev__Geno&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.sourceCode.XML&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;AndroidSdkUpdater&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Jacob\IdeaProjects\DreamsAndDoses\app" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="app" type="AndroidRunConfigurationType" factoryName="Android App" activateToolWindowBeforeRun="false">
       <module name="DreamsAndDoses.app" />
@@ -189,25 +193,12 @@
       <workItem from="1750203145304" duration="351000" />
       <workItem from="1750203514899" duration="89000" />
       <workItem from="1750203629873" duration="96000" />
-      <workItem from="1750886426174" duration="3733000" />
-      <workItem from="1750901474737" duration="1187000" />
-      <workItem from="1750954704233" duration="8496000" />
-      <workItem from="1750990415155" duration="1357000" />
-      <workItem from="1750993321473" duration="135000" />
-      <workItem from="1751053421117" duration="4183000" />
-      <workItem from="1751480783975" duration="3193000" />
-      <workItem from="1751493805741" duration="3359000" />
-      <workItem from="1751556319151" duration="4750000" />
-      <workItem from="1751563563884" duration="1890000" />
-      <workItem from="1751586325517" duration="5342000" />
-      <workItem from="1751591854033" duration="4744000" />
-      <workItem from="1751598478958" duration="163000" />
-      <workItem from="1751652867180" duration="328000" />
-      <workItem from="1751653496975" duration="412000" />
-      <workItem from="1751653922169" duration="2367000" />
-      <workItem from="1751656321276" duration="852000" />
-      <workItem from="1751657189600" duration="2223000" />
-      <workItem from="1751741476881" duration="204000" />
+      <workItem from="1751653347666" duration="1933000" />
+      <workItem from="1751672174718" duration="344000" />
+      <workItem from="1751672547827" duration="1367000" />
+      <workItem from="1751852194880" duration="2377000" />
+      <workItem from="1751947439587" duration="2099000" />
+      <workItem from="1752007212779" duration="2227000" />
     </task>
     <task id="LOCAL-00001" summary="Test 06-17-25">
       <option name="closed" value="true" />
@@ -217,31 +208,15 @@
       <option name="project" value="LOCAL" />
       <updated>1750203679560</updated>
     </task>
-    <task id="LOCAL-00002" summary="Same Version as Safety. Merged together.">
+    <task id="LOCAL-00002" summary="FINALLY !!!!! Joseph firebase integration implemented &#10;&#10;******DOUBLE CHECK UR PASSWORDS">
       <option name="closed" value="true" />
-      <created>1750805843874</created>
+      <created>1751857046485</created>
       <option name="number" value="00002" />
       <option name="presentableId" value="LOCAL-00002" />
       <option name="project" value="LOCAL" />
-      <updated>1750805843874</updated>
+      <updated>1751857046485</updated>
     </task>
-    <task id="LOCAL-00003" summary="Finally fixed Calendar. Implemented the lines and also fixed some basic functionality. Made each day clickable, and a box appears when you click any day.">
-      <option name="closed" value="true" />
-      <created>1750962028622</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1750962028622</updated>
-    </task>
-    <task id="LOCAL-00004" summary="Geno I can't fix it anymore than this. Here you go">
-      <option name="closed" value="true" />
-      <created>1751410503588</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1751410503588</updated>
-    </task>
-    <option name="localTasksCounter" value="5" />
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -261,10 +236,11 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Test" />
     <MESSAGE value="Test 06-17-25" />
-    <MESSAGE value="Same Version as Safety. Merged together." />
-    <MESSAGE value="Finally fixed Calendar. Implemented the lines and also fixed some basic functionality. Made each day clickable, and a box appears when you click any day." />
-    <MESSAGE value="Geno I can't fix it anymore than this. Here you go" />
-    <MESSAGE value="I successfully implemented PDF exporting for the journal, the medications, and dreams. You can view them as well, and delete them if desired from the exported pdfs tab in files." />
-    <option name="LAST_COMMIT_MESSAGE" value="I successfully implemented PDF exporting for the journal, the medications, and dreams. You can view them as well, and delete them if desired from the exported pdfs tab in files." />
+    <MESSAGE value="FINALLY !!!!! Joseph firebase integration implemented &#10;&#10;******DOUBLE CHECK UR PASSWORDS" />
+    <option name="LAST_COMMIT_MESSAGE" value="FINALLY !!!!! Joseph firebase integration implemented &#10;&#10;******DOUBLE CHECK UR PASSWORDS" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

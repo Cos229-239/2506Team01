@@ -37,14 +37,14 @@ fun FilesScreen(navController: NavController) {
     Scaffold(
         bottomBar = { BottomNavigationBar(navController, NavigationBarType.Files) },
     ) {
-        innerPadding ->
+            innerPadding ->
         // Padding space for the Scaffold's safe area
         Box(
             modifier = Modifier
-            .fillMaxSize()
-            .background(Color.LightGray)
-            .padding(innerPadding)
-            .padding(horizontal = 16.dp, vertical = 8.dp)
+                .fillMaxSize()
+                .background(Color.LightGray)
+                .padding(innerPadding)
+                .padding(horizontal = 16.dp, vertical = 8.dp)
         )
     }
 

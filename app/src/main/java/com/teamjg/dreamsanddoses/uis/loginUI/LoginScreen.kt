@@ -1,31 +1,51 @@
 package com.teamjg.dreamsanddoses.uis.loginUI
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.TextField
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.teamjg.dreamsanddoses.R
+
+// Dante added concerning FireBase Authentication setup
+import android.widget.Toast
+import androidx.compose.ui.platform.LocalContext
+import com.google.firebase.auth.FirebaseAuth
+import com.teamjg.dreamsanddoses.navigation.Routes
 
 //Dante added concerning Login screen
 @Composable
 fun LoginScreen(navController: NavController) {
-
-    // Disable (Android) back button and back swipe to prevent accidental exit
-    BackHandler { /* no-op */ }
-
     // User input fields
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+
+    // Dante added concerning FireBase Authentication setup
+    val context = LocalContext.current
+    val auth = FirebaseAuth.getInstance()
 
     Column(
         modifier = Modifier
@@ -39,7 +59,7 @@ fun LoginScreen(navController: NavController) {
 
         //App title for Login screen
         Text(
-            text = "Dreams & Doses",
+            text = "Dreams and Doses",
             fontSize = 24.sp,
             fontWeight = FontWeight.Bold,
             color = Color.Black
@@ -47,13 +67,12 @@ fun LoginScreen(navController: NavController) {
 
         Spacer(modifier = Modifier.height(10.dp))
 
-        Icon(
-            painter = painterResource(id = R.drawable.ic_main_logo_icon),
-            contentDescription = "App Logo",
-            tint = Color.Black,
-            modifier = Modifier.size(80.dp)
+        // icon placeholder
+        Box(
+            modifier = Modifier
+                .size(80.dp)
+                .border(2.dp, Color.Black)
         )
-
 
         Spacer(modifier = Modifier.height(40.dp))
 
@@ -87,8 +106,18 @@ fun LoginScreen(navController: NavController) {
         Spacer(modifier = Modifier.height(16.dp))
 
         Button(
-            onClick = { /* ----TODO: Temporary login !!---- */
-                navController.navigate("home") },
+            onClick = {
+                if (email.isNotBlank() && password.isNotBlank()) {
+                    auth.signInWithEmailAndPassword(email, password)
+                        .addOnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                Toast.makeText(context, "Login successful!", Toast.LENGTH_SHORT).show()
+                                navController.navigate("home") // or your destination
+                            } else {
+                                Toast.makeText(context, "Error: ${task.exception?.message}", Toast.LENGTH_LONG).show()
+                            }
+                        }
+                    }},
             modifier = Modifier.fillMaxWidth()
         ) {
             Text("Continue")
@@ -104,7 +133,7 @@ fun LoginScreen(navController: NavController) {
 
 // Register now
         TextButton(
-            onClick = { /* Navigate to register screen */ }
+            onClick = { navController.navigate(Routes.REGISTER) }
         ) {
             Text(text = "Register now")
         }
@@ -164,14 +193,7 @@ fun LoginScreen(navController: NavController) {
         ) {
             TextButton(
                 onClick = { /* ----TODO: Temporary login !!---- */
-                    navController.navigate("home")
-//                    {
-//                        popUpTo("login") {
-//                            inclusive = true
-//                        }
-//                        launchSingleTop = true
-//                    }
-                }
+                    navController.navigate("home") }
             ) {
                 Text(text = "Continue as guest")
             }

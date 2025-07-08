@@ -35,9 +35,9 @@ sealed class NavigationBarType {
 @Composable
 fun TopNavigationBar(
     type: NavigationBarType,                // Determines which icon to show
-    navController: NavController? = null,   // Optional NavController for back button
+    navController: NavController? = null,   // NavController for back button
     useIconHeader: Boolean = false,         // Whether to show an icon/logo in the center
-    onSearchClick: (() -> Unit)? = null,     // Optional lambda for search button click
+    onSearchClick: (() -> Unit)? = null,     // Lambda for search button click
     onArchiveClick: (() -> Unit)? = null
 ) {
     val color = Color.LightGray
@@ -62,7 +62,7 @@ fun TopNavigationBar(
     // Logic to conditionally show the search icon
     val showSearch = type is NavigationBarType.Settings ||
             type is NavigationBarType.Files ||
-            type is NavigationBarType.Pills
+            type is NavigationBarType.Pills || type is NavigationBarType.Journal
 
     val showArchive = type is NavigationBarType.Files
 
@@ -164,7 +164,7 @@ fun BottomNavigationBar(navController: NavController, type: NavigationBarType) {
         ) {
             // Settings screen button
             IconButton(onClick = {
-                if (type is NavigationBarType.Settings) {
+                if (type is NavigationBarType.Settings || type is NavigationBarType.Journal) {
                     navController.navigate(Routes.HOME) {
                         launchSingleTop = true
                         popUpTo(Routes.HOME)
@@ -176,8 +176,8 @@ fun BottomNavigationBar(navController: NavController, type: NavigationBarType) {
                     }
                 }
             }) {
-                Icon(imageVector = if (type is NavigationBarType.Settings) Icons.Default.Home else Icons.Default.Settings,
-                    contentDescription = if (type is NavigationBarType.Settings) "Home" else "Settings",
+                Icon(imageVector = if (type is NavigationBarType.Settings || type is NavigationBarType.Journal) Icons.Default.Home else Icons.Default.Settings,
+                    contentDescription = if (type is NavigationBarType.Settings || type is NavigationBarType.Journal) "Home" else "Settings",
                     tint = Color.Black
                 )
             }
