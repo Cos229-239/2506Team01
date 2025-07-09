@@ -8,6 +8,7 @@ import androidx.navigation.compose.rememberNavController
 import com.teamjg.dreamsanddoses.uis.*
 import com.teamjg.dreamsanddoses.uis.calendarUI.CalendarScreen
 import com.teamjg.dreamsanddoses.uis.filesScreen.FilesScreen
+import com.teamjg.dreamsanddoses.uis.journalUI.JournalHomeScreen
 import com.teamjg.dreamsanddoses.uis.journalUI.JournalScreen
 import com.teamjg.dreamsanddoses.uis.loginUI.LoginScreen
 import com.teamjg.dreamsanddoses.uis.loginUI.RegisterScreen
@@ -16,7 +17,7 @@ import com.teamjg.dreamsanddoses.uis.settingsUI.SettingsScreen
 /* Centralized object to store route names */
 object Routes {
     const val HOME = "home"
-    const val JOURNAL = "journal"
+    const val JOURNAL_HOME = "journalHome"
     const val CALENDAR = "calendar"
     const val SETTINGS = "settings"
     const val PILLS = "pills"
@@ -25,6 +26,7 @@ object Routes {
     const val LOGIN = "login"
     const val REGISTER = "register"
     const val PDF_VIEWER = "pdf_viewer/{fileName}"
+    const val JOURNAL = "journal"
 
     //Create a PDF viewer route with the name of file
     fun createPDFViewerRoute(fileName: String): String
@@ -48,13 +50,14 @@ fun AppNavigation(
     ) {
         // Each screen is added as a route with its corresponding composable
         composable(Routes.HOME) { HomeScreen(navController) }
-        composable(Routes.JOURNAL) { JournalScreen(navController) }
+        composable(Routes.JOURNAL_HOME) { JournalHomeScreen(navController) }
         composable(Routes.CALENDAR) { CalendarScreen(navController) }
         composable(Routes.SETTINGS) { SettingsScreen(navController) }
         composable(Routes.PILLS) { PillsScreen(navController) }
         composable(Routes.FILES) { FilesScreen(navController) }
         composable(Routes.DREAMS) { DreamsScreen(navController) }
         composable(Routes.LOGIN) { LoginScreen(navController) }
+        composable(Routes.JOURNAL) { JournalScreen(navController) }
 
         composable(Routes.REGISTER) {
             RegisterScreen(onBackToLogin = {

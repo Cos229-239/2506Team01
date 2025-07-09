@@ -29,10 +29,13 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.teamjg.dreamsanddoses.R
 
 // Dante added concerning FireBase Authentication setup
 import android.widget.Toast
+import androidx.compose.material3.Icon
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import com.google.firebase.auth.FirebaseAuth
 import com.teamjg.dreamsanddoses.navigation.Routes
 
@@ -67,11 +70,11 @@ fun LoginScreen(navController: NavController) {
 
         Spacer(modifier = Modifier.height(10.dp))
 
-        // icon placeholder
-        Box(
-            modifier = Modifier
-                .size(80.dp)
-                .border(2.dp, Color.Black)
+        Icon(
+            painter = painterResource(id = R.drawable.ic_main_logo_icon),
+            contentDescription = "App Logo",
+            tint = Color.Unspecified,
+            modifier = Modifier.size(80.dp)
         )
 
         Spacer(modifier = Modifier.height(40.dp))

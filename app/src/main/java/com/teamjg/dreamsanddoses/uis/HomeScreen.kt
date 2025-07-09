@@ -138,7 +138,7 @@ fun HomeQuickAccessGrid(navController: NavController) {
                 iconResId = R.drawable.ic_journal_icon,
                 iconSize = 70.dp,
                 onClick = {
-                    navController.navigate(com.teamjg.dreamsanddoses.navigation.Routes.JOURNAL) {
+                    navController.navigate(com.teamjg.dreamsanddoses.navigation.Routes.JOURNAL_HOME) {
                         launchSingleTop = true
                         popUpTo(com.teamjg.dreamsanddoses.navigation.Routes.HOME)
                     }

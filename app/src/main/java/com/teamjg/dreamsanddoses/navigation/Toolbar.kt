@@ -235,7 +235,7 @@ fun BottomNavigationBar(navController: NavController, type: NavigationBarType) {
 
             // Journal screen button
             IconButton(onClick = {
-                navController.navigate(Routes.JOURNAL) {
+                navController.navigate(Routes.JOURNAL_HOME) {
                     launchSingleTop = true
                     popUpTo(Routes.HOME)
                 }
