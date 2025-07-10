@@ -7,9 +7,11 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.teamjg.dreamsanddoses.uis.*
 import com.teamjg.dreamsanddoses.uis.calendarUI.CalendarScreen
+import com.teamjg.dreamsanddoses.uis.filesScreen.FilesScreen
+import com.teamjg.dreamsanddoses.uis.journalUI.JournalScreen
 import com.teamjg.dreamsanddoses.uis.loginUI.LoginScreen
 import com.teamjg.dreamsanddoses.uis.loginUI.RegisterScreen
-
+import com.teamjg.dreamsanddoses.uis.settingsUI.SettingsScreen
 
 /* Centralized object to store route names */
 object Routes {
@@ -22,8 +24,17 @@ object Routes {
     const val DREAMS = "dreams"
     const val LOGIN = "login"
     const val REGISTER = "register"
+    const val PDF_VIEWER = "pdf_viewer/{fileName}"
+
+    //Create a PDF viewer route with the name of file
+    fun createPDFViewerRoute(fileName: String): String
+    {
+        return "pdf_viewer/$fileName"
+    }
 
 }
+
+
 
 //Main navigation host, managing all top-level screens
 @Composable
@@ -46,7 +57,16 @@ fun AppNavigation(
         composable(Routes.LOGIN) { LoginScreen(navController) }
 
         composable(Routes.REGISTER) {
-            RegisterScreen(navController = navController)
+            RegisterScreen(onBackToLogin = {
+                navController.navigate(Routes.LOGIN) {
+                    popUpTo(Routes.LOGIN) { inclusive = true }
+                }
+            })
+        }
+
+        composable(Routes.PDF_VIEWER) {backStackEntry ->
+            val fileName = backStackEntry.arguments?.getString("fileName") ?: ""
+            PDFViewerScreen(navController, fileName)
         }
     }
 }

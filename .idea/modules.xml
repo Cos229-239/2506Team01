@@ -4,9 +4,9 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/DreamsAndDoses.iml" filepath="$PROJECT_DIR$/.idea/modules/DreamsAndDoses.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/DreamsAndDoses.app~1.iml" filepath="$PROJECT_DIR$/.idea/modules/app/DreamsAndDoses.app~1.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/DreamsAndDoses.app~1.androidTest~1.iml" filepath="$PROJECT_DIR$/.idea/modules/app/DreamsAndDoses.app~1.androidTest~1.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/DreamsAndDoses.app~1.main~1.iml" filepath="$PROJECT_DIR$/.idea/modules/app/DreamsAndDoses.app~1.main~1.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/DreamsAndDoses.app~1.unitTest~1.iml" filepath="$PROJECT_DIR$/.idea/modules/app/DreamsAndDoses.app~1.unitTest~1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/DreamsAndDoses.app~1.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/DreamsAndDoses.app~1.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/DreamsAndDoses.app~1.main.iml" filepath="$PROJECT_DIR$/.idea/modules/app/DreamsAndDoses.app~1.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/DreamsAndDoses.app~1.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/DreamsAndDoses.app~1.unitTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/IdeaProjects.2506Team01.DreamsAndDoses.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/IdeaProjects.2506Team01.DreamsAndDoses.app.iml" />
     </modules>
   </component>

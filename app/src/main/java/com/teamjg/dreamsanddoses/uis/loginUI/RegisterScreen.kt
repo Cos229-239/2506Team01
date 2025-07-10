@@ -15,11 +15,9 @@ import androidx.compose.ui.unit.sp
 import android.widget.Toast
 import androidx.compose.ui.platform.LocalContext
 import com.google.firebase.auth.FirebaseAuth
-import androidx.navigation.NavController
-import com.teamjg.dreamsanddoses.navigation.Routes
 
 @Composable
-fun RegisterScreen(navController: NavController) {
+fun RegisterScreen(onBackToLogin: () -> Unit) {
     var name by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -73,20 +71,15 @@ fun RegisterScreen(navController: NavController) {
             // Dante added concerning FireBase Authentication setup
             onClick = {
 
-                if (name.isNotBlank() && email.isNotBlank() && password.isNotBlank()) {
-                    auth.createUserWithEmailAndPassword(email, password)
-                        .addOnCompleteListener { task ->
-                            if (task.isSuccessful) {
-                                Toast.makeText(context, "Registration successful", Toast.LENGTH_SHORT).show()
-                                navController.navigate(Routes.LOGIN)
-                            } else {
-                                Toast.makeText(context, "Error: ${task.exception?.message}", Toast.LENGTH_LONG).show()
-                            }
+                auth.createUserWithEmailAndPassword(email, password)
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            Toast.makeText(context, "Registered successfully!", Toast.LENGTH_SHORT).show()
+                            onBackToLogin()
+                        } else {
+                            Toast.makeText(context, "Error: ${task.exception?.message}", Toast.LENGTH_LONG).show()
                         }
-                } else {
-                    Toast.makeText(context, "All fields must be filled", Toast.LENGTH_SHORT).show()
-                }
-            },
+                    } },
             modifier = Modifier.fillMaxWidth()
         ) {
             Text("Register")
@@ -94,7 +87,7 @@ fun RegisterScreen(navController: NavController) {
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        TextButton(onClick = { navController.navigate(Routes.LOGIN) }) {
+        TextButton(onClick = { onBackToLogin() }) {
             Text("Back to Login")
         }
     }
