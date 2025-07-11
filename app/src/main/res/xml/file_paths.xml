@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--
+    This tells Android which directories the FileProvider can access
+    "documents" is the name we use in code, "Documents/" is the actual folder
+    This matches where our PDFExporter saves files: getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS)
+    -->
+    <external-files-path name="documents" path="Documents/" />
+</paths>
