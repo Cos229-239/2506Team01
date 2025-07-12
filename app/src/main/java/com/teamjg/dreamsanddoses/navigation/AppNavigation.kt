@@ -5,69 +5,128 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+
+// UI Screens
 import com.teamjg.dreamsanddoses.uis.*
 import com.teamjg.dreamsanddoses.uis.calendarUI.CalendarScreen
 import com.teamjg.dreamsanddoses.uis.filesScreen.FilesScreen
-import com.teamjg.dreamsanddoses.uis.journalUI.JournalHomeScreen
-import com.teamjg.dreamsanddoses.uis.journalUI.JournalScreen
+import com.teamjg.dreamsanddoses.uis.journalUI.*
 import com.teamjg.dreamsanddoses.uis.loginUI.LoginScreen
 import com.teamjg.dreamsanddoses.uis.loginUI.RegisterScreen
 import com.teamjg.dreamsanddoses.uis.settingsUI.SettingsScreen
 
-/* Centralized object to store route names */
+/** Centralized route definitions used throughout the app */
 object Routes {
+    // Authentication
+    const val LOGIN = "login"
+    const val REGISTER = "register"
+
+    // Home & Main Tabs
     const val HOME = "home"
-    const val JOURNAL_HOME = "journalHome"
-    const val CALENDAR = "calendar"
     const val SETTINGS = "settings"
+    const val CALENDAR = "calendar"
     const val PILLS = "pills"
     const val FILES = "files"
     const val DREAMS = "dreams"
-    const val LOGIN = "login"
-    const val REGISTER = "register"
+    const val CANVAS = "canvas"
+
+    // Journal & Tabs
+    const val JOURNAL_HOME = "journal_home"
+    const val JOURNAL = "journal?tab={tab}&compose={compose}"
+
+    // Editors
+    const val NEW_JOURNAL = "journal/new"
+    const val NEW_NOTE = "notes/new"
+    const val LISTS_EDITOR = "lists/new"
+    const val CANVAS_EDITOR = "canvas_editor"
+
+    // Viewers
     const val PDF_VIEWER = "pdf_viewer/{fileName}"
-    const val JOURNAL = "journal"
 
-    //Create a PDF viewer route with the name of file
-    fun createPDFViewerRoute(fileName: String): String
-    {
-        return "pdf_viewer/$fileName"
-    }
+    /** Builds dynamic route for journal tab navigation */
+    fun journalRoute(tab: String): String = "$JOURNAL_HOME?tab=$tab"
 
+    /** Builds route to open PDF viewer */
+    fun createPDFViewerRoute(fileName: String): String = "pdf_viewer/$fileName"
 }
 
-
-
-//Main navigation host, managing all top-level screens
+/** Application's navigation graph */
 @Composable
-fun AppNavigation(
-    navController: NavHostController = rememberNavController()
-) {
-    // Sets up the navigation graph with a start destination
+fun AppNavigation(navController: NavHostController = rememberNavController()) {
     NavHost(
         navController = navController,
-        startDestination = Routes.LOGIN
+        startDestination = Routes.LOGIN // ← change to Routes.HOME when skipping login
     ) {
-        // Each screen is added as a route with its corresponding composable
+
+        // Auth Screens
+        composable(Routes.LOGIN) { LoginScreen(navController) }
+        composable(Routes.REGISTER) {
+            RegisterScreen(
+                onBackToLogin = {
+                    navController.navigate(Routes.LOGIN) {
+                        popUpTo(Routes.LOGIN) { inclusive = true }
+                    }
+                }
+            )
+        }
+
+        // Main Tabs
         composable(Routes.HOME) { HomeScreen(navController) }
-        composable(Routes.JOURNAL_HOME) { JournalHomeScreen(navController) }
-        composable(Routes.CALENDAR) { CalendarScreen(navController) }
         composable(Routes.SETTINGS) { SettingsScreen(navController) }
+        composable(Routes.CALENDAR) { CalendarScreen(navController) }
         composable(Routes.PILLS) { PillsScreen(navController) }
         composable(Routes.FILES) { FilesScreen(navController) }
         composable(Routes.DREAMS) { DreamsScreen(navController) }
-        composable(Routes.LOGIN) { LoginScreen(navController) }
-        composable(Routes.JOURNAL) { JournalScreen(navController) }
+        composable(Routes.CANVAS) { CanvasScreen(navController) }
 
-        composable(Routes.REGISTER) {
-            RegisterScreen(onBackToLogin = {
-                navController.navigate(Routes.LOGIN) {
-                    popUpTo(Routes.LOGIN) { inclusive = true }
+        // Journal Tabs
+        composable(Routes.JOURNAL_HOME) {
+            JournalHomeScreen(navController)
+        }
+        composable(
+            route = "${Routes.JOURNAL_HOME}?tab={tab}",
+            arguments = listOf(
+                navArgument("tab") {
+                    defaultValue = "journal"
+                    nullable = true
                 }
-            })
+            )
+        ) { backStackEntry ->
+            val tabArg = backStackEntry.arguments?.getString("tab") ?: "journal"
+            JournalHomeScreen(navController = navController, defaultTab = tabArg)
         }
 
-        composable(Routes.PDF_VIEWER) {backStackEntry ->
+        // Combined Journal Screen
+        composable(Routes.JOURNAL) {
+            JournalScreen(navController)
+        }
+
+        // Editor Screens
+        composable(Routes.NEW_JOURNAL) {
+            JournalEditorScreen(navController, entryId = null)
+        }
+        composable("editor/{entryId}") { backStackEntry ->
+            val entryId = backStackEntry.arguments?.getString("entryId")
+            JournalEditorScreen(navController, entryId)
+        }
+        composable("notes/{noteId}") { backStackEntry ->
+            val noteId = backStackEntry.arguments?.getString("noteId")
+            NotesEditorScreen(navController, noteId)
+        }
+        composable(Routes.LISTS_EDITOR) {
+            ListsEditorScreen(navController)
+        }
+        composable("lists/{listId}") { backStackEntry ->
+            val listId = backStackEntry.arguments?.getString("listId")
+            ListsEditorScreen(navController, listId)
+        }
+        composable(Routes.CANVAS_EDITOR) {
+            CanvasEditorScreen(navController)
+        }
+
+        // File Viewers
+        composable(Routes.PDF_VIEWER) { backStackEntry ->
             val fileName = backStackEntry.arguments?.getString("fileName") ?: ""
             PDFViewerScreen(navController, fileName)
         }

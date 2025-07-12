@@ -57,6 +57,7 @@ dependencies {
     // Navigation & animation
     implementation("androidx.navigation:navigation-compose:2.9.1")
     implementation("androidx.compose.animation:animation")
+    implementation("com.google.firebase:protolite-well-known-types:18.0.1")
 
     // Testing
     testImplementation("junit:junit:4.13.2")
@@ -78,6 +79,9 @@ dependencies {
     implementation("com.google.firebase:firebase-auth-ktx")
     implementation("com.google.firebase:firebase-common-ktx")
     implementation("com.google.android.gms:play-services-auth:21.3.0")
+
+    implementation("androidx.compose.material:material-icons-extended:1.7.8")
+
 
 }
 apply(plugin = "com.google.gms.google-services")

@@ -9,6 +9,10 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -18,60 +22,65 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.teamjg.dreamsanddoses.R
+import com.teamjg.dreamsanddoses.uis.ComposePickerSheet
 
 
-// Enum-like sealed class to identify each top bar variant by screen type
+/** Represents the type of screen for configuring the navigation bars */
 sealed class NavigationBarType {
     object Home : NavigationBarType()
     object Calendar : NavigationBarType()
+    object JournalHome : NavigationBarType()
     object Journal : NavigationBarType()
     object Pills : NavigationBarType()
     object Files : NavigationBarType()
     object Settings : NavigationBarType()
     object Dreams : NavigationBarType()
+    object Notes : NavigationBarType()
+    object Canvas : NavigationBarType()
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopNavigationBar(
-    type: NavigationBarType,                // Determines which icon to show
-    navController: NavController? = null,   // NavController for back button
-    useIconHeader: Boolean = false,         // Whether to show an icon/logo in the center
-    onSearchClick: (() -> Unit)? = null,     // Lambda for search button click
+    type: NavigationBarType,
+    navController: NavController? = null,
+    useIconHeader: Boolean = false,
+    onSearchClick: (() -> Unit)? = null,
     onArchiveClick: (() -> Unit)? = null
 ) {
-    val color = Color.LightGray
+    val bgColor = Color.LightGray
 
-    // Icon resource for standard vector icons
+    // Header icon logic based on screen type
     val headerIconVector: ImageVector? = when (type) {
-        is NavigationBarType.Calendar -> Icons.Default.DateRange
-        is NavigationBarType.Journal -> Icons.Default.Edit
-        is NavigationBarType.Settings -> Icons.Default.Settings
-        is NavigationBarType.Home -> Icons.Default.Home
+        NavigationBarType.Calendar -> Icons.Default.DateRange
+        NavigationBarType.JournalHome -> Icons.Default.Edit
+        NavigationBarType.Settings -> Icons.Default.Settings
+        NavigationBarType.Home -> Icons.Default.Home
         else -> null
     }
 
-    // Icon resource for custom image-based icons
     val headerIconPainter: Painter? = when (type) {
-        is NavigationBarType.Dreams -> painterResource(id = R.drawable.ic_dreams_icon)
-        is NavigationBarType.Files -> painterResource(id = R.drawable.ic_files_icon)
-        is NavigationBarType.Pills -> painterResource(id = R.drawable.ic_prescription_dosage_assistant)
+        NavigationBarType.Dreams -> painterResource(R.drawable.ic_dreams_icon)
+        NavigationBarType.Files -> painterResource(R.drawable.ic_files_icon)
+        NavigationBarType.Pills -> painterResource(R.drawable.ic_prescription_dosage_assistant)
+        NavigationBarType.Journal -> painterResource(R.drawable.ic_journal_icon)
+        NavigationBarType.Canvas -> painterResource(R.drawable.ic_main_logo_icon)
         else -> null
     }
 
-    // Logic to conditionally show the search icon
-    val showSearch = type is NavigationBarType.Settings ||
-            type is NavigationBarType.Files ||
-            type is NavigationBarType.Pills || type is NavigationBarType.Journal
+    val showSearch = type in listOf(
+        NavigationBarType.Settings, NavigationBarType.Files,
+        NavigationBarType.Pills, NavigationBarType.JournalHome,
+        NavigationBarType.Journal
+    )
 
-    val showArchive = type is NavigationBarType.Files
+    val showArchive = type == NavigationBarType.Files
 
-    // Main top app bar container
     Surface(
         modifier = Modifier
             .fillMaxWidth()
             .windowInsetsPadding(WindowInsets.statusBars),
-        color = color,
+        color = bgColor,
         shadowElevation = 0.dp
     ) {
         Box(
@@ -81,14 +90,23 @@ fun TopNavigationBar(
                 .padding(horizontal = 8.dp),
             contentAlignment = Alignment.Center
         ) {
-            // Back button positioned on the left
+            // Back button
             Row(
                 modifier = Modifier.fillMaxSize(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 navController?.let {
                     IconButton(
-                        onClick = { it.popBackStack() },
+                        onClick = {
+                            if (type is NavigationBarType.Journal || type is NavigationBarType.Notes) {
+                                it.navigate(Routes.JOURNAL_HOME) {
+                                    launchSingleTop = true
+                                    popUpTo(Routes.HOME) { inclusive = false }
+                                }
+                            } else {
+                                it.popBackStack()
+                            }
+                        },
                         modifier = Modifier.size(48.dp)
                     ) {
                         Icon(
@@ -101,7 +119,7 @@ fun TopNavigationBar(
                 }
             }
 
-            // Center icon, either vector or painter
+            // Center icon
             if (useIconHeader) {
                 headerIconVector?.let {
                     Icon(it, contentDescription = "Header Icon", modifier = Modifier.size(75.dp))
@@ -110,33 +128,26 @@ fun TopNavigationBar(
                 }
             }
 
-            // Search and Archive button positioned on the right
+            // Right-side action buttons
             Row(
                 modifier = Modifier
                     .wrapContentWidth()
-                    .align(Alignment.CenterEnd), // keeps it pinned right
-                horizontalArrangement = Arrangement.spacedBy(4.dp), // space between icons
+                    .align(Alignment.CenterEnd),
+                horizontalArrangement = Arrangement.spacedBy(4.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 if (showArchive) {
-                    IconButton(
-                        onClick = onArchiveClick ?: {},
-                        modifier = Modifier.size(48.dp)
-                    ) {
+                    IconButton(onClick = onArchiveClick ?: {}, modifier = Modifier.size(48.dp)) {
                         Icon(
-                            painter = painterResource(id = R.drawable.ic_archive_icon),
+                            painter = painterResource(R.drawable.ic_archive_icon),
                             contentDescription = "Archive",
                             modifier = Modifier.size(32.dp),
                             tint = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     }
                 }
-
                 if (showSearch && onSearchClick != null) {
-                    IconButton(
-                        onClick = onSearchClick,
-                        modifier = Modifier.size(48.dp)
-                    ) {
+                    IconButton(onClick = onSearchClick, modifier = Modifier.size(48.dp)) {
                         Icon(
                             imageVector = Icons.Default.Search,
                             contentDescription = "Search",
@@ -151,8 +162,29 @@ fun TopNavigationBar(
 }
 
 @Composable
-fun BottomNavigationBar(navController: NavController, type: NavigationBarType) {
-    // BottomAppBar provides the visual background and elevation
+fun BottomNavigationBar(
+    navController: NavController,
+    type: NavigationBarType,
+    onCompose: (() -> Unit)? = null
+) {
+    var showComposePicker by remember { mutableStateOf(false) }
+
+    if (showComposePicker) {
+        ComposePickerSheet(
+            onDismiss = { showComposePicker = false },
+            onSelect = { selected ->
+                showComposePicker = false
+                when (selected) {
+                    "reminder" -> navController.navigate("reminder/new")
+                    "journal" -> navController.navigate(Routes.NEW_JOURNAL)
+                    "notes" -> navController.navigate(Routes.NEW_NOTE)
+                    "lists" -> navController.navigate(Routes.LISTS_EDITOR)
+                    "canvas_editor" -> navController.navigate(Routes.CANVAS_EDITOR)
+                }
+            }
+        )
+    }
+
     BottomAppBar(
         tonalElevation = 4.dp,
         containerColor = MaterialTheme.colorScheme.surface
@@ -162,27 +194,23 @@ fun BottomNavigationBar(navController: NavController, type: NavigationBarType) {
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // Settings screen button
+            // Left: Home or Settings
             IconButton(onClick = {
-                if (type is NavigationBarType.Settings || type is NavigationBarType.Journal) {
-                    navController.navigate(Routes.HOME) {
-                        launchSingleTop = true
-                        popUpTo(Routes.HOME)
-                    }
-                } else {
-                    navController.navigate(Routes.SETTINGS) {
-                        launchSingleTop = true
-                        popUpTo(Routes.HOME)
-                    }
+                val destination = if (type is NavigationBarType.Home)
+                    Routes.SETTINGS else Routes.HOME
+                navController.navigate(destination) {
+                    launchSingleTop = true
+                    popUpTo(Routes.HOME)
                 }
             }) {
-                Icon(imageVector = if (type is NavigationBarType.Settings || type is NavigationBarType.Journal) Icons.Default.Home else Icons.Default.Settings,
-                    contentDescription = if (type is NavigationBarType.Settings || type is NavigationBarType.Journal) "Home" else "Settings",
+                Icon(
+                    imageVector = if (type is NavigationBarType.Home) Icons.Default.Settings else Icons.Default.Home,
+                    contentDescription = "Home/Settings",
                     tint = Color.Black
                 )
             }
 
-            // Pills screen button
+            // Pills
             IconButton(onClick = {
                 navController.navigate(Routes.PILLS) {
                     launchSingleTop = true
@@ -190,32 +218,36 @@ fun BottomNavigationBar(navController: NavController, type: NavigationBarType) {
                 }
             }) {
                 Icon(
-                    painter = painterResource(id = R.drawable.ic_prescription_dosage_assistant),
+                    painter = painterResource(R.drawable.ic_prescription_dosage_assistant),
                     contentDescription = "Pills",
                     tint = Color.Black
                 )
             }
 
-            // Center action button
+            // Compose FAB
             Box(
                 modifier = Modifier
                     .size(72.dp)
-                    .background(
-                        color = MaterialTheme.colorScheme.primary,
-                        shape = CircleShape
-                    )
+                    .background(MaterialTheme.colorScheme.primary, CircleShape)
                     .clickable {
-                        if (type is NavigationBarType.Files) {
-                            // TODO: handle camera launch
-                        } else {
-                            // TODO: handle standard creation
+                        onCompose?.invoke() ?: run {
+                            when (type) {
+                                NavigationBarType.Files -> { /* camera logic */ }
+                                NavigationBarType.Home,
+                                NavigationBarType.JournalHome,
+                                NavigationBarType.Journal,
+                                NavigationBarType.Notes -> {
+                                    showComposePicker = true
+                                }
+                                else -> {}
+                            }
                         }
                     },
                 contentAlignment = Alignment.Center
             ) {
                 if (type is NavigationBarType.Files) {
                     Icon(
-                        painter = painterResource(id = R.drawable.ic_camera_icon),
+                        painter = painterResource(R.drawable.ic_camera_icon),
                         contentDescription = "Open Camera",
                         tint = MaterialTheme.colorScheme.onPrimary,
                         modifier = Modifier.size(48.dp)
@@ -223,38 +255,31 @@ fun BottomNavigationBar(navController: NavController, type: NavigationBarType) {
                 } else {
                     Icon(
                         imageVector = Icons.Default.Add,
-                        contentDescription = "Create New",
+                        contentDescription = "Compose",
                         tint = MaterialTheme.colorScheme.onPrimary,
                         modifier = Modifier.size(48.dp)
                     )
                 }
             }
 
-
-
-
-            // Journal screen button
+            // Journal
             IconButton(onClick = {
                 navController.navigate(Routes.JOURNAL_HOME) {
                     launchSingleTop = true
                     popUpTo(Routes.HOME)
                 }
             }) {
-                Icon(Icons.Default.Edit,
-                    contentDescription = "Journal",
-                    tint = Color.Black)
+                Icon(Icons.Default.Edit, contentDescription = "Journal", tint = Color.Black)
             }
 
-            // Calendar screen button
+            // Calendar
             IconButton(onClick = {
                 navController.navigate(Routes.CALENDAR) {
                     launchSingleTop = true
                     popUpTo(Routes.HOME)
                 }
             }) {
-                Icon(Icons.Default.DateRange,
-                    contentDescription = "Calendar",
-                    tint = Color.Black)
+                Icon(Icons.Default.DateRange, contentDescription = "Calendar", tint = Color.Black)
             }
         }
     }

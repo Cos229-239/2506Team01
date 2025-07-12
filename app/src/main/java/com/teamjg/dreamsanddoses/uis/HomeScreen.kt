@@ -8,6 +8,10 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -24,14 +28,21 @@ import com.teamjg.dreamsanddoses.navigation.NavigationBarType
 fun HomeScreen(navController: NavController) {
     // This will override system back navigation on this screen
     BackHandler { /* Do nothing = disable back press & back swipe */ }
-    
+
+    var showComposePicker by remember { mutableStateOf(false) }
+
         Scaffold(
-        bottomBar = { BottomNavigationBar(navController, NavigationBarType.Home) } // Bottom navigation bar
+        bottomBar = {
+            BottomNavigationBar(
+                navController = navController,
+                type = NavigationBarType.Home
+            )
+        }
     ) { innerPadding ->
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color.LightGray) // Background color for the entire screen
+                .background(Color.LightGray)
                 .padding(innerPadding) // Account for Scaffold padding
                 .padding(horizontal = 16.dp, vertical = 8.dp) // Outer padding
         ) {
@@ -59,6 +70,23 @@ fun HomeScreen(navController: NavController) {
 
             }
         }
+    }
+
+    // Show modal sheet when state is true
+    if (showComposePicker) {
+        ComposePickerSheet(
+            onDismiss = { showComposePicker = false },
+            onSelect = { selected ->
+                showComposePicker = false
+                when (selected) {
+                    "reminder" -> navController.navigate("reminder/new")
+                    "journal" -> navController.navigate("journal/new")
+                    "notes" -> navController.navigate("journal?tab=notes&compose=true")
+                    "lists" -> navController.navigate("journal?tab=lists&compose=true")
+                    "canvas_editor" -> navController.navigate("canvas_editor")
+                }
+            }
+        )
     }
 }
 
@@ -247,3 +275,37 @@ fun QuickAccessButton(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun ComposePickerSheet(
+    onDismiss: () -> Unit,
+    onSelect: (String) -> Unit
+) {
+    ModalBottomSheet(
+        onDismissRequest = onDismiss,
+        sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    ) {
+        Column(modifier = Modifier.padding(16.dp)) {
+            Text("What would you like to compose?", style = MaterialTheme.typography.titleMedium)
+
+            Spacer(Modifier.height(16.dp))
+
+            ComposeOption("New Reminder") { onSelect("reminder") }
+            ComposeOption("New Journal Entry") { onSelect("journal") }
+            ComposeOption("New List") { onSelect("lists") }
+            ComposeOption("New Note") { onSelect("notes") }
+            ComposeOption("Draw Something") { onSelect("canvas_editor") }        }
+    }
+}
+
+@Composable
+fun ComposeOption(text: String, onClick: () -> Unit) {
+    Text(
+        text,
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable { onClick() }
+            .padding(vertical = 12.dp),
+        style = MaterialTheme.typography.bodyLarge
+    )
+}
