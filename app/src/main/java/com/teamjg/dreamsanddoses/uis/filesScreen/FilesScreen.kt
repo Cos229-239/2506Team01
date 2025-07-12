@@ -33,21 +33,6 @@ fun FilesScreen(navController: NavController) {
 
     BackHandler { /* Do nothing = disable back press & back swipe */ }
 
-    /* Spawn in the bottom toolbar */
-    Scaffold(
-        bottomBar = { BottomNavigationBar(navController, NavigationBarType.Files) },
-    ) {
-            innerPadding ->
-        // Padding space for the Scaffold's safe area
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Color.LightGray)
-                .padding(innerPadding)
-                .padding(horizontal = 16.dp, vertical = 8.dp)
-        )
-    }
-
     // Add or remove tabs here
     val tabs = listOf("Notes", "Journal", "Lists", "All Files","Medications", "Dreams", "Imports", "Exports" )
 
@@ -57,82 +42,89 @@ fun FilesScreen(navController: NavController) {
     // Coroutine scope for running animations (like scrolling between tabs)
     val coroutineScope = rememberCoroutineScope()
 
-    // Spawn in top toolbar
-    Column(modifier = Modifier.fillMaxSize()) {
-        TopNavigationBar(
-            type = NavigationBarType.Files,
-            navController = navController,
-            useIconHeader = true,
-            onSearchClick = { /* ----TODO: handle search----- */ }
-        )
-
-        // Tab row (scrollable) for navigating between file categories
-        ScrollableTabRow(
-            selectedTabIndex = pagerState.currentPage,
-            containerColor = Color.LightGray,
-            edgePadding = 0.dp, // removes the gap at the start/end
-            divider = { /* No divider */ },
-            indicator = { tabPositions ->
-                // Animated indicator that slides beneath the selected tab
-                TabRowDefaults.SecondaryIndicator(
-                    Modifier.tabIndicatorOffset(tabPositions[pagerState.currentPage]),
-                    height = 2.dp
-                )
-            },
+    // Put TopNavigationBar in the Scaffold's topBar parameter
+    Scaffold(
+        topBar = {
+            TopNavigationBar(
+                type = NavigationBarType.Files,
+                navController = navController,
+                useIconHeader = true,
+                onSearchClick = { /* ----TODO: handle search----- */ }
+            )
+        },
+        bottomBar = { BottomNavigationBar(navController, NavigationBarType.Files) }
+    ) { innerPadding ->
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .shadow(elevation = 4.dp) // Top shadow to create a cascading UI layer
-        )
-        {
-            tabs.forEachIndexed { index, title ->
-                Tab(
-                    selected = pagerState.currentPage == index,
-                    onClick = {
-                        coroutineScope.launch { pagerState.animateScrollToPage(index) }
-                    },
-                    text = {
-                        Text(
-                            title,
-                            maxLines = 1,
-                            softWrap = false,
-                            // Supposed to highlight the "All Files" tab button with a bold font
-                            style = if (title == "All Files") {
-                                MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Bold)
-                            } else {
-                                MaterialTheme.typography.labelLarge
-                            }
-                        )
-                    }
+                .fillMaxSize()
+                .background(Color.LightGray)
+                .padding(innerPadding) // This ensures proper spacing from top/bottom bars
+        ) {
+            // Tab row (scrollable) for navigating between file categories
+            ScrollableTabRow(
+                selectedTabIndex = pagerState.currentPage,
+                containerColor = Color.LightGray,
+                edgePadding = 0.dp, // removes the gap at the start/end
+                divider = { /* No divider */ },
+                indicator = { tabPositions ->
+                    // Animated indicator that slides beneath the selected tab
+                    TabRowDefaults.SecondaryIndicator(
+                        Modifier.tabIndicatorOffset(tabPositions[pagerState.currentPage]),
+                        height = 2.dp
+                    )
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                .shadow(elevation = 4.dp)
+            ) {
+                tabs.forEachIndexed { index, title ->
+                    Tab(
+                        selected = pagerState.currentPage == index,
+                        onClick = {
+                            coroutineScope.launch { pagerState.animateScrollToPage(index) }
+                        },
+                        text = {
+                            Text(
+                                title,
+                                maxLines = 1,
+                                softWrap = false,
+                                // Supposed to highlight the "All Files" tab button with a bold font
+                                style = if (title == "All Files") {
+                                    MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Bold)
+                                } else {
+                                    MaterialTheme.typography.labelLarge
+                                }
+                            )
+                        }
+                    )
+                }
+            }
 
-                )
+            // Section label for recent files
+            Text(
+                text = "This Week",
+                style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.SemiBold),
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+            )
 
+            // Horizontal pager (swipeable content below tab row)
+            HorizontalPager(
+                state = pagerState,
+                pageSpacing = 0.dp,
+                modifier = Modifier.fillMaxSize()
+            ) { page ->
+                // Render the correct screen based on selected tab index
+                when (page) {
+                    0 -> NotesTabContent()
+                    1 -> JournalTabContent(navController)
+                    2 -> ListsTabContent()
+                    3 -> AllFilesTabContent()
+                    4 -> MedicationsTabContent(navController)
+                    5 -> DreamsTabContent(navController)
+                    6 -> ImportedTabContent()
+                    7 -> ExportedTabContent(navController)
+                }
             }
         }
-        // Section label for recent files
-        Text(
-            text = "This Week",
-            style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.SemiBold),
-            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
-        )
-
-        // Horizontal pager (swipeable content below tab row)
-        HorizontalPager(
-            state = pagerState,
-            pageSpacing = 0.dp,
-            modifier = Modifier.fillMaxSize()
-        ) { page ->
-            // Render the correct screen based on selected tab index
-            when (page) {
-                0 -> NotesTabContent()
-                1 -> JournalTabContent(navController)
-                2 -> ListsTabContent()
-                3 -> AllFilesTabContent()
-                4 -> MedicationsTabContent(navController)
-                5 -> DreamsTabContent(navController)
-                6 -> ImportedTabContent()
-                7 -> ExportedTabContent(navController)
-            }
-        }
-
     }
 }

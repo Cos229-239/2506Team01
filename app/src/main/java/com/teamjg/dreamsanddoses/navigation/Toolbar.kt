@@ -205,9 +205,19 @@ fun BottomNavigationBar(navController: NavController, type: NavigationBarType) {
                         shape = CircleShape
                     )
                     .clickable {
+                        println("DEBUG: Center button clicked! Type: $type")
                         if (type is NavigationBarType.Files) {
-                            // TODO: handle camera launch
+                            println("DEBUG: Files type detected, navigating to scanner...")
+                            try {
+                                navController.navigate(Routes.SCANNER) {
+                                    launchSingleTop = true
+                                }
+                                println("DEBUG: Navigation call completed")
+                            } catch (e: Exception) {
+                                println("DEBUG: Navigation failed: ${e.message}")
+                            }
                         } else {
+                            println("DEBUG: Not files type, type is: $type")
                             // TODO: handle standard creation
                         }
                     },
@@ -216,7 +226,7 @@ fun BottomNavigationBar(navController: NavController, type: NavigationBarType) {
                 if (type is NavigationBarType.Files) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_camera_icon),
-                        contentDescription = "Open Camera",
+                        contentDescription = "Open Camera Scanner",
                         tint = MaterialTheme.colorScheme.onPrimary,
                         modifier = Modifier.size(48.dp)
                     )
@@ -229,8 +239,6 @@ fun BottomNavigationBar(navController: NavController, type: NavigationBarType) {
                     )
                 }
             }
-
-
 
 
             // Journal screen button

@@ -25,6 +25,7 @@ object Routes {
     const val LOGIN = "login"
     const val REGISTER = "register"
     const val PDF_VIEWER = "pdf_viewer/{fileName}"
+    const val SCANNER = "scanner"
 
     //Create a PDF viewer route with the name of file
     fun createPDFViewerRoute(fileName: String): String
@@ -55,6 +56,7 @@ fun AppNavigation(
         composable(Routes.FILES) { FilesScreen(navController) }
         composable(Routes.DREAMS) { DreamsScreen(navController) }
         composable(Routes.LOGIN) { LoginScreen(navController) }
+        composable(Routes.SCANNER) { ScannerScreen(navController) }
 
         composable(Routes.REGISTER) {
             RegisterScreen(onBackToLogin = {
