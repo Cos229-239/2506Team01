@@ -1,4 +1,5 @@
 package com.teamjg.dreamsanddoses.uis.loginUI
+import com.teamjg.dreamsanddoses.uis.commonUI.ShowPasswordCheckbox// Dante added for UX Password
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -33,6 +34,7 @@ import androidx.navigation.NavController
 // Dante added concerning FireBase Authentication setup
 import android.widget.Toast
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.input.VisualTransformation
 import com.google.firebase.auth.FirebaseAuth
 import com.teamjg.dreamsanddoses.navigation.Routes
 
@@ -42,6 +44,7 @@ fun LoginScreen(navController: NavController) {
     // User input fields
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    var showPassword by remember { mutableStateOf(false) }// Dante added for UX Password
 
     // Dante added concerning FireBase Authentication setup
     val context = LocalContext.current
@@ -99,8 +102,14 @@ fun LoginScreen(navController: NavController) {
             value = password,
             onValueChange = { password = it },
             placeholder = { Text("Password") },
-            visualTransformation = PasswordVisualTransformation(),
+            visualTransformation = if (showPassword) VisualTransformation.None else PasswordVisualTransformation(), // Dante added for UX Password
             modifier = Modifier.fillMaxWidth()
+        )
+
+        // Dante added for UX Password
+        ShowPasswordCheckbox(
+            isChecked = showPassword,
+            onCheckedChange = { showPassword = it }
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -117,7 +126,10 @@ fun LoginScreen(navController: NavController) {
                                 Toast.makeText(context, "Error: ${task.exception?.message}", Toast.LENGTH_LONG).show()
                             }
                         }
-                    }},
+                } else {
+                    Toast.makeText(context, "Please enter both email and password", Toast.LENGTH_SHORT).show()
+                }
+            },
             modifier = Modifier.fillMaxWidth()
         ) {
             Text("Continue")
@@ -140,17 +152,6 @@ fun LoginScreen(navController: NavController) {
 
         Spacer(modifier = Modifier.height(16.dp))
 
-// Google sign-in button
-        /*Button(
-            onClick = { /* Handle Google sign-in */ },
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(48.dp),
-            colors = ButtonDefaults.buttonColors(containerColor = Color.LightGray)
-        ) {
-            Text(text = "Continue with Google")
-        }*/
-
         Button(
             onClick = { /* Handle Google sign-in */ },
             modifier = Modifier
@@ -163,17 +164,6 @@ fun LoginScreen(navController: NavController) {
 
         Spacer(modifier = Modifier.height(8.dp))
 
-// Apple sign-in button
-        /*Button(
-            onClick = { /* Handle Apple sign-in */ },
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(48.dp),
-            colors = ButtonDefaults.buttonColors(containerColor = Color.LightGray)
-        ) {
-            Text(text = "Continue with Apple")
-        }*/
-
         Button(
             onClick = { /* Handle Apple sign-in */ },
             modifier = Modifier
@@ -184,7 +174,7 @@ fun LoginScreen(navController: NavController) {
             Text(text = "\uF8FF  Continue with Apple") // Apple logo character
         }
 
-        Spacer(modifier = Modifier.weight(1f)) // pushes content below to bottom
+        Spacer(modifier = Modifier.weight(1f))
 
 // Guest button area
         Column(
