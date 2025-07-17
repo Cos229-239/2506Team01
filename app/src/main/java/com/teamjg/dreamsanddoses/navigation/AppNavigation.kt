@@ -57,16 +57,12 @@ fun AppNavigation(
         composable(Routes.LOGIN) { LoginScreen(navController) }
 
         composable(Routes.REGISTER) {
-            RegisterScreen(onBackToLogin = {
-                navController.navigate(Routes.LOGIN) {
-                    popUpTo(Routes.LOGIN) { inclusive = true }
+            RegisterScreen(navController = navController)
                 }
-            })
-        }
 
         composable(Routes.PDF_VIEWER) {backStackEntry ->
             val fileName = backStackEntry.arguments?.getString("fileName") ?: ""
             PDFViewerScreen(navController, fileName)
         }
-    }
-}
+            }
+        }
