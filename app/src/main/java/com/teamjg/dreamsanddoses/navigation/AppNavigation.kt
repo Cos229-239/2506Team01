@@ -10,13 +10,18 @@ import androidx.navigation.navArgument
 // UI Screens
 import com.teamjg.dreamsanddoses.uis.*
 import com.teamjg.dreamsanddoses.uis.calendarUI.CalendarScreen
+import com.teamjg.dreamsanddoses.uis.dreamsUI.DreamsColorPicker
+import com.teamjg.dreamsanddoses.uis.dreamsUI.DreamsEditorScreen
+import com.teamjg.dreamsanddoses.uis.dreamsUI.DreamsHomeScreen
+import com.teamjg.dreamsanddoses.uis.dreamsUI.DreamsScreen
+import com.teamjg.dreamsanddoses.uis.dreamsUI.DreamsTemplateScreen
 import com.teamjg.dreamsanddoses.uis.filesScreen.FilesScreen
 import com.teamjg.dreamsanddoses.uis.journalUI.*
 import com.teamjg.dreamsanddoses.uis.loginUI.LoginScreen
 import com.teamjg.dreamsanddoses.uis.loginUI.RegisterScreen
 import com.teamjg.dreamsanddoses.uis.settingsUI.SettingsScreen
 
-/** Centralized route definitions used throughout the app */
+/* Centralized route definitions used throughout the app */
 object Routes {
     // Authentication
     const val LOGIN = "login"
@@ -28,7 +33,13 @@ object Routes {
     const val CALENDAR = "calendar"
     const val PILLS = "pills"
     const val FILES = "files"
+
     const val DREAMS = "dreams"
+    const val DREAMS_HOME = "dreams_home"
+    const val DREAMS_EDITOR = "dreams_editor"
+    const val DREAMS_TEMPLATE = "dreams_template"
+    const val COLOR_PICKER = "color_picker"
+
     const val CANVAS = "canvas"
 
     // Journal & Tabs
@@ -51,7 +62,7 @@ object Routes {
     fun createPDFViewerRoute(fileName: String): String = "pdf_viewer/$fileName"
 }
 
-/** Application's navigation graph */
+/* Application's navigation graph */
 @Composable
 fun AppNavigation(navController: NavHostController = rememberNavController()) {
     NavHost(
@@ -79,11 +90,13 @@ fun AppNavigation(navController: NavHostController = rememberNavController()) {
         composable(Routes.FILES) { FilesScreen(navController) }
         composable(Routes.DREAMS) { DreamsScreen(navController) }
         composable(Routes.CANVAS) { CanvasScreen(navController) }
+        composable(Routes.DREAMS_HOME) { DreamsHomeScreen(navController) }
+        composable(Routes.DREAMS_EDITOR) { DreamsEditorScreen(navController) }
+        composable(Routes.DREAMS_TEMPLATE) { DreamsTemplateScreen(navController) }
+        composable(Routes.COLOR_PICKER) { DreamsColorPicker(navController) }
 
         // Journal Tabs
-        composable(Routes.JOURNAL_HOME) {
-            JournalHomeScreen(navController)
-        }
+        composable(Routes.JOURNAL_HOME) { JournalHomeScreen(navController) }
         composable(
             route = "${Routes.JOURNAL_HOME}?tab={tab}",
             arguments = listOf(
@@ -98,14 +111,11 @@ fun AppNavigation(navController: NavHostController = rememberNavController()) {
         }
 
         // Combined Journal Screen
-        composable(Routes.JOURNAL) {
-            JournalScreen(navController)
-        }
+        composable(Routes.JOURNAL) { JournalScreen(navController) }
 
         // Editor Screens
-        composable(Routes.NEW_JOURNAL) {
-            JournalEditorScreen(navController, entryId = null)
-        }
+        composable(Routes.NEW_JOURNAL) { JournalEditorScreen(navController, entryId = null) }
+
         composable("editor/{entryId}") { backStackEntry ->
             val entryId = backStackEntry.arguments?.getString("entryId")
             JournalEditorScreen(navController, entryId)
@@ -114,16 +124,14 @@ fun AppNavigation(navController: NavHostController = rememberNavController()) {
             val noteId = backStackEntry.arguments?.getString("noteId")
             NotesEditorScreen(navController, noteId)
         }
-        composable(Routes.LISTS_EDITOR) {
-            ListsEditorScreen(navController)
-        }
+        composable(Routes.LISTS_EDITOR) { ListsEditorScreen(navController) }
+
         composable("lists/{listId}") { backStackEntry ->
             val listId = backStackEntry.arguments?.getString("listId")
             ListsEditorScreen(navController, listId)
         }
-        composable(Routes.CANVAS_EDITOR) {
-            CanvasEditorScreen(navController)
-        }
+
+        composable(Routes.CANVAS_EDITOR) { CanvasEditorScreen(navController) }
 
         // File Viewers
         composable(Routes.PDF_VIEWER) { backStackEntry ->

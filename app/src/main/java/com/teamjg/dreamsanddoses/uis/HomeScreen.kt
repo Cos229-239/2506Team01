@@ -22,6 +22,7 @@ import androidx.navigation.NavController
 import com.teamjg.dreamsanddoses.R
 import com.teamjg.dreamsanddoses.navigation.BottomNavigationBar
 import com.teamjg.dreamsanddoses.navigation.NavigationBarType
+import com.teamjg.dreamsanddoses.navigation.Routes
 
 // Main Home screen with logo, widgets, quick access buttons, and bottom navigation
 @Composable
@@ -84,6 +85,7 @@ fun HomeScreen(navController: NavController) {
                     "notes" -> navController.navigate("journal?tab=notes&compose=true")
                     "lists" -> navController.navigate("journal?tab=lists&compose=true")
                     "canvas_editor" -> navController.navigate("canvas_editor")
+                    "dreams" -> navController.navigate("dreams")
                 }
             }
         )
@@ -166,9 +168,9 @@ fun HomeQuickAccessGrid(navController: NavController) {
                 iconResId = R.drawable.ic_journal_icon,
                 iconSize = 70.dp,
                 onClick = {
-                    navController.navigate(com.teamjg.dreamsanddoses.navigation.Routes.JOURNAL_HOME) {
+                    navController.navigate(Routes.JOURNAL_HOME) {
                         launchSingleTop = true
-                        popUpTo(com.teamjg.dreamsanddoses.navigation.Routes.HOME)
+                        popUpTo(Routes.HOME)
                     }
                 }
             )
@@ -180,9 +182,9 @@ fun HomeQuickAccessGrid(navController: NavController) {
                 iconResId = R.drawable.ic_prescription_dosage_assistant,
                 iconSize = 45.dp,
                 onClick = {
-                    navController.navigate(com.teamjg.dreamsanddoses.navigation.Routes.PILLS) {
+                    navController.navigate(Routes.PILLS) {
                         launchSingleTop = true
-                        popUpTo(com.teamjg.dreamsanddoses.navigation.Routes.HOME)
+                        popUpTo(Routes.HOME)
                     }
                 }
             )
@@ -199,9 +201,9 @@ fun HomeQuickAccessGrid(navController: NavController) {
             iconResId = R.drawable.ic_dreams_icon,
             iconSize = 75.dp,
             onClick = {
-                navController.navigate(com.teamjg.dreamsanddoses.navigation.Routes.DREAMS) {
+                navController.navigate(Routes.DREAMS_HOME) {
                     launchSingleTop = true
-                    popUpTo(com.teamjg.dreamsanddoses.navigation.Routes.HOME)
+                    popUpTo(Routes.HOME)
                 }
             }
             )
@@ -211,9 +213,9 @@ fun HomeQuickAccessGrid(navController: NavController) {
                 iconResId = R.drawable.ic_files_icon,
                 iconSize = 75.dp,
                 onClick = {
-                    navController.navigate(com.teamjg.dreamsanddoses.navigation.Routes.FILES) {
+                    navController.navigate(Routes.FILES) {
                         launchSingleTop = true
-                        popUpTo(com.teamjg.dreamsanddoses.navigation.Routes.HOME)
+                        popUpTo(Routes.HOME)
                     }
                 }
             )
@@ -294,6 +296,7 @@ fun ComposePickerSheet(
             ComposeOption("New Journal Entry") { onSelect("journal") }
             ComposeOption("New List") { onSelect("lists") }
             ComposeOption("New Note") { onSelect("notes") }
+            ComposeOption("New Dream") { onSelect("dreams") }
             ComposeOption("Draw Something") { onSelect("canvas_editor") }        }
     }
 }
