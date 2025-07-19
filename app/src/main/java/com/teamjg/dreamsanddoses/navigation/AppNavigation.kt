@@ -54,6 +54,7 @@ object Routes {
 
     // Viewers
     const val PDF_VIEWER = "pdf_viewer/{fileName}"
+    const val SCANNER = "scanner"
 
     /** Builds dynamic route for journal tab navigation */
     fun journalRoute(tab: String): String = "$JOURNAL_HOME?tab=$tab"
@@ -132,5 +133,6 @@ fun AppNavigation(navController: NavHostController = rememberNavController()) {
             val fileName = backStackEntry.arguments?.getString("fileName") ?: ""
             PDFViewerScreen(navController, fileName)
         }
+        composable(Routes.SCANNER) { ScannerScreen(navController) }
     }
 }

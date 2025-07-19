@@ -82,6 +82,18 @@ dependencies {
 
     implementation("androidx.compose.material:material-icons-extended:1.7.8")
 
+    //ML Kit text recognition for scanning text from images.
+    implementation("com.google.mlkit:text-recognition:16.0.1")
+
+    //CameraX dependencies for camera functionality
+    implementation("androidx.camera:camera-core:1.4.2")
+    implementation("androidx.camera:camera-camera2:1.4.2")
+    implementation("androidx.camera:camera-lifecycle:1.4.2")
+    implementation("androidx.camera:camera-view:1.4.2")
+
+    //Image analyzing integration with ML Kit
+    implementation("androidx.camera:camera-mlkit-vision:1.4.2")
+
 
 }
 apply(plugin = "com.google.gms.google-services")

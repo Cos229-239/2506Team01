@@ -258,7 +258,14 @@ fun BottomNavigationBar(
                         .clickable {
                             onCompose?.invoke() ?: run {
                                 when (type) {
-                                    NavigationBarType.Files -> { /* camera logic */ }
+                                    NavigationBarType.Files -> { try {
+                                        navController.navigate(Routes.SCANNER) {
+                                            launchSingleTop = true
+                                        }
+                                    } catch (e: Exception) {
+                                        println("Navigation to scanner failed: ${e.message}")
+                                    }
+                                    }
                                     NavigationBarType.Home,
                                     NavigationBarType.DreamsHome -> {
                                         showComposePicker = true
@@ -277,7 +284,7 @@ fun BottomNavigationBar(
                     if (type is NavigationBarType.Files) {
                         Icon(
                             painter = painterResource(R.drawable.ic_camera_icon),
-                            contentDescription = "Open Camera",
+                            contentDescription = "Open Camera Scanner",
                             tint = MaterialTheme.colorScheme.onPrimary,
                             modifier = Modifier.size(48.dp)
                         )
