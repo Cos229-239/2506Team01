@@ -1,4 +1,6 @@
 package com.teamjg.dreamsanddoses.uis.loginUI
+import com.teamjg.dreamsanddoses.uis.commonUI.PasswordRequirements// Dante added for UX Password
+import com.teamjg.dreamsanddoses.uis.commonUI.ShowPasswordCheckbox// Dante added for UX Password
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -6,7 +8,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.*
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.PasswordVisualTransformation// Dante added for UX Password creation
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -14,13 +16,17 @@ import androidx.compose.ui.unit.sp
 // Dante added concerning FireBase Authentication setup
 import android.widget.Toast
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.input.VisualTransformation// Dante added for UX Password creation
 import com.google.firebase.auth.FirebaseAuth
+import androidx.navigation.NavController
+import com.teamjg.dreamsanddoses.navigation.Routes
 
 @Composable
-fun RegisterScreen(onBackToLogin: () -> Unit) {
+fun RegisterScreen(navController: NavController) {
     var name by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    var showPassword by remember { mutableStateOf(false) }// Dante added for UX Password creation
 
     // Dante added concerning FireBase Authentication setup
     val context = LocalContext.current
@@ -61,9 +67,18 @@ fun RegisterScreen(onBackToLogin: () -> Unit) {
             value = password,
             onValueChange = { password = it },
             placeholder = { Text("Password") },
-            visualTransformation = PasswordVisualTransformation(),
+            visualTransformation = if (showPassword) VisualTransformation.None else PasswordVisualTransformation(), // Dante added for UX Password creation.
             modifier = Modifier.fillMaxWidth()
         )
+
+        // Dante added for UX Password creation
+        ShowPasswordCheckbox(
+            isChecked = showPassword,
+            onCheckedChange = { showPassword = it }
+        )
+
+        // Dante added for UX Password creation details. This is a helper function
+        PasswordRequirements(password = password)
 
         Spacer(modifier = Modifier.height(24.dp))
 
@@ -71,15 +86,20 @@ fun RegisterScreen(onBackToLogin: () -> Unit) {
             // Dante added concerning FireBase Authentication setup
             onClick = {
 
-                auth.createUserWithEmailAndPassword(email, password)
-                    .addOnCompleteListener { task ->
-                        if (task.isSuccessful) {
-                            Toast.makeText(context, "Registered successfully!", Toast.LENGTH_SHORT).show()
-                            onBackToLogin()
-                        } else {
-                            Toast.makeText(context, "Error: ${task.exception?.message}", Toast.LENGTH_LONG).show()
+                if (name.isNotBlank() && email.isNotBlank() && password.isNotBlank()) {
+                    auth.createUserWithEmailAndPassword(email, password)
+                        .addOnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                Toast.makeText(context, "Registration successful", Toast.LENGTH_SHORT).show()
+                                navController.navigate(Routes.LOGIN)
+                            } else {
+                                Toast.makeText(context, "Error: ${task.exception?.message}", Toast.LENGTH_LONG).show()
+                            }
                         }
-                    } },
+                } else {
+                    Toast.makeText(context, "All fields must be filled", Toast.LENGTH_SHORT).show()
+                }
+            },
             modifier = Modifier.fillMaxWidth()
         ) {
             Text("Register")
@@ -87,7 +107,7 @@ fun RegisterScreen(onBackToLogin: () -> Unit) {
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        TextButton(onClick = { onBackToLogin() }) {
+        TextButton(onClick = { navController.navigate(Routes.LOGIN) }) {
             Text("Back to Login")
         }
     }
