@@ -41,7 +41,7 @@ android {
 dependencies {
 
     implementation("androidx.core:core-ktx:1.16.0")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.9.1")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.9.2")
     implementation("androidx.activity:activity-compose:1.10.1")
 
     // Single up-to-date BOM
@@ -55,7 +55,7 @@ dependencies {
     implementation("androidx.compose.foundation:foundation")
 
     // Navigation & animation
-    implementation("androidx.navigation:navigation-compose:2.9.1")
+    implementation("androidx.navigation:navigation-compose:2.9.2")
     implementation("androidx.compose.animation:animation")
     implementation("com.google.firebase:protolite-well-known-types:18.0.1")
 
@@ -68,7 +68,6 @@ dependencies {
 
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
-    implementation("androidx.navigation:navigation-compose:2.9.1")
     implementation("androidx.compose.animation:animation:1.8.3")
 
     // Dante added concerning FireBase Authentication setup
@@ -93,6 +92,12 @@ dependencies {
 
     //Image analyzing integration with ML Kit
     implementation("androidx.camera:camera-mlkit-vision:1.4.2")
+
+    //ViewModel support for Compose (Need for Calendar)
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.9.2")
+
+    //Core library desugaring to get local time for Java 8+
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.5")
 
 
 }
