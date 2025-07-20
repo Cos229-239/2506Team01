@@ -1,6 +1,19 @@
 package com.teamjg.dreamsanddoses.navigation
 
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -36,7 +49,7 @@ object Routes {
 
     const val DREAMS = "dreams"
     const val DREAMS_HOME = "dreams_home"
-    const val DREAMS_EDITOR = "dreams_editor"
+    const val DREAMS_EDITOR = "dreams/new"
     const val DREAMS_TEMPLATE = "dreams_template"
     const val COLOR_PICKER = "color_picker"
 
@@ -125,6 +138,10 @@ fun AppNavigation(navController: NavHostController = rememberNavController()) {
             val listId = backStackEntry.arguments?.getString("listId")
             ListsEditorScreen(navController, listId)
         }
+        composable("dreams/{dreamId}") { backStackEntry ->
+            val dreamId = backStackEntry.arguments?.getString("dreamId")
+            DreamsTemplateScreen(navController, dreamId)
+        }
 
         composable(Routes.CANVAS_EDITOR) { CanvasEditorScreen(navController) }
 
@@ -135,4 +152,41 @@ fun AppNavigation(navController: NavHostController = rememberNavController()) {
         }
         composable(Routes.SCANNER) { ScannerScreen(navController) }
     }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun ComposePickerSheet(
+    onDismiss: () -> Unit,
+    onSelect: (String) -> Unit
+) {
+    ModalBottomSheet(
+        onDismissRequest = onDismiss,
+        sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    ) {
+        Column(modifier = Modifier.padding(16.dp)) {
+            Text("What would you like to compose?", style = MaterialTheme.typography.titleMedium)
+
+            Spacer(Modifier.height(16.dp))
+
+            ComposeOption("New Reminder") { onSelect("reminder") }
+            ComposeOption("New Journal Entry") { onSelect("journal") }
+            ComposeOption("New List") { onSelect("lists") }
+            ComposeOption("New Note") { onSelect("notes") }
+            ComposeOption("New Dream") { onSelect("dreams") }
+            ComposeOption("Draw Something") { onSelect("canvas_editor") }
+        }
+    }
+}
+
+@Composable
+fun ComposeOption(text: String, onClick: () -> Unit) {
+    Text(
+        text,
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable { onClick() }
+            .padding(vertical = 12.dp),
+        style = MaterialTheme.typography.bodyLarge
+    )
 }

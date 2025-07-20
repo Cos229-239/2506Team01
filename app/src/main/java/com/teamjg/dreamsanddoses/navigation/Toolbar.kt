@@ -18,7 +18,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.teamjg.dreamsanddoses.R
-import com.teamjg.dreamsanddoses.uis.ComposePickerSheet
 
 
 /** Represents the type of screen for configuring the navigation bars */
@@ -202,7 +201,7 @@ fun BottomNavigationBar(
                     "notes" -> navController.navigate(Routes.NEW_NOTE)
                     "lists" -> navController.navigate(Routes.LISTS_EDITOR)
                     "canvas_editor" -> navController.navigate(Routes.CANVAS_EDITOR)
-                    "dreams_home" -> navController.navigate(Routes.DREAMS_HOME)
+                    "dreams" -> navController.navigate(Routes.DREAMS_TEMPLATE)
                 }
             }
         )

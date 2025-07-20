@@ -20,9 +20,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.teamjg.dreamsanddoses.R
-import com.teamjg.dreamsanddoses.navigation.BottomNavigationBar
-import com.teamjg.dreamsanddoses.navigation.NavigationBarType
-import com.teamjg.dreamsanddoses.navigation.Routes
+import com.teamjg.dreamsanddoses.navigation.*
 
 // Main Home screen with logo, widgets, quick access buttons, and bottom navigation
 @Composable
@@ -85,7 +83,7 @@ fun HomeScreen(navController: NavController) {
                     "notes" -> navController.navigate("journal?tab=notes&compose=true")
                     "lists" -> navController.navigate("journal?tab=lists&compose=true")
                     "canvas_editor" -> navController.navigate("canvas_editor")
-                    "dreams" -> navController.navigate("dreams")
+                    "dreams" -> navController.navigate("dreams/new")
                 }
             }
         )
@@ -275,40 +273,4 @@ fun QuickAccessButton(
             )
         }
     }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun ComposePickerSheet(
-    onDismiss: () -> Unit,
-    onSelect: (String) -> Unit
-) {
-    ModalBottomSheet(
-        onDismissRequest = onDismiss,
-        sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
-    ) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            Text("What would you like to compose?", style = MaterialTheme.typography.titleMedium)
-
-            Spacer(Modifier.height(16.dp))
-
-            ComposeOption("New Reminder") { onSelect("reminder") }
-            ComposeOption("New Journal Entry") { onSelect("journal") }
-            ComposeOption("New List") { onSelect("lists") }
-            ComposeOption("New Note") { onSelect("notes") }
-            ComposeOption("New Dream") { onSelect("dreams") }
-            ComposeOption("Draw Something") { onSelect("canvas_editor") }        }
-    }
-}
-
-@Composable
-fun ComposeOption(text: String, onClick: () -> Unit) {
-    Text(
-        text,
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable { onClick() }
-            .padding(vertical = 12.dp),
-        style = MaterialTheme.typography.bodyLarge
-    )
 }
