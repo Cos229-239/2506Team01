@@ -1,5 +1,6 @@
 package com.teamjg.dreamsanddoses.uis
 
+import android.util.Log//Dante Testing FireStore
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -8,6 +9,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect//Dante Testing FireStore
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -30,7 +32,15 @@ fun HomeScreen(navController: NavController) {
 
     var showComposePicker by remember { mutableStateOf(false) }
 
-        Scaffold(
+    //Dante Testing FireStore
+    LaunchedEffect(Unit) {
+        FirestoreService.saveTestUser("user123", "Dante", "dante@example.com")
+        FirestoreService.fetchUser("user123") { data ->
+            Log.d("TestFetch", "User data: $data")
+        }
+    }
+
+    Scaffold(
         bottomBar = {
             BottomNavigationBar(
                 navController = navController,

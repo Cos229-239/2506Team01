@@ -14,7 +14,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-
+import androidx.compose.foundation.layout.Spacer// Dante created for the Medication reminder screen
+import androidx.compose.foundation.layout.height// Dante created for the Medication reminder screen
+import androidx.compose.material3.Card// Dante created for the Medication reminder screen
+import androidx.compose.material3.CardDefaults/// Dante created for the Medication reminder screen
 @Composable
 fun PasswordRequirements(password: String) {
     val hasUpper = password.any { it.isUpperCase() }
@@ -75,3 +78,19 @@ fun ShowPasswordCheckbox(
     }
 }
 
+@Composable
+fun ReminderCard(title: String, time: String, notes: String) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 8.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+    ) {
+        Column(modifier = Modifier.padding(16.dp)) {
+            Text(text = title, fontWeight = FontWeight.Bold, fontSize = 18.sp)
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(text = "Time: $time", fontSize = 14.sp)
+            Text(text = "Notes: $notes", fontSize = 14.sp, color = Color.Gray)
+        }
+    }
+}
