@@ -118,6 +118,20 @@ fun LoginScreen(navController: NavController) {
             onCheckedChange = { showPassword = it }
         )
 
+        Spacer(modifier = Modifier.height(4.dp))
+
+        //Dante added for the forgot password link
+        TextButton(
+            onClick = { navController.navigate(Routes.FORGOT_PASSWORD) },
+            modifier = Modifier.align(Alignment.End)
+        ) {
+            Text(
+                text = "Forgot Password?",
+                color = Color(0xFF1E88E5),
+                fontSize = 14.sp
+            )
+        }
+
         Spacer(modifier = Modifier.height(16.dp))
 
         Button(
