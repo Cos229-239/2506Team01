@@ -9,8 +9,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f3a1914d-3b43-47b3-9c6c-387d6b062614" name="Changes" comment="FINALLY !!!!! FIX MY BRANCH 07-10-25 Part 4">
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/teamjg/dreamsanddoses/uis/commonUI/CommonUI.kt" afterDir="false" />
+    <list default="true" id="f3a1914d-3b43-47b3-9c6c-387d6b062614" name="Changes" comment="Changed the placeholder logo on the login screen. Edited some naming, now have a journalHomeScreen and an actual journalScreen now.">
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/teamjg/dreamsanddoses/uis/journalUI/CanvasEditorScreen.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/teamjg/dreamsanddoses/uis/journalUI/CanvasScreen.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/teamjg/dreamsanddoses/uis/journalUI/JournalEditorScreen.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/teamjg/dreamsanddoses/uis/journalUI/ListsEditorScreen.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/teamjg/dreamsanddoses/uis/journalUI/NotesEditorScreen.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.11.1/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.11.1/checksums/checksums.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.11.1/checksums/md5-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.11.1/checksums/md5-checksums.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.11.1/checksums/sha1-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.11.1/checksums/sha1-checksums.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.11.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.11.1/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.11.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.11.1/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.11.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.11.1/fileHashes/fileHashes.bin" afterDir="false" />
@@ -18,18 +25,29 @@
       <change beforePath="$PROJECT_DIR$/.gradle/8.11.1/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.11.1/fileHashes/resourceHashesCache.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/deploymentTargetSelector.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/deploymentTargetSelector.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_compose_material_material_icons_core_android_1_7_0_aar.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__org_jetbrains_kotlin_kotlin_stdlib_2_0_21.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_jetbrains_kotlin_kotlin_stdlib_2_0_21.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/teamjg/dreamsanddoses/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/teamjg/dreamsanddoses/MainActivity.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/teamjg/dreamsanddoses/navigation/AppNavigation.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/teamjg/dreamsanddoses/navigation/AppNavigation.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/teamjg/dreamsanddoses/uis/loginUI/LoginScreen.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/teamjg/dreamsanddoses/uis/loginUI/LoginScreen.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/teamjg/dreamsanddoses/uis/loginUI/RegisterScreen.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/teamjg/dreamsanddoses/uis/loginUI/RegisterScreen.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/teamjg/dreamsanddoses/navigation/Toolbar.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/teamjg/dreamsanddoses/navigation/Toolbar.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/teamjg/dreamsanddoses/uis/HomeScreen.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/teamjg/dreamsanddoses/uis/HomeScreen.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/teamjg/dreamsanddoses/uis/journalUI/AchievementsSection.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/teamjg/dreamsanddoses/uis/journalUI/AchievementsSection.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/teamjg/dreamsanddoses/uis/journalUI/JournalHomeScreen.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/teamjg/dreamsanddoses/uis/journalUI/JournalHomeScreen.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/teamjg/dreamsanddoses/uis/journalUI/JournalListsTabContent.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/teamjg/dreamsanddoses/uis/journalUI/JournalListsTabContent.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/teamjg/dreamsanddoses/uis/journalUI/JournalQuickAccessGrid.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/teamjg/dreamsanddoses/uis/journalUI/JournalQuickAccessGrid.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/teamjg/dreamsanddoses/uis/journalUI/JournalScreen.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/teamjg/dreamsanddoses/uis/journalUI/JournalScreen.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/teamjg/dreamsanddoses/uis/journalUI/NotesJournalTabContent.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/teamjg/dreamsanddoses/uis/journalUI/JournalNotesTabContent.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[DeviceId(pluginId=LocalEmulator, isTemplate=false, identifier=path=C:\Users\MasterDanteDev86\.android\avd\Medium_Phone.avd)]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[DeviceId(pluginId=LocalEmulator, isTemplate=false, identifier=path=C:\Users\Jacob\.android\avd\Resizable_Experimental.avd)]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -82,7 +100,7 @@
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/Cos229-239/2506Team01.git&quot;,
-    &quot;accountId&quot;: &quot;b81e2f4b-162b-4bbb-8999-5afbe2ac1a61&quot;
+    &quot;accountId&quot;: &quot;ad8e24e7-b664-4868-8cd4-aca78d77fe61&quot;
   }
 }</component>
   <component name="ProblemsViewState">
@@ -99,38 +117,39 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Android App.app.executor": "Run",
-    "Android App.app~1.executor": "Run",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "#1 on dev__Joseph",
-    "ignore.virus.scanning.warn.message": "true",
-    "last_directory_selection": "C:/2506Team01/app/src/main/java/com/teamjg/dreamsanddoses/uis",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "AndroidSdkUpdater",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Android App.IdeaProjects.DreamsAndDoses.app.executor&quot;: &quot;Run&quot;,
+    &quot;Android App.app.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Download Sources.executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;ToolWindow.Running Devices.ShowToolbar&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;dev__Geno&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;AndroidSdkUpdater&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Jacob\IdeaProjects\DreamsAndDoses\app" />
     </key>
     <key name="K2MoveDeclarationsDialog.RECENT_PACKAGE_KEY">
-      <recent name="com.teamjg.dreamsanddoses.uis.commonUI" />
+      <recent name="com.teamjg.dreamsanddoses.uis.journalUI" />
     </key>
   </component>
-  <component name="RunManager" selected="Android App.app~1">
-    <configuration name="app" type="AndroidRunConfigurationType" factoryName="Android App" activateToolWindowBeforeRun="false">
-      <module name="DreamsAndDoses.app" />
+  <component name="RunManager" selected="Android App.app">
+    <configuration name="IdeaProjects.DreamsAndDoses.app" type="AndroidRunConfigurationType" factoryName="Android App" activateToolWindowBeforeRun="false">
+      <module name="IdeaProjects.DreamsAndDoses.app" />
       <option name="ANDROID_RUN_CONFIGURATION_SCHEMA_VERSION" value="1" />
       <option name="DEPLOY" value="true" />
       <option name="DEPLOY_APK_FROM_BUNDLE" value="false" />
@@ -172,8 +191,8 @@
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="app~1" type="AndroidRunConfigurationType" factoryName="Android App" activateToolWindowBeforeRun="false">
-      <module name="DreamsAndDoses.app~1" />
+    <configuration name="app" type="AndroidRunConfigurationType" factoryName="Android App" activateToolWindowBeforeRun="false">
+      <module name="DreamsAndDoses.app" />
       <option name="ANDROID_RUN_CONFIGURATION_SCHEMA_VERSION" value="1" />
       <option name="DEPLOY" value="true" />
       <option name="DEPLOY_APK_FROM_BUNDLE" value="false" />
@@ -242,9 +261,20 @@
       <workItem from="1751672547827" duration="1367000" />
       <workItem from="1751852194880" duration="2377000" />
       <workItem from="1751947439587" duration="2099000" />
-      <workItem from="1752007212779" duration="2227000" />
-      <workItem from="1752213662844" duration="129000" />
-      <workItem from="1752733112843" duration="10618000" />
+      <workItem from="1752007212779" duration="2823000" />
+      <workItem from="1752011382517" duration="2694000" />
+      <workItem from="1752015959368" duration="1371000" />
+      <workItem from="1752023539893" duration="10970000" />
+      <workItem from="1752044776651" duration="5454000" />
+      <workItem from="1752079585193" duration="2160000" />
+      <workItem from="1752097697874" duration="2142000" />
+      <workItem from="1752168283533" duration="13468000" />
+      <workItem from="1752200026298" duration="5946000" />
+      <workItem from="1752255897248" duration="2106000" />
+      <workItem from="1752266633390" duration="3225000" />
+      <workItem from="1752285376044" duration="699000" />
+      <workItem from="1752304429378" duration="4386000" />
+      <workItem from="1752335871494" duration="2495000" />
     </task>
     <task id="LOCAL-00001" summary="Test 06-17-25">
       <option name="closed" value="true" />
@@ -262,47 +292,23 @@
       <option name="project" value="LOCAL" />
       <updated>1751857046485</updated>
     </task>
-    <task id="LOCAL-00003" summary="FINALLY !!!!! FIX MY BRANCH 07-10-25">
+    <task id="LOCAL-00003" summary="Jacobs integration of the pdfExporter has been implemented">
       <option name="closed" value="true" />
-      <created>1752203475687</created>
+      <created>1752010841294</created>
       <option name="number" value="00003" />
       <option name="presentableId" value="LOCAL-00003" />
       <option name="project" value="LOCAL" />
-      <updated>1752203475687</updated>
+      <updated>1752010841294</updated>
     </task>
-    <task id="LOCAL-00004" summary="FINALLY !!!!! FIX MY BRANCH 07-10-25 Part 2">
+    <task id="LOCAL-00004" summary="Changed the placeholder logo on the login screen. Edited some naming, now have a journalHomeScreen and an actual journalScreen now.">
       <option name="closed" value="true" />
-      <created>1752203764572</created>
+      <created>1752025343884</created>
       <option name="number" value="00004" />
       <option name="presentableId" value="LOCAL-00004" />
       <option name="project" value="LOCAL" />
-      <updated>1752203764572</updated>
+      <updated>1752025343884</updated>
     </task>
-    <task id="LOCAL-00005" summary="FINALLY !!!!! FIX MY BRANCH 07-10-25 Part 2">
-      <option name="closed" value="true" />
-      <created>1752206057417</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1752206057417</updated>
-    </task>
-    <task id="LOCAL-00006" summary="FINALLY !!!!! FIX MY BRANCH 07-10-25 Part 3">
-      <option name="closed" value="true" />
-      <created>1752206148956</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1752206148956</updated>
-    </task>
-    <task id="LOCAL-00007" summary="FINALLY !!!!! FIX MY BRANCH 07-10-25 Part 4">
-      <option name="closed" value="true" />
-      <created>1752207343431</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1752207343431</updated>
-    </task>
-    <option name="localTasksCounter" value="8" />
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -313,15 +319,7 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State>
-              <option name="COLUMN_ID_WIDTH">
-                <map>
-                  <entry key="Table.Default.Author.ColumnIdWidth" value="207" />
-                  <entry key="Table.Default.Date.ColumnIdWidth" value="131" />
-                  <entry key="Table.GitHub.CommitStatus.ColumnIdWidth" value="130" />
-                </map>
-              </option>
-            </State>
+            <State />
           </value>
         </entry>
       </map>
@@ -331,11 +329,9 @@
     <MESSAGE value="Test" />
     <MESSAGE value="Test 06-17-25" />
     <MESSAGE value="FINALLY !!!!! Joseph firebase integration implemented &#10;&#10;******DOUBLE CHECK UR PASSWORDS" />
-    <MESSAGE value="FINALLY !!!!! FIX MY BRANCH 07-10-25" />
-    <MESSAGE value="FINALLY !!!!! FIX MY BRANCH 07-10-25 Part 2" />
-    <MESSAGE value="FINALLY !!!!! FIX MY BRANCH 07-10-25 Part 3" />
-    <MESSAGE value="FINALLY !!!!! FIX MY BRANCH 07-10-25 Part 4" />
-    <option name="LAST_COMMIT_MESSAGE" value="FINALLY !!!!! FIX MY BRANCH 07-10-25 Part 4" />
+    <MESSAGE value="Jacobs integration of the pdfExporter has been implemented" />
+    <MESSAGE value="Changed the placeholder logo on the login screen. Edited some naming, now have a journalHomeScreen and an actual journalScreen now." />
+    <option name="LAST_COMMIT_MESSAGE" value="Changed the placeholder logo on the login screen. Edited some naming, now have a journalHomeScreen and an actual journalScreen now." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

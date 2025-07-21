@@ -1,44 +1,43 @@
 package com.teamjg.dreamsanddoses.uis.journalUI
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.pager.HorizontalPager
-import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.*
-import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.teamjg.dreamsanddoses.navigation.BottomNavigationBar
 import com.teamjg.dreamsanddoses.navigation.NavigationBarType
+import com.teamjg.dreamsanddoses.navigation.Routes
 import com.teamjg.dreamsanddoses.navigation.TopNavigationBar
-import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.*
 
 
-// Tabs used in the Journal screen pager
-sealed class JournalTab(val title: String) {
-    object Notes : JournalTab("Notes")
-    object Journal : JournalTab("Journal")
-    object Lists : JournalTab("Lists")
-}
+/* Data class representing a journal entry */
+data class JournalEntry(
+    val title: String,
+    val subtitle: String,
+    val date: Date
+)
 
-// Main Journal screen composable with top/bottom navigation and pager for tabs
-@Composable
+/**
+ * Screen displaying a list of journal entries with top and bottom navigation bars.
+ *
+ * @param navController Controller for navigation actions.
+ */@Composable
 fun JournalScreen(navController: NavController) {
-
-    val tabs = listOf(JournalTab.Notes, JournalTab.Journal, JournalTab.Lists)
-
-    // Starts on the center tab (Journal)
-    val pagerState = rememberPagerState(initialPage = 1) { tabs.size }
-
-    val coroutineScope = rememberCoroutineScope()
+    // Sample placeholder entries; replace with real data source later
+    val sampleEntries = listOf(
+        JournalEntry("Goals for July", "First things first...", Date()),
+        JournalEntry("Morning Journal", "Gratitude and planning", Date()),
+        JournalEntry("Evening Thoughts", "Emotions unpacked", Date())
+    )
 
     Scaffold(
         topBar = {
@@ -46,70 +45,70 @@ fun JournalScreen(navController: NavController) {
                 type = NavigationBarType.Journal,
                 navController = navController,
                 useIconHeader = true,
-                onSearchClick = { /* Handle search */ }
+                onSearchClick = { /* TODO: Implement search */ }
             )
         },
         bottomBar = {
             BottomNavigationBar(
                 navController = navController,
-                type = NavigationBarType.Journal
+                type = NavigationBarType.Journal,
+                onCompose = { navController.navigate(Routes.NEW_JOURNAL) }
             )
         }
     ) { innerPadding ->
-        Column(
+        LazyColumn(
+            contentPadding = innerPadding,
             modifier = Modifier
                 .fillMaxSize()
                 .background(Color.LightGray)
-                .padding(innerPadding)
+                .padding(horizontal = 16.dp)
         ) {
-            // Tab row across the top
-            TabRow(
-                selectedTabIndex = pagerState.currentPage,
-                containerColor = Color.LightGray,
-                divider = {},
-                indicator = { tabPositions ->
-                    TabRowDefaults.SecondaryIndicator(
-                        Modifier.tabIndicatorOffset(tabPositions[pagerState.currentPage]),
-                        height = 2.dp
-                    )
-                },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .shadow(elevation = 4.dp)
-            ) {
-                tabs.forEachIndexed { index, tab ->
-                    Tab(
-                        selected = pagerState.currentPage == index,
-                        onClick = {
-                            coroutineScope.launch {
-                                pagerState.animateScrollToPage(index)
-                            }
-                        },
-                        text = {
-                            Text(
-                                text = tab.title,
-                                maxLines = 1,
-                                softWrap = false,
-                                style = MaterialTheme.typography.labelLarge
-                            )
-                        }
-                    )
-                }
-            }
-
-            // Pager content for each tab
-            HorizontalPager(
-                state = pagerState,
-                pageSpacing = 0.dp,
-                modifier = Modifier.fillMaxWidth()
-            ) { page ->
-                when (tabs[page]) {
-                    is JournalTab.Notes -> NotesJournalTabContent()
-                    is JournalTab.Journal -> JournalOverviewTabContent(navController)
-                    is JournalTab.Lists -> ListsJournalTabContent()
-                }
+            items(sampleEntries) { entry ->
+                JournalEntryCard(entry = entry, navController = navController)
+                Spacer(modifier = Modifier.height(12.dp))
             }
         }
     }
 }
 
+/**
+ * Card composable displaying a single journal entry's details.
+ *
+ * @param entry JournalEntry to display.
+ */
+@Composable
+fun JournalEntryCard(entry: JournalEntry, navController: NavController) {
+    val dateFormat = SimpleDateFormat("MMM dd, yyyy", Locale.getDefault())
+
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .wrapContentHeight()
+            .clickable {
+                // Navigate to the journal editor screen for this entry
+                // Assuming entry.title or some ID is passed as parameter (use actual ID when ready)
+                navController.navigate("editor/${entry.title}")
+            },
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+    ) {
+        Column(modifier = Modifier.padding(16.dp)) {
+            Text(
+                text = entry.title,
+                style = MaterialTheme.typography.titleLarge
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                text = entry.subtitle,
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = dateFormat.format(entry.date),
+                style = MaterialTheme.typography.labelSmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        }
+    }
+}

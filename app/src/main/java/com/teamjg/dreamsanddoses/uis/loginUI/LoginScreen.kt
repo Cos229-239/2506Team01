@@ -33,9 +33,12 @@ import androidx.navigation.NavController
 
 // Dante added concerning FireBase Authentication setup
 import android.widget.Toast
+import androidx.compose.foundation.Image
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.VisualTransformation
 import com.google.firebase.auth.FirebaseAuth
+import com.teamjg.dreamsanddoses.R
 import com.teamjg.dreamsanddoses.navigation.Routes
 
 //Dante added concerning Login screen
@@ -70,11 +73,14 @@ fun LoginScreen(navController: NavController) {
 
         Spacer(modifier = Modifier.height(10.dp))
 
-        // icon placeholder
-        Box(
+        // App logo centered horizontally
+        Image(
+            painter = painterResource(id = R.drawable.ic_main_logo_icon),
+            contentDescription = "App Logo",
             modifier = Modifier
-                .size(80.dp)
-                .border(2.dp, Color.Black)
+                .size(115.dp)
+                .align(Alignment.CenterHorizontally)
+                .padding(bottom = 24.dp)
         )
 
         Spacer(modifier = Modifier.height(40.dp))

@@ -23,17 +23,29 @@ fun AchievementsSection() {
         colors = CardDefaults.cardColors(containerColor = Color(0xFFE6F0FF))
     ) {
         Column(
-            Modifier.padding(16.dp),
+            modifier = Modifier.padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            Text("Achievements", style = MaterialTheme.typography.titleLarge)
-            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                AchievementItem("Days Streak", 9999, Modifier.weight(1f))
-                AchievementItem("Pages", 9999, Modifier.weight(1f))
+            Text(
+                text = "Achievements",
+                style = MaterialTheme.typography.titleLarge
+            )
+
+            // Two rows of achievement items with spacing
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                AchievementItem(label = "Days Streak", value = 9999, modifier = Modifier.weight(1f))
+                AchievementItem(label = "Pages", value = 9999, modifier = Modifier.weight(1f))
             }
-            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                AchievementItem("Word Count", 9999, Modifier.weight(1f))
-                AchievementItem("Dreams", 9999, Modifier.weight(1f))
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                AchievementItem(label = "Wordle Score", value = 9999, modifier = Modifier.weight(1f))
+                AchievementItem(label = "Dreams", value = 9999, modifier = Modifier.weight(1f))
             }
         }
     }
@@ -41,14 +53,25 @@ fun AchievementsSection() {
 
 // Achievement widget card with hardcoded values for now
 @Composable
-fun AchievementItem(label: String, value: Int, modifier: Modifier = Modifier) {
+fun AchievementItem(
+    label: String,
+    value: Int,
+    modifier: Modifier = Modifier
+) {
     Column(
         modifier = modifier
-            .background(Color.White, RoundedCornerShape(12.dp))
+            .background(color = Color.White, shape = RoundedCornerShape(12.dp))
             .padding(vertical = 12.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text("$value", fontWeight = FontWeight.Bold)
-        Text(label, style = MaterialTheme.typography.bodySmall, color = Color.Gray)
+        Text(
+            text = "$value",
+            fontWeight = FontWeight.Bold
+        )
+        Text(
+            text = label,
+            style = MaterialTheme.typography.bodySmall,
+            color = Color.Gray
+        )
     }
 }

@@ -28,7 +28,7 @@ fun JournalQuickAccessGrid(navController: NavController) {
                 navController.navigate(Routes.JOURNAL)
             }
             QuickAccessButton("Canvas", Modifier.weight(1f), R.drawable.ic_main_logo_icon, 75.dp) {
-                navController.navigate(Routes.PILLS)
+                navController.navigate(Routes.CANVAS)
             }
         }
 
@@ -37,7 +37,7 @@ fun JournalQuickAccessGrid(navController: NavController) {
             horizontalArrangement = Arrangement.Center
         ) {
             QuickAccessButton("Dreams", Modifier.fillMaxWidth(0.5f), R.drawable.ic_dreams_icon, 75.dp) {
-                navController.navigate(Routes.DREAMS)
+                navController.navigate(Routes.DREAMS_HOME)
             }
         }
     }
