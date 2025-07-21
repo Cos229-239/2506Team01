@@ -15,7 +15,6 @@ import com.teamjg.dreamsanddoses.navigation.BottomNavigationBar
 import com.teamjg.dreamsanddoses.navigation.NavigationBarType
 import com.teamjg.dreamsanddoses.navigation.Routes
 import com.teamjg.dreamsanddoses.navigation.TopNavigationBar
-import com.teamjg.dreamsanddoses.uis.filesScreen.FileCardList
 import java.text.SimpleDateFormat
 import java.util.*
 

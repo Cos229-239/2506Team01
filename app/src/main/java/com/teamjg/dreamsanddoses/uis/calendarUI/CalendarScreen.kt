@@ -1,5 +1,6 @@
 package com.teamjg.dreamsanddoses.uis.calendarUI
 
+import android.app.DatePickerDialog
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -11,14 +12,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.teamjg.dreamsanddoses.navigation.AnimatedScreenWrapper
+import com.teamjg.dreamsanddoses.navigation.BottomNavigationBar
 import com.teamjg.dreamsanddoses.navigation.NavigationBarType
 import com.teamjg.dreamsanddoses.navigation.TopNavigationBar
-import com.teamjg.dreamsanddoses.navigation.AnimatedScreenWrapper
+import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import java.util.*
 
 /**
  * - Better spacing and layout that adapts to different screen sizes
@@ -44,6 +49,9 @@ fun CalendarScreen(
 
     // State for controlling bottom sheet visibility
     var showBottomSheet = remember { mutableStateOf(false) }
+
+    var launchedFromCompose by remember { mutableStateOf(false) }
+    var showDateDialog by remember { mutableStateOf(false) }
 
     // Bottom sheet state with improved configuration
     val sheetState = rememberModalBottomSheetState(
@@ -168,6 +176,23 @@ fun CalendarScreen(
             }
         }
     }
+        if (showDateDialog) {
+            DatePickerDialog(
+                initialDate = LocalDate.now(),
+                onDateSelected = { date ->
+                    viewModel.onDaySelected(date)
+                    showDateDialog = false
+
+                    if (launchedFromCompose) {
+                        showBottomSheet.value = true
+                        launchedFromCompose = false
+                    }
+                },
+                onDismiss = { showDateDialog = false }
+            )
+        }
+
+
 
     // Wrap screen content with enter/exit animations
     AnimatedScreenWrapper(navController = navController) {
@@ -177,6 +202,17 @@ fun CalendarScreen(
                     type = NavigationBarType.Calendar,
                     navController = navController,
                     useIconHeader = true
+                )
+            },
+            bottomBar = {
+                BottomNavigationBar(
+                    type = NavigationBarType.Calendar,
+                    navController = navController,
+                    onCompose = {
+                        launchedFromCompose = true
+                        showDateDialog = true
+                    },
+                    includeCenterFab = false,
                 )
             }
         ) { innerPadding ->
@@ -219,4 +255,28 @@ fun CalendarScreen(
             }
         }
     }
+}
+
+@Composable
+fun DatePickerDialog(
+    initialDate: LocalDate = LocalDate.now(),
+    onDateSelected: (LocalDate) -> Unit,
+    onDismiss: () -> Unit
+) {
+    val context = LocalContext.current
+    val calendar = Calendar.getInstance().apply {
+        set(initialDate.year, initialDate.monthValue - 1, initialDate.dayOfMonth)
+    }
+
+    DatePickerDialog(
+        context,
+        { _, year, month, dayOfMonth ->
+            onDateSelected(LocalDate.of(year, month + 1, dayOfMonth))
+        },
+        calendar.get(Calendar.YEAR),
+        calendar.get(Calendar.MONTH),
+        calendar.get(Calendar.DAY_OF_MONTH)
+    ).apply {
+        setOnCancelListener { onDismiss() }
+    }.show()
 }

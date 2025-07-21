@@ -34,6 +34,7 @@ sealed class NavigationBarType {
     object Notes : NavigationBarType()
     object Canvas : NavigationBarType()
     object DreamsHistory : NavigationBarType()
+    object DreamsTemplate : NavigationBarType()
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -63,6 +64,7 @@ fun TopNavigationBar(
         NavigationBarType.Journal -> painterResource(R.drawable.ic_journal_icon)
         NavigationBarType.Canvas -> painterResource(R.drawable.ic_main_logo_icon)
         NavigationBarType.DreamsHistory -> painterResource(R.drawable.ic_dreams_icon)
+        NavigationBarType.DreamsTemplate -> painterResource(R.drawable.ic_dreams_icon)
         else -> null
     }
 
@@ -117,6 +119,13 @@ fun TopNavigationBar(
                                         nav.navigate(Routes.DREAMS) {
                                             launchSingleTop = true
                                             popUpTo(Routes.HOME) { inclusive = false }
+                                        }
+                                    }
+
+                                    is NavigationBarType.DreamsTemplate -> {
+                                        nav.navigate(Routes.DREAMS_HOME) {
+                                            launchSingleTop = true
+                                            popUpTo(Routes.DREAMS_HOME) { inclusive = true }
                                         }
                                     }
 

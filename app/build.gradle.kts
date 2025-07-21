@@ -79,6 +79,14 @@ dependencies {
     implementation("com.google.firebase:firebase-common-ktx")
     implementation("com.google.android.gms:play-services-auth:21.3.0")
 
+
+    // Import the BoM for the Firebase platform
+    implementation(platform("com.google.firebase:firebase-bom:33.16.0"))
+
+    // Dependency for Cloud Firestore library
+    implementation("com.google.firebase:firebase-firestore")
+
+
     implementation("androidx.compose.material:material-icons-extended:1.7.8")
 
     //ML Kit text recognition for scanning text from images.
