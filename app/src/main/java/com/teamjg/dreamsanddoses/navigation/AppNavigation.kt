@@ -30,6 +30,7 @@ import com.teamjg.dreamsanddoses.uis.dreamsUI.DreamsScreen
 import com.teamjg.dreamsanddoses.uis.dreamsUI.DreamsTemplateScreen
 import com.teamjg.dreamsanddoses.uis.filesScreen.FilesScreen
 import com.teamjg.dreamsanddoses.uis.journalUI.*
+import com.teamjg.dreamsanddoses.uis.loginUI.ForgotPasswordScreen
 import com.teamjg.dreamsanddoses.uis.loginUI.LoginScreen
 import com.teamjg.dreamsanddoses.uis.loginUI.RegisterScreen
 import com.teamjg.dreamsanddoses.uis.settingsUI.SettingsScreen
@@ -39,6 +40,7 @@ object Routes {
     // Authentication
     const val LOGIN = "login"
     const val REGISTER = "register"
+    const val FORGOT_PASSWORD = "forgot_password"//Dante added for the forgot password link
 
     // Home & Main Tabs
     const val HOME = "home"
@@ -89,6 +91,9 @@ fun AppNavigation(navController: NavHostController = rememberNavController()) {
         composable(Routes.REGISTER) {
             RegisterScreen(navController)
         }
+        composable(Routes.FORGOT_PASSWORD) {
+            ForgotPasswordScreen(navController)
+        }//Dante added for the forgot password link
 
         // Main Tabs
         composable(Routes.HOME) { HomeScreen(navController) }

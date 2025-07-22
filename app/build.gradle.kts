@@ -4,6 +4,7 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.plugin.compose")
+    id("com.google.gms.google-services")//Dante added for FireStore
 }
 
 android {
@@ -85,7 +86,7 @@ dependencies {
 
     // Dependency for Cloud Firestore library
     implementation("com.google.firebase:firebase-firestore")
-
+    implementation("com.google.firebase:firebase-firestore-ktx:25.1.4")//Dante added for FireStore
 
     implementation("androidx.compose.material:material-icons-extended:1.7.8")
 
