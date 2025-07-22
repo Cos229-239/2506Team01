@@ -75,7 +75,7 @@ fun FilesScreen(navController: NavController) {
                 },
                 modifier = Modifier
                     .fillMaxWidth()
-                .shadow(elevation = 4.dp)
+                    .shadow(elevation = 4.dp)
             ) {
                 tabs.forEachIndexed { index, title ->
                     Tab(

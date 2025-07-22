@@ -4,11 +4,13 @@ import android.Manifest
 import android.content.pm.PackageManager
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -37,7 +39,7 @@ fun ScannerScreen(navController: NavController) {
     val cameraPermissionLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission()
     ) { isGranted ->
-    hasCameraPermission = isGranted }
+        hasCameraPermission = isGranted }
 
     //Request camera perms on first load, if not already granted
     LaunchedEffect(Unit) {
@@ -46,12 +48,14 @@ fun ScannerScreen(navController: NavController) {
         }
     }
     AnimatedScreenWrapper(navController = navController) {
+
         Scaffold(
+            modifier = Modifier.background(Color.LightGray),
             topBar = {
                 TopNavigationBar(
                     type = NavigationBarType.Files, // Using Files type since scanner is part of file management
                     navController = navController,
-                    useIconHeader = false
+                    useIconHeader = true
                 )
             }
         ) { innerPadding ->
@@ -131,7 +135,7 @@ fun PlaceholderScannerContent(
         verticalArrangement = Arrangement.Center
     ) {
         Icon(
-           painter = painterResource(id = R.drawable.ic_camera_icon),
+            painter = painterResource(id = R.drawable.ic_camera_icon),
             contentDescription = "Camera",
             modifier = Modifier.size(64.dp),
             tint = MaterialTheme.colorScheme.primary

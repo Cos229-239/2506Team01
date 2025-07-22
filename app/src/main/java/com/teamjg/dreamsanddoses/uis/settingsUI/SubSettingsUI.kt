@@ -3,6 +3,7 @@ package com.teamjg.dreamsanddoses.uis.settingsUI
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -34,6 +35,6 @@ fun SettingItem(title: String, onClick: () -> Unit) {
         .clickable(onClick = onClick)
         .padding(vertical = 16.dp)) {
         Text(text = title, style = MaterialTheme.typography.bodyLarge)
-        Divider(modifier = Modifier.padding(top = 8.dp))
+        HorizontalDivider(modifier = Modifier.padding(top = 8.dp))
     }
 }
