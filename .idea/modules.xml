@@ -2,15 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/2506Team01.DreamsAndDoses.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/2506Team01.DreamsAndDoses.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/2506Team01.DreamsAndDoses.app.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/2506Team01.DreamsAndDoses.app.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/2506Team01.DreamsAndDoses.app.main~1.iml" filepath="$PROJECT_DIR$/.idea/modules/app/2506Team01.DreamsAndDoses.app.main~1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/2506Team01.DreamsAndDoses.app.unitTest~1.iml" filepath="$PROJECT_DIR$/.idea/modules/app/2506Team01.DreamsAndDoses.app.unitTest~1.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/DreamsAndDoses.iml" filepath="$PROJECT_DIR$/.idea/modules/DreamsAndDoses.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/DreamsAndDoses.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/DreamsAndDoses.app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/DreamsAndDoses.app.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/DreamsAndDoses.app.androidTest.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/DreamsAndDoses.app.main.iml" filepath="$PROJECT_DIR$/.idea/modules/app/DreamsAndDoses.app.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/DreamsAndDoses.app.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/DreamsAndDoses.app.unitTest.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/DreamsAndDoses.app~1.iml" filepath="$PROJECT_DIR$/.idea/modules/app/DreamsAndDoses.app~1.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/DreamsAndDoses.app~1.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/DreamsAndDoses.app~1.androidTest.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/DreamsAndDoses.app~1.main.iml" filepath="$PROJECT_DIR$/.idea/modules/app/DreamsAndDoses.app~1.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/DreamsAndDoses.app~1.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/DreamsAndDoses.app~1.unitTest.iml" />
     </modules>
   </component>
 </project>
