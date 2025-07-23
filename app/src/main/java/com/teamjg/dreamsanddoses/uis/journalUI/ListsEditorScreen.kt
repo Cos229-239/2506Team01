@@ -1,5 +1,6 @@
 package com.teamjg.dreamsanddoses.uis.journalUI
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -18,6 +19,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.teamjg.dreamsanddoses.data.FireStoreService.addList
 import com.teamjg.dreamsanddoses.navigation.Routes
 import java.text.SimpleDateFormat
 import java.util.*
@@ -185,11 +187,22 @@ fun ListsEditorScreen(
             // Save button
             Button(
                 onClick = {
-                    // TODO: Save logic here
-                    navController.navigate(Routes.journalRoute(tab = "lists")) {
-                        popUpTo(Routes.HOME)
-                        launchSingleTop = true
-                    }
+
+                    addList(
+                        title = title,
+                        tag = tag,
+                        checklistItems = checklistItems,
+                        onSuccess = {
+                            // Navigate back or show a toast
+                            navController.navigate(Routes.journalRoute(tab = "lists")) {
+                                popUpTo(Routes.HOME)
+                                launchSingleTop = true
+                            }
+                        },
+                        onFailure = { e ->
+                            Log.e("Firestore", "Failed to save list: ${e.message}")
+                        }
+                    )
                 },
                 modifier = Modifier
                     .fillMaxWidth()

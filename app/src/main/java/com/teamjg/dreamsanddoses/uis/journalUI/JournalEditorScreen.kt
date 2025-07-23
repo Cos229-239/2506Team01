@@ -128,7 +128,6 @@ fun JournalEditorScreen(
             // Save button
             Button(
                 onClick = {
-                    // TODO: Implement save logic (persist entry)
                     val userId = FirebaseAuth.getInstance().currentUser?.uid
                     if (userId != null) {
                         addJournal(userId, titleState, contentState)

@@ -7,10 +7,18 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.google.firebase.auth.FirebaseAuth
+import com.teamjg.dreamsanddoses.data.FireStoreService
 import com.teamjg.dreamsanddoses.navigation.BottomNavigationBar
 import com.teamjg.dreamsanddoses.navigation.NavigationBarType
 import com.teamjg.dreamsanddoses.navigation.Routes
@@ -32,12 +40,18 @@ data class JournalEntry(
  * @param navController Controller for navigation actions.
  */@Composable
 fun JournalScreen(navController: NavController) {
-    // Sample placeholder entries; replace with real data source later
-    val sampleEntries = listOf(
-        JournalEntry("Goals for July", "First things first...", Date()),
-        JournalEntry("Morning Journal", "Gratitude and planning", Date()),
-        JournalEntry("Evening Thoughts", "Emotions unpacked", Date())
-    )
+    val context = LocalContext.current
+    val userId = FirebaseAuth.getInstance().currentUser?.uid
+    var entries by remember { mutableStateOf<List<JournalEntry>>(emptyList()) }
+
+    LaunchedEffect(userId) {
+        if (userId != null) {
+            FireStoreService.fetchJournalEntries(userId) { result ->
+                entries = result
+            }
+        }
+    }
+
 
     Scaffold(
         topBar = {
@@ -63,7 +77,7 @@ fun JournalScreen(navController: NavController) {
                 .background(Color.LightGray)
                 .padding(horizontal = 16.dp)
         ) {
-            items(sampleEntries) { entry ->
+            items(entries) { entry ->
                 JournalEntryCard(entry = entry, navController = navController)
                 Spacer(modifier = Modifier.height(12.dp))
             }
