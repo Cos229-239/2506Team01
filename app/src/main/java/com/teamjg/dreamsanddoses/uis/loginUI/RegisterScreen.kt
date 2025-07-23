@@ -19,6 +19,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.VisualTransformation// Dante added for UX Password creation
 import com.google.firebase.auth.FirebaseAuth
 import androidx.navigation.NavController
+import com.google.firebase.firestore.FirebaseFirestore// Geno added regarding Firestore user storage
 import com.teamjg.dreamsanddoses.navigation.Routes
 
 @Composable
@@ -85,12 +86,32 @@ fun RegisterScreen(navController: NavController) {
         Button(
             // Dante added concerning FireBase Authentication setup
             onClick = {
-
                 if (name.isNotBlank() && email.isNotBlank() && password.isNotBlank()) {
                     auth.createUserWithEmailAndPassword(email, password)
                         .addOnCompleteListener { task ->
                             if (task.isSuccessful) {
                                 Toast.makeText(context, "Registration successful", Toast.LENGTH_SHORT).show()
+
+                                // Geno added regarding Firestore user storage
+                                val db = FirebaseFirestore.getInstance()
+                                val userId = auth.currentUser?.uid
+                                val userProfile = hashMapOf(
+                                    "name" to name,
+                                    "email" to email,
+                                    "createdAt" to System.currentTimeMillis()
+                                )
+                                if (userId != null) {
+                                    db.collection("users")
+                                        .document(userId)
+                                        .set(userProfile)
+                                        .addOnSuccessListener {
+                                            Toast.makeText(context, "User profile saved", Toast.LENGTH_SHORT).show()
+                                        }
+                                        .addOnFailureListener { e ->
+                                            Toast.makeText(context, "Firestore error: ${e.message}", Toast.LENGTH_LONG).show()
+                                        }
+                                }
+
                                 navController.navigate(Routes.LOGIN)
                             } else {
                                 Toast.makeText(context, "Error: ${task.exception?.message}", Toast.LENGTH_LONG).show()
