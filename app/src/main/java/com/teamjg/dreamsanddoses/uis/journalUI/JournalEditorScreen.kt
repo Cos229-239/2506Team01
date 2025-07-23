@@ -15,6 +15,8 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.google.firebase.auth.FirebaseAuth
+import com.teamjg.dreamsanddoses.data.FireStoreService.addJournal
 import com.teamjg.dreamsanddoses.navigation.Routes
 import java.text.SimpleDateFormat
 import java.util.*
@@ -32,8 +34,8 @@ fun JournalEditorScreen(
     navController: NavController,
     entryId: String? = null // null = new entry
 ) {
-    var title by remember { mutableStateOf("") }
-    var content by remember { mutableStateOf("") }
+    var titleState by remember { mutableStateOf("") }
+    var contentState by remember { mutableStateOf("") }
     val lastEdited = remember { Date() }
     val dateFormat = SimpleDateFormat("MMM dd, yyyy · hh:mm a", Locale.getDefault())
 
@@ -73,8 +75,8 @@ fun JournalEditorScreen(
 
             // Title input field
             OutlinedTextField(
-                value = title,
-                onValueChange = { title = it },
+                value = titleState,
+                onValueChange = { titleState = it },
                 placeholder = { Text("Title") },
                 textStyle = TextStyle(fontSize = 24.sp),
                 modifier = Modifier.fillMaxWidth(),
@@ -89,8 +91,8 @@ fun JournalEditorScreen(
 
             // Content input field
             OutlinedTextField(
-                value = content,
-                onValueChange = { content = it },
+                value = contentState,
+                onValueChange = { contentState = it },
                 placeholder = { Text("Write your thoughts...") },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -127,6 +129,11 @@ fun JournalEditorScreen(
             Button(
                 onClick = {
                     // TODO: Implement save logic (persist entry)
+                    val userId = FirebaseAuth.getInstance().currentUser?.uid
+                    if (userId != null) {
+                        addJournal(userId, titleState, contentState)
+                    }
+
                     navController.navigate(Routes.JOURNAL) {
                         popUpTo(Routes.HOME) { inclusive = false } // Clear backstack to HOME
                         launchSingleTop = true
