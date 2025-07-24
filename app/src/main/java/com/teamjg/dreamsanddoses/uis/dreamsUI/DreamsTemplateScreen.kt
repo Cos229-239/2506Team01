@@ -100,7 +100,6 @@ fun DreamsTemplateScreen(
                     type = NavigationBarType.Dreams,
                     navController = navController,
                     onCompose = { navController.navigate(Routes.DREAMS_EDITOR) },
-                    includeCenterFab = false,
                 )
             }
         ) { innerPadding ->

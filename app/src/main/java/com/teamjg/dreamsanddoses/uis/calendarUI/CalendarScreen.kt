@@ -212,7 +212,6 @@ fun CalendarScreen(
                         launchedFromCompose = true
                         showDateDialog = true
                     },
-                    includeCenterFab = false,
                 )
             }
         ) { innerPadding ->
