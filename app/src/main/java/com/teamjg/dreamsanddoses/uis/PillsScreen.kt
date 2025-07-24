@@ -17,12 +17,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.teamjg.dreamsanddoses.uis.commonUI.ReminderCard
 
 // Dante added for the reminder form
 import androidx.compose.runtime.*
+import com.google.firebase.auth.FirebaseAuth
 
-// Pills screen implementation using the back navigation wrapper
 @Composable
 fun PillsScreen(navController: NavController) {
     TopNavigationBar(
@@ -33,9 +32,19 @@ fun PillsScreen(navController: NavController) {
     )
 
     val context = LocalContext.current
+    val userId = FirebaseAuth.getInstance().currentUser?.uid
 
-    // Dante added for the reminder form
     var showDialog by remember { mutableStateOf(false) }
+    var reminders by remember { mutableStateOf<List<Triple<String, String, String>>>(emptyList()) }
+
+    // Fetch reminders on load
+    LaunchedEffect(Unit) {
+        if (userId != null) {
+            FirestoreService.fetchReminders(userId) { result ->
+                reminders = result
+            }
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -54,21 +63,45 @@ fun PillsScreen(navController: NavController) {
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Placeholder for reminders
-        Text(
-            text = "Create new reminders here!",
-            color = Color.Gray,
-            fontSize = 16.sp
-        )
+        if (reminders.isEmpty()) {
+            Text(
+                text = "No reminders yet. Create some below!",
+                color = Color.Gray,
+                fontSize = 16.sp
+            )
+        } else {
+            reminders.forEach { (reminderId, title, details) ->
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 8.dp)
+                ) {
+                    Text(text = title, fontWeight = FontWeight.Bold)
+                    Text(text = details, fontSize = 14.sp, color = Color.Gray)
 
-        Spacer(modifier = Modifier.height(24.dp))
-
-        // 🔔 Test reminder
-        ReminderCard(
-            title = "Ex: Medication name",
-            time = "Ex: Time AM/PM",
-            notes = "Ex: Notes/Instructions"
-        )
+                    Button(
+                        onClick = {
+                            if (userId != null) {
+                                FirestoreService.deleteReminder(userId, reminderId) { success ->
+                                    if (success) {
+                                        FirestoreService.fetchReminders(userId) { result ->
+                                            reminders = result
+                                        }
+                                        Toast.makeText(context, "Reminder deleted", Toast.LENGTH_SHORT).show()
+                                    } else {
+                                        Toast.makeText(context, "Failed to delete reminder", Toast.LENGTH_SHORT).show()
+                                    }
+                                }
+                            }
+                        },
+                        colors = ButtonDefaults.buttonColors(containerColor = Color.Red),
+                        modifier = Modifier.align(Alignment.End)
+                    ) {
+                        Text("Delete")
+                    }
+                }
+            }
+        }
 
         Spacer(modifier = Modifier.height(24.dp))
 
@@ -87,30 +120,22 @@ fun PillsScreen(navController: NavController) {
         Spacer(modifier = Modifier.weight(1f))
     }
 
-    // Dante added for the reminder form
     if (showDialog) {
         ReminderFormDialog(
             onDismiss = { showDialog = false },
             onSave = { title, time, notes ->
-                val userId = com.google.firebase.auth.FirebaseAuth.getInstance().currentUser?.uid
-
                 if (userId != null) {
-                    FirestoreService.saveReminder(
-                        userId = userId,
-                        title = title,
-                        time = time,
-                        notes = notes,
-                        onSuccess = {
-                            Toast.makeText(context, "Reminder saved!", Toast.LENGTH_SHORT).show()
-                            showDialog = false
-                        },
-                        onFailure = { e ->
-                            Toast.makeText(context, "Error: ${e.message}", Toast.LENGTH_LONG).show()
-                        }
-                    )
+                    FirestoreService.saveReminder(userId, title, time, notes)
+                    Toast.makeText(context, "Reminder Saved: $title at $time", Toast.LENGTH_SHORT).show()
+
+                    // Re-fetch reminders after save
+                    FirestoreService.fetchReminders(userId) { result ->
+                        reminders = result
+                    }
                 } else {
                     Toast.makeText(context, "User not logged in", Toast.LENGTH_SHORT).show()
                 }
+                showDialog = false
             }
         )
     }

@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
@@ -168,31 +167,7 @@ fun LoginScreen(navController: NavController) {
             Text(text = "Register now")
         }
 
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Button(
-            onClick = { /* Handle Google sign-in */ },
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(48.dp),
-            colors = ButtonDefaults.buttonColors(containerColor = Color.LightGray)
-        ) {
-            Text(text = "\uD83D\uDD0D  Continue with Google") // 🔍 icon as a placeholder
-        }
-
         Spacer(modifier = Modifier.height(8.dp))
-
-        Button(
-            onClick = { /* Handle Apple sign-in */ },
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(48.dp),
-            colors = ButtonDefaults.buttonColors(containerColor = Color.LightGray)
-        ) {
-            Text(text = "\uF8FF  Continue with Apple") // Apple logo character
-        }
-
-        Spacer(modifier = Modifier.weight(1f))
 
 // Guest button area
         Column(

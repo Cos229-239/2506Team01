@@ -24,6 +24,9 @@ import androidx.navigation.NavController
 import com.teamjg.dreamsanddoses.R
 import com.teamjg.dreamsanddoses.navigation.*
 
+// Dante added for Reminders to be visible on the HomeScreen.kt
+import com.google.firebase.auth.FirebaseAuth
+
 // Main Home screen with logo, widgets, quick access buttons, and bottom navigation
 @Composable
 fun HomeScreen(navController: NavController) {
@@ -139,15 +142,32 @@ fun HomeWidgetSection() {
                     )
                 }
 
-                // Reminders section header and placeholder
+                // Dante added for Reminders to be visible on the HomeScreen.kt
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     Text(
                         text = "Reminders",
                         style = MaterialTheme.typography.titleLarge,
                         color = Color(0xFF1A1A1A)
                     )
+                    var reminders by remember { mutableStateOf<List<Triple<String, String, String>>>(emptyList()) }
+
+                    LaunchedEffect(Unit) {
+                        val userId = FirebaseAuth.getInstance().currentUser?.uid
+                        if (userId != null) {
+                            FirestoreService.fetchReminders(userId) { result ->
+                                reminders = result
+                            }
+                        }
+                    }
+
+                    val displayText = if (reminders.isEmpty()) {
+                        "[ No reminders yet ]"
+                    } else {
+                        reminders.joinToString(", ", prefix = "[ ", postfix = " ]") { "${it.second} at ${it.third}" }
+                    }
+
                     Text(
-                        text = "[ Reminder 1, Reminder 2... ]",
+                        text = displayText,
                         style = MaterialTheme.typography.bodyMedium,
                         color = Color.DarkGray
                     )
