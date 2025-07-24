@@ -40,4 +40,27 @@ object FirestoreService {
                 onResult(null)
             }
     }
+
+    // Dante added for Reminders to be saved in FireStore
+    fun saveReminder(
+        userId: String,
+        title: String,
+        time: String,
+        notes: String,
+        onSuccess: () -> Unit,
+        onFailure: (Exception) -> Unit
+    ) {
+        val reminderData = hashMapOf(
+            "title" to title,
+            "time" to time,
+            "notes" to notes
+        )
+
+        db.collection("users")
+            .document(userId)
+            .collection("reminders")
+            .add(reminderData)
+            .addOnSuccessListener { onSuccess() }
+            .addOnFailureListener { onFailure(it) }
+    }
 }

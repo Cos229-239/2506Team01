@@ -20,6 +20,7 @@ import androidx.navigation.NavController
 import com.teamjg.dreamsanddoses.navigation.AnimatedScreenWrapper
 import com.teamjg.dreamsanddoses.navigation.BottomNavigationBar
 import com.teamjg.dreamsanddoses.navigation.NavigationBarType
+import com.teamjg.dreamsanddoses.navigation.Routes
 import com.teamjg.dreamsanddoses.navigation.TopNavigationBar
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -165,6 +166,7 @@ fun CalendarScreen(
                             onClick = {
                                 // TODO: Add medication reminder functionality
                                 showBottomSheet.value = false
+                                navController.navigate(Routes.PILLS)  // Dante added - This will open the Pills/reminder screen
                             },
                             modifier = Modifier.weight(1f),
                             shape = RoundedCornerShape(12.dp)
