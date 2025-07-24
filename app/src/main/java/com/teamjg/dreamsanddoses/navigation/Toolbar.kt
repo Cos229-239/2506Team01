@@ -11,6 +11,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -111,7 +112,9 @@ fun TopNavigationBar(
                                     is NavigationBarType.DreamsHistory -> {
                                         nav.navigate(Routes.DREAMS_HOME) {
                                             launchSingleTop = true
-                                            popUpTo(Routes.DREAMS) { inclusive = true }  // ensure previous "Dreams" flow is cleared
+                                            popUpTo(Routes.DREAMS) {
+                                                inclusive = true
+                                            }  // ensure previous "Dreams" flow is cleared
                                         }
                                     }
 
@@ -194,9 +197,9 @@ fun TopNavigationBar(
 fun BottomNavigationBar(
     navController: NavController,
     type: NavigationBarType,
-    onCompose: (() -> Unit)? = null,
-    includeCenterFab: Boolean = true
+    onCompose: (() -> Unit)? = null
 ) {
+    val bgColor = Color.LightGray
     var showComposePicker by remember { mutableStateOf(false) }
 
     if (showComposePicker) {
@@ -216,119 +219,138 @@ fun BottomNavigationBar(
         )
     }
 
-    BottomAppBar(
-        tonalElevation = 4.dp,
-        containerColor = MaterialTheme.colorScheme.surface
-    ) {
-        Row(
+
+    Column {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(8.dp)
+                .background(
+                    brush = Brush.verticalGradient(
+                        colors = listOf(Color.Black.copy(alpha = 0.1f), Color.LightGray)
+                    )
+                )
+        )
+        BottomAppBar(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceEvenly,
-            verticalAlignment = Alignment.CenterVertically
+            containerColor = bgColor,
+            tonalElevation = 0.dp
         ) {
-            // Left: Home or Settings
-            IconButton(onClick = {
-                val destination = if (type is NavigationBarType.Home)
-                    Routes.SETTINGS else Routes.HOME
-                navController.navigate(destination) {
-                    launchSingleTop = true
-                    popUpTo(Routes.HOME)
-                }
-            }) {
-                Icon(
-                    imageVector = if (type is NavigationBarType.Home) Icons.Default.Settings else Icons.Default.Home,
-                    contentDescription = "Home/Settings",
-                    tint = Color.Black
-                )
-            }
-
-            // Pills
-            IconButton(onClick = {
-                navController.navigate(Routes.PILLS) {
-                    launchSingleTop = true
-                    popUpTo(Routes.HOME)
-                }
-            }) {
-                Icon(
-                    painter = painterResource(R.drawable.ic_prescription_dosage_assistant),
-                    contentDescription = "Pills",
-                    tint = Color.Black
-                )
-            }
-
-
-            // Compose FAB
-            if (type != NavigationBarType.Dreams) {
-
-                Box(
-                    modifier = Modifier
-                        .size(72.dp)
-                        .background(MaterialTheme.colorScheme.primary, CircleShape)
-                        .clickable {
-                            onCompose?.invoke() ?: run {
-                                when (type) {
-                                    NavigationBarType.Files -> { try {
-                                        navController.navigate(Routes.SCANNER) {
-                                            launchSingleTop = true
-                                        }
-                                    } catch (e: Exception) {
-                                        println("Navigation to scanner failed: ${e.message}")
-                                    }
-                                    }
-                                    NavigationBarType.Home,
-                                    NavigationBarType.DreamsHome -> {
-                                        showComposePicker = true
-                                    }
-                                    NavigationBarType.JournalHome,
-                                    NavigationBarType.Journal,
-                                    NavigationBarType.Notes -> {
-                                        showComposePicker = true
-                                    }
-                                    else -> {}
-                                }
-                            }
-                        },
-                    contentAlignment = Alignment.Center
-                ) {
-                    if (type is NavigationBarType.Files) {
-                        Icon(
-                            painter = painterResource(R.drawable.ic_camera_icon),
-                            contentDescription = "Open Camera Scanner",
-                            tint = MaterialTheme.colorScheme.onPrimary,
-                            modifier = Modifier.size(48.dp)
-                        )
-                    } else {
-                        Icon(
-                            imageVector = Icons.Default.Add,
-                            contentDescription = "Compose",
-                            tint = MaterialTheme.colorScheme.onPrimary,
-                            modifier = Modifier.size(48.dp)
-                        )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceEvenly,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                // Left: Home or Settings
+                IconButton(onClick = {
+                    val destination = if (type is NavigationBarType.Home)
+                        Routes.SETTINGS else Routes.HOME
+                    navController.navigate(destination) {
+                        launchSingleTop = true
+                        popUpTo(Routes.HOME)
                     }
+                }) {
+                    Icon(
+                        imageVector = if (type is NavigationBarType.Home)
+                            Icons.Default.Settings else Icons.Default.Home,
+                        contentDescription = "Home/Settings",
+                        tint = Color.Black
+                    )
                 }
-            } else {
-                Spacer(modifier = Modifier.width(72.dp))
-            }
 
-
-            // Journal
-            IconButton(onClick = {
-                navController.navigate(Routes.JOURNAL_HOME) {
-                    launchSingleTop = true
-                    popUpTo(Routes.HOME)
+                // Pills
+                IconButton(onClick = {
+                    navController.navigate(Routes.PILLS) {
+                        launchSingleTop = true
+                        popUpTo(Routes.HOME)
+                    }
+                }) {
+                    Icon(
+                        painter = painterResource(R.drawable.ic_prescription_dosage_assistant),
+                        contentDescription = "Pills",
+                        tint = Color.Black
+                    )
                 }
-            }) {
-                Icon(Icons.Default.Edit, contentDescription = "Journal", tint = Color.Black)
-            }
 
-            // Calendar
-            IconButton(onClick = {
-                navController.navigate(Routes.CALENDAR) {
-                    launchSingleTop = true
-                    popUpTo(Routes.HOME)
+                // Compose FAB or spacer
+                if (type != NavigationBarType.Dreams) {
+                    Box(
+                        modifier = Modifier
+                            .size(72.dp)
+                            .background(MaterialTheme.colorScheme.primary, CircleShape)
+                            .clickable {
+                                onCompose?.invoke() ?: run {
+                                    when (type) {
+                                        NavigationBarType.Files -> {
+                                            try {
+                                                navController.navigate(Routes.SCANNER) {
+                                                    launchSingleTop = true
+                                                }
+                                            } catch (e: Exception) {
+                                                println("Navigation to scanner failed: ${e.message}")
+                                            }
+                                        }
+
+                                        NavigationBarType.Home,
+                                        NavigationBarType.DreamsHome,
+                                        NavigationBarType.JournalHome,
+                                        NavigationBarType.Journal,
+                                        NavigationBarType.Notes -> {
+                                            showComposePicker = true
+                                        }
+
+                                        else -> {}
+                                    }
+                                }
+                            },
+                        contentAlignment = Alignment.Center
+                    ) {
+                        if (type is NavigationBarType.Files) {
+                            Icon(
+                                painter = painterResource(R.drawable.ic_camera_icon),
+                                contentDescription = "Open Camera Scanner",
+                                tint = MaterialTheme.colorScheme.onPrimary,
+                                modifier = Modifier.size(48.dp)
+                            )
+                        } else {
+                            Icon(
+                                imageVector = Icons.Default.Add,
+                                contentDescription = "Compose",
+                                tint = MaterialTheme.colorScheme.onPrimary,
+                                modifier = Modifier.size(48.dp)
+                            )
+                        }
+                    }
+                } else {
+                    Box(
+                        modifier = Modifier
+                            .size(72.dp)
+                            .background(Color.Transparent) // No visual fill
+                    )
+                    //Spacer(modifier = Modifier.width(72.dp))
                 }
-            }) {
-                Icon(Icons.Default.DateRange, contentDescription = "Calendar", tint = Color.Black)
+
+                // Journal
+                IconButton(onClick = {
+                    navController.navigate(Routes.JOURNAL_HOME) {
+                        launchSingleTop = true
+                        popUpTo(Routes.HOME)
+                    }
+                }) {
+                    Icon(Icons.Default.Edit, contentDescription = "Journal", tint = Color.Black)
+                }
+
+                // Calendar
+                IconButton(onClick = {
+                    navController.navigate(Routes.CALENDAR) {
+                        launchSingleTop = true
+                        popUpTo(Routes.HOME)
+                    }
+                }) {
+                    Icon(Icons.Default.DateRange, contentDescription = "Calendar", tint = Color.Black)
+                }
             }
         }
     }
 }
+

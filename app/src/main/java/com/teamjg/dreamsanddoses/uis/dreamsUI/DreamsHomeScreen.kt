@@ -12,22 +12,17 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.google.firebase.auth.FirebaseAuth
 import com.teamjg.dreamsanddoses.R
-import com.teamjg.dreamsanddoses.navigation.BottomNavigationBar
-import com.teamjg.dreamsanddoses.navigation.NavigationBarType
-import com.teamjg.dreamsanddoses.navigation.Routes
-import com.teamjg.dreamsanddoses.navigation.TopNavigationBar
+import com.teamjg.dreamsanddoses.navigation.*
+import com.teamjg.dreamsanddoses.uis.FirestoreService
 import com.teamjg.dreamsanddoses.uis.settingsUI.ToggleRow
 
 
@@ -37,10 +32,10 @@ fun DreamsHomeScreen(navController: NavController) {
     var morningNotification by remember { mutableStateOf(false) }
     Box(modifier = Modifier) {
         Scaffold(
+            containerColor = Color.LightGray,
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color.LightGray)
-                .windowInsetsPadding(WindowInsets.statusBars),
+                .background(Color.LightGray),
             topBar = {
                 TopNavigationBar(
                     type = NavigationBarType.Dreams,
@@ -54,7 +49,6 @@ fun DreamsHomeScreen(navController: NavController) {
                     type = NavigationBarType.Dreams,
                     navController = navController,
                     onCompose = { navController.navigate(Routes.DREAMS_EDITOR) },
-                    includeCenterFab = false,
                 )
             }
         ) { innerPadding ->
@@ -91,9 +85,20 @@ fun DreamsHomeScreen(navController: NavController) {
     }
 }
 
-//@Preview
 @Composable
 fun DreamsWidgetSection(navController: NavController) {
+    val dreamEntries = remember { mutableStateListOf<DreamEntry>() }
+    val userId = FirebaseAuth.getInstance().currentUser?.uid
+
+    LaunchedEffect(userId) {
+        userId?.let {
+            FirestoreService.fetchRecentDreams(it) { entries ->
+                dreamEntries.clear()
+                dreamEntries.addAll(entries)
+            }
+        }
+    }
+
     Column(
         verticalArrangement = Arrangement.Center,
         modifier = Modifier
@@ -104,21 +109,15 @@ fun DreamsWidgetSection(navController: NavController) {
             modifier = Modifier
                 .fillMaxWidth()
                 .height(250.dp)
-                .background(
-                    color = Color(0xFFE6F0FF),
-                    shape = RoundedCornerShape(16.dp)
-                )
+                .background(Color(0xFFE6F0FF), shape = RoundedCornerShape(16.dp))
                 .padding(20.dp)
-
         ) {
             Column(
                 verticalArrangement = Arrangement.spacedBy(16.dp),
                 modifier = Modifier.fillMaxSize()
             ) {
-                // Header with title and forward arrow
-                Box(
-                    modifier = Modifier.fillMaxWidth()
-                ) {
+                // Header row
+                Box(Modifier.fillMaxWidth()) {
                     Text(
                         text = "Memories",
                         style = MaterialTheme.typography.titleLarge,
@@ -138,31 +137,32 @@ fun DreamsWidgetSection(navController: NavController) {
                     )
                 }
 
-                // Memory Entries (Title and Date Rows)
-                Column(
-                    verticalArrangement = Arrangement.spacedBy(24.dp)
-                ) {
-                    repeat(6) { index ->
+                // Dream entry previews
+                Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                    dreamEntries.take(6).forEach { dream ->
                         Row(
                             horizontalArrangement = Arrangement.SpaceBetween,
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .height(24.dp)
                                 .clickable {
-                                    // TODO: Placeholder for navigation logic
+                                    // TODO: Navigate to detailed view/edit
                                 }
                         ) {
                             Text(
-                                text = "Title:",
+                                text = dream.title,
                                 style = MaterialTheme.typography.bodyMedium,
                                 color = Color.DarkGray
                             )
                             Text(
-                                text = "Date:",
+                                text = dream.date,
                                 style = MaterialTheme.typography.bodyMedium,
                                 color = Color.DarkGray
                             )
                         }
+                    }
+
+                    if (dreamEntries.isEmpty()) {
+                        Text("No recent dreams yet", color = Color.Gray)
                     }
                 }
             }

@@ -1,5 +1,6 @@
 package com.teamjg.dreamsanddoses.uis.dreamsUI
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -9,6 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -33,7 +35,7 @@ fun DreamsQuickAccessGrid(navController: NavController) {
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(16.dp),
         ) {
-            DreamsQuickAccessButton("Gallery", Modifier.weight(10f).height(64.dp)) {
+            DreamsQuickAccessButton("Gallery", Modifier.background(Color(0xFFE6F0FF), shape = RoundedCornerShape(16.dp)).weight(10f).height(64.dp)) {
                 navController.navigate(Routes.DREAMS_HOME) // TODO
             }
 
@@ -62,7 +64,7 @@ fun DreamsQuickAccessButton(
             .clickable { onClick() },
         shape = RoundedCornerShape(16.dp),
         tonalElevation = 4.dp,
-        color = MaterialTheme.colorScheme.primaryContainer
+        color = Color(0xFFE6F0FF)
     ) {
         Column(
             modifier = Modifier

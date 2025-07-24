@@ -16,6 +16,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
@@ -115,12 +116,19 @@ fun HomeWidgetSection() {
             modifier = Modifier
                 .fillMaxWidth()
                 .height(250.dp)
+                .shadow(
+                    elevation = 8.dp,
+                    shape = RoundedCornerShape(16.dp),
+                    ambientColor = Color.Black.copy(alpha = 0.12f),
+                    spotColor = Color.Black.copy(alpha = 0.24f)
+                )
                 .background(
-                    color = Color(0xFFE6F0FF), // Soft pastel background color
+                    color = Color(0xFFE6F0FF),
                     shape = RoundedCornerShape(16.dp)
                 )
                 .padding(20.dp)
-        ) {
+        )
+        {
             Column(
                 verticalArrangement = Arrangement.SpaceBetween,
                 modifier = Modifier.fillMaxSize()
@@ -244,10 +252,16 @@ fun QuickAccessButton(
     Surface(
         modifier = modifier
             .height(120.dp)
-            .clickable { onClick() }, // Handles button click
+            .clickable { onClick() } // Handles button click
+            .shadow(
+                elevation = 8.dp,
+                shape = RoundedCornerShape(16.dp),
+                ambientColor = Color.Black.copy(alpha = 0.12f),
+                spotColor = Color.Black.copy(alpha = 0.24f)
+            ),
         shape = RoundedCornerShape(16.dp),
-        tonalElevation = 4.dp,
-        color = MaterialTheme.colorScheme.primaryContainer
+        //tonalElevation = 4.dp,
+        color = (Color(0xFFE6F0FF))
     ) {
         Column(
             modifier = Modifier

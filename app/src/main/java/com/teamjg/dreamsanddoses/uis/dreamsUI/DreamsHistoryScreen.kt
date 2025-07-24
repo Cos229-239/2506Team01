@@ -1,5 +1,6 @@
 package com.teamjg.dreamsanddoses.uis.dreamsUI
 
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -20,18 +21,27 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.google.firebase.Timestamp
+import com.google.firebase.auth.FirebaseAuth
 import com.teamjg.dreamsanddoses.navigation.NavigationBarType
 import com.teamjg.dreamsanddoses.navigation.TopNavigationBar
 import com.teamjg.dreamsanddoses.R
 import com.teamjg.dreamsanddoses.navigation.BottomNavigationBar
 import com.teamjg.dreamsanddoses.navigation.Routes
+import com.teamjg.dreamsanddoses.uis.FirestoreService
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 
 data class DreamEntry(
@@ -40,16 +50,17 @@ data class DreamEntry(
     val description: String = ""
 )
 
-val sampleDreams = listOf(
-    DreamEntry("Flying Through Clouds", "July 10, 2025", "I flew above mountains with lavender clouds."),
-    DreamEntry("Falling Elevator", "July 8, 2025", "The floor vanished and I woke up startled."),
-    DreamEntry("Endless Forest", "July 6, 2025", "Trees whispered my name as I walked deeper...")
-)
-
 
 // Dreams screen implementation using the back navigation wrapper
 @Composable
-fun DreamsScreen(navController: NavController) {
+fun DreamsScreen(navController: NavController, viewModel: DreamsViewModel = viewModel()) {
+    val dreams = viewModel.dreams
+    val userId = FirebaseAuth.getInstance().currentUser?.uid
+
+    LaunchedEffect(userId) {
+        userId?.let { viewModel.loadDreams(it) }
+    }
+
     Box(modifier = Modifier.fillMaxSize()) {
         Scaffold(
             topBar = {
@@ -64,8 +75,7 @@ fun DreamsScreen(navController: NavController) {
                 BottomNavigationBar(
                     navController = navController,
                     type = NavigationBarType.Dreams,
-                    onCompose = { navController.navigate(Routes.DREAMS) },
-                    includeCenterFab = false
+                    onCompose = { navController.navigate(Routes.DREAMS) }
                 )
             },
             containerColor = Color.LightGray
@@ -76,7 +86,7 @@ fun DreamsScreen(navController: NavController) {
                     .padding(innerPadding)
                     .padding(horizontal = 16.dp, vertical = 8.dp)
             ) {
-                items(sampleDreams) { dream ->
+                items(dreams) { dream ->
                     DreamCard(dream)
                     Spacer(modifier = Modifier.height(12.dp))
                 }
@@ -92,7 +102,7 @@ fun DreamsScreen(navController: NavController) {
                 .align(Alignment.BottomCenter)
                 .offset(y = (-32).dp) // This cuts into the BottomNavigationBar
                 .clickable {
-                    navController.navigate(Routes.CANVAS_EDITOR)
+                    navController.navigate(Routes.DREAMS_TEMPLATE)
                 },
             tint = Color.Unspecified // preserves original icon coloring
         )
@@ -122,6 +132,35 @@ fun DreamCard(dream: DreamEntry) {
                 )
             }
         }
+    }
+}
+
+class DreamsViewModel : ViewModel() {
+    private val _dreams = mutableStateListOf<DreamEntry>()
+    val dreams: List<DreamEntry> get() = _dreams
+
+    fun loadDreams(userId: String) {
+        FirestoreService.db.collection("users").document(userId)
+            .collection("dreams")
+            .get()
+            .addOnSuccessListener { result ->
+                _dreams.clear()
+                for (document in result.documents) {
+                    val data = document.data ?: continue
+                    val title = data["title"] as? String ?: "Untitled"
+                    val description = data["content"] as? String ?: ""
+                    val date = data["createdAt"]?.let { ts ->
+                        if (ts is Timestamp)
+                            SimpleDateFormat("MMM dd, yyyy", Locale.getDefault()).format(ts.toDate())
+                        else "Unknown Date"
+                    } ?: "Unknown Date"
+
+                    _dreams.add(DreamEntry(title, date, description))
+                }
+            }
+            .addOnFailureListener { e ->
+                Log.e("DreamsViewModel", "Failed to fetch dream entries", e)
+            }
     }
 }
 
