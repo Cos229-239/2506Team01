@@ -1,40 +1,61 @@
 package com.teamjg.dreamsanddoses.uis.loginUI
 
-// Dante added concerning FireBase Authentication setup
-import android.widget.Toast
-import androidx.compose.foundation.Image
+// Dante added for UX Password
+import com.teamjg.dreamsanddoses.uis.commonUI.ShowPasswordCheckbox
+
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.TextField
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+
+// Dante added concerning FireBase Authentication setup
+import android.widget.Toast
+import androidx.compose.foundation.Image
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.VisualTransformation
 import com.google.firebase.auth.FirebaseAuth
 import com.teamjg.dreamsanddoses.R
 import com.teamjg.dreamsanddoses.navigation.Routes
-import com.teamjg.dreamsanddoses.uis.commonUI.ShowPasswordCheckbox
 
-//Dante added concerning Login screen
+// Dante added concerning Login screen
 @Composable
 fun LoginScreen(navController: NavController) {
-    // User input fields
+
+    // Stores what the user types for email and password
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-    var showPassword by remember { mutableStateOf(false) }// Dante added for UX Password
 
-    // Dante added concerning FireBase Authentication setup
+    // Show/hide password toggle
+    var showPassword by remember { mutableStateOf(false) } // Dante added for UX Password
+
+    // Firebase setup for authentication
     val context = LocalContext.current
     val auth = FirebaseAuth.getInstance()
 
+    // Main vertical layout container
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -45,7 +66,7 @@ fun LoginScreen(navController: NavController) {
     ) {
         Spacer(modifier = Modifier.height(50.dp))
 
-        //App title for Login screen
+        // App title at the top
         Text(
             text = "Dreams and Doses",
             fontSize = 24.sp,
@@ -55,7 +76,7 @@ fun LoginScreen(navController: NavController) {
 
         Spacer(modifier = Modifier.height(10.dp))
 
-        // App logo centered horizontally
+        // App icon logo below the title
         Image(
             painter = painterResource(id = R.drawable.ic_main_logo_icon),
             contentDescription = "App Logo",
@@ -67,6 +88,7 @@ fun LoginScreen(navController: NavController) {
 
         Spacer(modifier = Modifier.height(40.dp))
 
+        // Section header for login
         Text(
             text = "Sign in",
             fontWeight = FontWeight.Bold,
@@ -75,7 +97,7 @@ fun LoginScreen(navController: NavController) {
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // User email input
+        // Email input field
         TextField(
             value = email,
             onValueChange = { email = it },
@@ -85,7 +107,7 @@ fun LoginScreen(navController: NavController) {
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        // User password input
+        // Password input field with visibility toggle
         TextField(
             value = password,
             onValueChange = { password = it },
@@ -94,7 +116,7 @@ fun LoginScreen(navController: NavController) {
             modifier = Modifier.fillMaxWidth()
         )
 
-        // Dante added for UX Password
+        // Password visibility checkbox (Show/Hide password)
         ShowPasswordCheckbox(
             isChecked = showPassword,
             onCheckedChange = { showPassword = it }
@@ -102,7 +124,7 @@ fun LoginScreen(navController: NavController) {
 
         Spacer(modifier = Modifier.height(4.dp))
 
-        //Dante added for the forgot password link
+        // Forgot password link on the right
         TextButton(
             onClick = { navController.navigate(Routes.FORGOT_PASSWORD) },
             modifier = Modifier.align(Alignment.End)
@@ -116,14 +138,16 @@ fun LoginScreen(navController: NavController) {
 
         Spacer(modifier = Modifier.height(16.dp))
 
+        // Main login button
         Button(
             onClick = {
+                // Only try login if both fields are filled
                 if (email.isNotBlank() && password.isNotBlank()) {
                     auth.signInWithEmailAndPassword(email, password)
                         .addOnCompleteListener { task ->
                             if (task.isSuccessful) {
                                 Toast.makeText(context, "Login successful!", Toast.LENGTH_SHORT).show()
-                                navController.navigate("home") // or your destination
+                                navController.navigate("home") // go home screen after login
                             } else {
                                 Toast.makeText(context, "Error: ${task.exception?.message}", Toast.LENGTH_LONG).show()
                             }
@@ -137,61 +161,40 @@ fun LoginScreen(navController: NavController) {
             Text("Continue")
         }
 
-        //Dante added concerning Login screen
+        // Dante added concerning Login screen
         Spacer(modifier = Modifier.height(8.dp))
 
-// "or" separator
+        // Simple text divider
         Text(text = "or")
 
         Spacer(modifier = Modifier.height(8.dp))
 
-// Register now
+        // Button to navigate to Register screen
         TextButton(
             onClick = { navController.navigate(Routes.REGISTER) }
         ) {
             Text(text = "Register now")
         }
 
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Button(
-            onClick = { /* Handle Google sign-in */ },
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(48.dp),
-            colors = ButtonDefaults.buttonColors(containerColor = Color.LightGray)
-        ) {
-            Text(text = "\uD83D\uDD0D  Continue with Google") // 🔍 icon as a placeholder
-        }
-
         Spacer(modifier = Modifier.height(8.dp))
 
-        Button(
-            onClick = { /* Handle Apple sign-in */ },
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(48.dp),
-            colors = ButtonDefaults.buttonColors(containerColor = Color.LightGray)
-        ) {
-            Text(text = "\uF8FF  Continue with Apple") // Apple logo character
-        }
-
-        Spacer(modifier = Modifier.weight(1f))
-
-// Guest button area
+        // Guest login area (for users who don’t want to log in)
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.fillMaxWidth()
         ) {
             TextButton(
-                onClick = { /* ----TODO: Temporary login !!---- */
-                    navController.navigate("home") }
+                onClick = {
+                    // ----TODO: Temporary login for guest users----
+                    navController.navigate("home")
+                }
             ) {
                 Text(text = "Continue as guest")
             }
 
             Spacer(modifier = Modifier.height(4.dp))
 
+            // Info about limited access for guest users
             Text(
                 text = "Limited access – some features may be restricted",
                 fontSize = 12.sp,
