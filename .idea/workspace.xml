@@ -9,27 +9,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f3a1914d-3b43-47b3-9c6c-387d6b062614" name="Changes" comment="Just saving work! Saving work (Part 4)(7-24-25)&#10;&#10;-Attach reminders button to pill screen-Done-Pushed to dev_Joseph (Part 2)(7-23-25)&#10;-Complete reminders (pill screen)-Done-Pushed to dev_Joseph (Part 2)(7-23-25)&#10;-Create showSheet for reminders form-Done-Pushed to dev_Joseph (Part 2)(7-23-25)&#10;-Sync reminders to FireStore-Done-Pushed to dev_Joseph (Part 2)(7-23-25)&#10;-Created and synced deleted button on PillScreen.kt-Done-Pushed to dev_Joseph (Part 3)(7-24-25)&#10;-Lockout is created and bases on the Calendar reminders-Working on currently&#10;-Medication API-Working on LAST-Working on currently&#10;-Need Nav bar added to PillScreen.kt-Done-Pushed to dev_Joseph (Part 4)(7-24-25)">
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/teamjg/dreamsanddoses/network/DrugInfoService.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/8.11.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.11.1/executionHistory/executionHistory.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/8.11.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.11.1/executionHistory/executionHistory.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/8.11.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.11.1/fileHashes/fileHashes.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/8.11.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.11.1/fileHashes/fileHashes.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/8.11.1/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.11.1/fileHashes/resourceHashesCache.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/teamjg/dreamsanddoses/uis/FirestoreService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/teamjg/dreamsanddoses/uis/FirestoreService.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/teamjg/dreamsanddoses/uis/PillsScreen.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/teamjg/dreamsanddoses/uis/PillsScreen.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/teamjg/dreamsanddoses/uis/ReminderFormDialog.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/teamjg/dreamsanddoses/uis/ReminderFormDialog.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/teamjg/dreamsanddoses/uis/commonUI/CommonUI.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/teamjg/dreamsanddoses/uis/commonUI/CommonUI.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/teamjg/dreamsanddoses/uis/loginUI/ForgotPasswordScreen.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/teamjg/dreamsanddoses/uis/loginUI/ForgotPasswordScreen.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/teamjg/dreamsanddoses/uis/loginUI/LoginScreen.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/teamjg/dreamsanddoses/uis/loginUI/LoginScreen.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/teamjg/dreamsanddoses/uis/loginUI/RegisterScreen.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/teamjg/dreamsanddoses/uis/loginUI/RegisterScreen.kt" afterDir="false" />
-    </list>
+    <list default="true" id="f3a1914d-3b43-47b3-9c6c-387d6b062614" name="Changes" comment="Just saving work! Saving work (Part 5)(7-24-25)&#10;&#10;-Attach reminders button to pill screen-Done-Pushed to dev_Joseph (Part 2)(7-23-25)&#10;-Complete reminders (pill screen)-Done-Pushed to dev_Joseph (Part 2)(7-23-25)&#10;-Create showSheet for reminders form-Done-Pushed to dev_Joseph (Part 2)(7-23-25)&#10;-Sync reminders to FireStore-Done-Pushed to dev_Joseph (Part 2)(7-23-25)&#10;-Created and synced deleted button on PillScreen.kt-Done-Pushed to dev_Joseph (Part 3)(7-24-25)&#10;-Lockout is created and bases on the Calendar reminders-Done-Pushed to dev_Joseph (Part 5)(7-24-25)&#10;-Medication API-Done-Pushed to dev_Joseph (Part 5)(7-24-25)&#10;-Need Nav bar added to PillScreen.kt-Done-Pushed to dev_Joseph (Part 4)(7-24-25)" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -223,7 +203,7 @@
       <workItem from="1752304429378" duration="4386000" />
       <workItem from="1752335871494" duration="2495000" />
       <workItem from="1753307410260" duration="33486000" />
-      <workItem from="1753388842862" duration="13280000" />
+      <workItem from="1753388842862" duration="13709000" />
     </task>
     <task id="LOCAL-00001" summary="Test 06-17-25">
       <option name="closed" value="true" />
@@ -297,7 +277,15 @@
       <option name="project" value="LOCAL" />
       <updated>1753345935074</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Just saving work! Saving work (Part 5)(7-24-25)&#10;&#10;-Attach reminders button to pill screen-Done-Pushed to dev_Joseph (Part 2)(7-23-25)&#10;-Complete reminders (pill screen)-Done-Pushed to dev_Joseph (Part 2)(7-23-25)&#10;-Create showSheet for reminders form-Done-Pushed to dev_Joseph (Part 2)(7-23-25)&#10;-Sync reminders to FireStore-Done-Pushed to dev_Joseph (Part 2)(7-23-25)&#10;-Created and synced deleted button on PillScreen.kt-Done-Pushed to dev_Joseph (Part 3)(7-24-25)&#10;-Lockout is created and bases on the Calendar reminders-Done-Pushed to dev_Joseph (Part 5)(7-24-25)&#10;-Medication API-Done-Pushed to dev_Joseph (Part 5)(7-24-25)&#10;-Need Nav bar added to PillScreen.kt-Done-Pushed to dev_Joseph (Part 4)(7-24-25)">
+      <option name="closed" value="true" />
+      <created>1753402556485</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1753402556485</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -325,7 +313,8 @@
     <MESSAGE value="Just saving work! Saving work (Part 2)(7-23-25)&#10;&#10;-Attach reminders button to pill screen-Done &#10;-Complete reminders (pill screen)-Done&#10;-Create showSheet for reminders form-Done &#10;-Sync reminders to FireStore-Done" />
     <MESSAGE value="Just saving work! Saving work (Part 3)(7-24-25)&#10;&#10;-Attach reminders button to pill screen-Done-Pushed to dev_Joseph (Part 2)(7-23-25)&#10;-Complete reminders (pill screen)-Done-Pushed to dev_Joseph (Part 2)(7-23-25)&#10;-Create showSheet for reminders form-Done-Pushed to dev_Joseph (Part 2)(7-23-25)&#10;-Sync reminders to FireStore-Done-Pushed to dev_Joseph (Part 2)(7-23-25)&#10;-Created and synced deleted button on PillScreen.kt-Done-Pushed to dev_Joseph (Part 3)(7-24-25)&#10;-Lockout is created and bases on the Calendar reminders-Working on currently&#10;-Medication API-Working on LAST-Working on currently&#10;-Need Nav bar added to PillScreen.kt-Working on currently" />
     <MESSAGE value="Just saving work! Saving work (Part 4)(7-24-25)&#10;&#10;-Attach reminders button to pill screen-Done-Pushed to dev_Joseph (Part 2)(7-23-25)&#10;-Complete reminders (pill screen)-Done-Pushed to dev_Joseph (Part 2)(7-23-25)&#10;-Create showSheet for reminders form-Done-Pushed to dev_Joseph (Part 2)(7-23-25)&#10;-Sync reminders to FireStore-Done-Pushed to dev_Joseph (Part 2)(7-23-25)&#10;-Created and synced deleted button on PillScreen.kt-Done-Pushed to dev_Joseph (Part 3)(7-24-25)&#10;-Lockout is created and bases on the Calendar reminders-Working on currently&#10;-Medication API-Working on LAST-Working on currently&#10;-Need Nav bar added to PillScreen.kt-Done-Pushed to dev_Joseph (Part 4)(7-24-25)" />
-    <option name="LAST_COMMIT_MESSAGE" value="Just saving work! Saving work (Part 4)(7-24-25)&#10;&#10;-Attach reminders button to pill screen-Done-Pushed to dev_Joseph (Part 2)(7-23-25)&#10;-Complete reminders (pill screen)-Done-Pushed to dev_Joseph (Part 2)(7-23-25)&#10;-Create showSheet for reminders form-Done-Pushed to dev_Joseph (Part 2)(7-23-25)&#10;-Sync reminders to FireStore-Done-Pushed to dev_Joseph (Part 2)(7-23-25)&#10;-Created and synced deleted button on PillScreen.kt-Done-Pushed to dev_Joseph (Part 3)(7-24-25)&#10;-Lockout is created and bases on the Calendar reminders-Working on currently&#10;-Medication API-Working on LAST-Working on currently&#10;-Need Nav bar added to PillScreen.kt-Done-Pushed to dev_Joseph (Part 4)(7-24-25)" />
+    <MESSAGE value="Just saving work! Saving work (Part 5)(7-24-25)&#10;&#10;-Attach reminders button to pill screen-Done-Pushed to dev_Joseph (Part 2)(7-23-25)&#10;-Complete reminders (pill screen)-Done-Pushed to dev_Joseph (Part 2)(7-23-25)&#10;-Create showSheet for reminders form-Done-Pushed to dev_Joseph (Part 2)(7-23-25)&#10;-Sync reminders to FireStore-Done-Pushed to dev_Joseph (Part 2)(7-23-25)&#10;-Created and synced deleted button on PillScreen.kt-Done-Pushed to dev_Joseph (Part 3)(7-24-25)&#10;-Lockout is created and bases on the Calendar reminders-Done-Pushed to dev_Joseph (Part 5)(7-24-25)&#10;-Medication API-Done-Pushed to dev_Joseph (Part 5)(7-24-25)&#10;-Need Nav bar added to PillScreen.kt-Done-Pushed to dev_Joseph (Part 4)(7-24-25)" />
+    <option name="LAST_COMMIT_MESSAGE" value="Just saving work! Saving work (Part 5)(7-24-25)&#10;&#10;-Attach reminders button to pill screen-Done-Pushed to dev_Joseph (Part 2)(7-23-25)&#10;-Complete reminders (pill screen)-Done-Pushed to dev_Joseph (Part 2)(7-23-25)&#10;-Create showSheet for reminders form-Done-Pushed to dev_Joseph (Part 2)(7-23-25)&#10;-Sync reminders to FireStore-Done-Pushed to dev_Joseph (Part 2)(7-23-25)&#10;-Created and synced deleted button on PillScreen.kt-Done-Pushed to dev_Joseph (Part 3)(7-24-25)&#10;-Lockout is created and bases on the Calendar reminders-Done-Pushed to dev_Joseph (Part 5)(7-24-25)&#10;-Medication API-Done-Pushed to dev_Joseph (Part 5)(7-24-25)&#10;-Need Nav bar added to PillScreen.kt-Done-Pushed to dev_Joseph (Part 4)(7-24-25)" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
