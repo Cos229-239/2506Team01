@@ -28,10 +28,15 @@ import androidx.compose.ui.platform.LocalContext
 import coil.request.ImageRequest
 import androidx.compose.ui.layout.ContentScale
 
-
+/**
+ * Main composable for the Canvas screen displaying grouped canvas projects.
+ * Fetches canvas previews via a ViewModel and organizes them by time periods.
+ */
 @Composable
 fun CanvasScreen(navController: NavController, viewModel: CanvasViewModel = viewModel()) {
+    // Collect the grouped canvas previews state from ViewModel
     val canvasGroups by viewModel.canvasGroups.collectAsState()
+    // Labels used to categorize canvas previews by age
     val timeLabels = listOf("Past Week", "This Month", "This Year", "Older")
 
     val backgroundGray = Color.LightGray
@@ -51,6 +56,7 @@ fun CanvasScreen(navController: NavController, viewModel: CanvasViewModel = view
                 navController = navController,
                 type = NavigationBarType.Canvas,
                 onCompose = {
+                    // Navigate to Canvas editor screen when compose button pressed
                     navController.navigate(Routes.CANVAS_EDITOR)
                 }
             )
@@ -69,12 +75,13 @@ fun CanvasScreen(navController: NavController, viewModel: CanvasViewModel = view
                     .verticalScroll(rememberScrollState()),
                 verticalArrangement = Arrangement.spacedBy(24.dp)
             ) {
+                // Iterate through time categories and show CanvasRowSection for each
                 timeLabels.forEach { label ->
                     val previews = canvasGroups[label] ?: emptyList()
                     CanvasRowSection(
                         title = label,
                         canvasPreviews = previews,
-                        onSeeAll = { /* TODO */ }
+                        onSeeAll = { /* TODO: navigate to full list for label */ }
                     )
                 }
             }
@@ -82,6 +89,10 @@ fun CanvasScreen(navController: NavController, viewModel: CanvasViewModel = view
     }
 }
 
+/**
+ * Displays a titled row of canvas project previews with a "See All" button.
+ * Shows a message if no projects exist for this category.
+ */
 @Composable
 fun CanvasRowSection(
     title: String,
@@ -95,6 +106,7 @@ fun CanvasRowSection(
             .background(Color.LightGray)
             .padding(vertical = 8.dp)
     ) {
+        // Header row with title and "See All" button
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -106,6 +118,7 @@ fun CanvasRowSection(
             }
         }
 
+        // If no previews, show placeholder text
         if (canvasPreviews.isEmpty()) {
             Box(
                 modifier = Modifier
@@ -121,6 +134,7 @@ fun CanvasRowSection(
                 )
             }
         } else {
+            // Horizontally scrollable row of canvas preview cards
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -138,6 +152,10 @@ fun CanvasRowSection(
     }
 }
 
+/**
+ * Individual canvas project card displaying preview image (if available) and project name or date.
+ * Falls back to "No Image" placeholder if no preview URL.
+ */
 @Composable
 fun CanvasProjectCard(name: String, previewUrl: String?) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -174,12 +192,14 @@ fun CanvasProjectCard(name: String, previewUrl: String?) {
 
         Spacer(modifier = Modifier.height(4.dp))
 
+        // Try parsing project name as a timestamp for display as a formatted date
         val formattedDate = try {
             val timestamp = name.toLong()
             val date = java.util.Date(timestamp)
             java.text.SimpleDateFormat("MMM dd, yyyy", java.util.Locale.getDefault()).format(date)
         } catch (e: Exception) {
-            name // fallback if not a number
+            // If name isn't a timestamp, fallback to showing the raw name string
+            name
         }
 
         Text(
@@ -192,11 +212,17 @@ fun CanvasProjectCard(name: String, previewUrl: String?) {
     }
 }
 
+/**
+ * ViewModel responsible for loading and grouping canvas previews from Firestore.
+ * Groups canvases into time categories based on age.
+ */
 class CanvasViewModel : ViewModel() {
+    // Mutable state flow holding map of time category labels to lists of canvas previews
     private val _canvasGroups = MutableStateFlow<Map<String, List<FirestoreService.CanvasPreview>>>(emptyMap())
     val canvasGroups: StateFlow<Map<String, List<FirestoreService.CanvasPreview>>> = _canvasGroups
 
     init {
+        // Trigger initial load of canvases on ViewModel creation
         fetchAndGroupCanvases()
     }
 
@@ -204,6 +230,7 @@ class CanvasViewModel : ViewModel() {
         FirestoreService.fetchCanvasPreviews(
             onResult = { previews ->
                 Log.d("CanvasViewModel", "Fetched ${previews.size} previews")
+                // Group previews by age in days into defined categories
                 val grouped = previews.groupBy { preview ->
                     val daysAgo = preview.createdAt.toDate().let {
                         val diff = System.currentTimeMillis() - it.time
@@ -217,6 +244,7 @@ class CanvasViewModel : ViewModel() {
                         else -> "Older"
                     }
                 }
+                // Update state flow with grouped previews for UI to observe
                 _canvasGroups.value = grouped
             },
             onError = { error ->

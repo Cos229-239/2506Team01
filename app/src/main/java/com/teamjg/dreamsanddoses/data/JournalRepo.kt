@@ -10,12 +10,13 @@ import com.google.firebase.firestore.Query
 import com.teamjg.dreamsanddoses.uis.journalUI.JournalEntry
 import java.util.Date
 
-
+// Singleton object to manage Firestore operations for journals, notes, and lists
 object FireStoreService {
 
     @Suppress("StaticFieldLeak")
     private val db = FirebaseFirestore.getInstance()
 
+    // Adds a journal entry for the specified user
     fun addJournal(userId: String, title: String, content: String) {
         val journalData = hashMapOf(
             "title" to title,
@@ -36,6 +37,7 @@ object FireStoreService {
             }
     }
 
+    // Fetches journal entries for a user and returns them via callback
     fun fetchJournalEntries(
         userId: String,
         onResult: (List<JournalEntry>) -> Unit
@@ -60,6 +62,7 @@ object FireStoreService {
             }
     }
 
+    // Adds a note entry for the specified user
     fun addNote(userId: String, title: String, tag: String, content: String) {
         val noteData = hashMapOf(
             "title" to title,
@@ -81,6 +84,7 @@ object FireStoreService {
             }
     }
 
+    // Fetches note entries for a user and returns them via callback
     fun fetchNotesEntries(
         userId: String,
         onResult: (List<JournalEntry>) -> Unit
@@ -106,6 +110,7 @@ object FireStoreService {
             }
     }
 
+    // Adds a checklist-based list entry under the current user's lists collection
     fun addList(
         title: String,
         tag: String,
@@ -140,6 +145,7 @@ object FireStoreService {
             .addOnFailureListener { e -> onFailure(e) }
     }
 
+    // Fetches list entries (with checklists) for a user and returns them via callback
     fun fetchListEntries(userId: String, onResult: (List<ListEntry>) -> Unit) {
         db.collection("users")
             .document(userId)

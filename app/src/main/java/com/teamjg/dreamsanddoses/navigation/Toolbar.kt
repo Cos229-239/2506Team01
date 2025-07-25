@@ -1,5 +1,6 @@
 package com.teamjg.dreamsanddoses.navigation
 
+// UI framework imports
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -20,8 +21,10 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.teamjg.dreamsanddoses.R
 
-
-/** Represents the type of screen for configuring the navigation bars */
+/**
+ * Enum-style sealed class to define and distinguish the screen type
+ * Used to tailor navigation bars to the context of the current screen
+ */
 sealed class NavigationBarType {
     object Home : NavigationBarType()
     object Calendar : NavigationBarType()
@@ -38,6 +41,15 @@ sealed class NavigationBarType {
     object DreamsTemplate : NavigationBarType()
 }
 
+/**
+ * Top app bar component that displays a back button, header icon, and optional action buttons.
+ *
+ * @param type Specifies which screen type this bar is for (affects icons and actions)
+ * @param navController Optional NavController to enable back navigation
+ * @param useIconHeader If true, shows an icon in the center instead of a title
+ * @param onSearchClick Optional handler for search icon clicks
+ * @param onArchiveClick Optional handler for archive icon clicks (only used on Files screen)
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopNavigationBar(
@@ -49,7 +61,7 @@ fun TopNavigationBar(
 ) {
     val bgColor = Color.LightGray
 
-    // Header icon logic based on screen type
+    // Select icon from built-in vectors for center header
     val headerIconVector: ImageVector? = when (type) {
         NavigationBarType.Calendar -> Icons.Default.DateRange
         NavigationBarType.JournalHome -> Icons.Default.Edit
@@ -58,6 +70,7 @@ fun TopNavigationBar(
         else -> null
     }
 
+    // Select icon from local drawable resources
     val headerIconPainter: Painter? = when (type) {
         NavigationBarType.Dreams -> painterResource(R.drawable.ic_dreams_icon)
         NavigationBarType.Files -> painterResource(R.drawable.ic_files_icon)
@@ -69,12 +82,12 @@ fun TopNavigationBar(
         else -> null
     }
 
+    // Determine which actions should be shown
     val showSearch = type in listOf(
         NavigationBarType.Settings, NavigationBarType.Files,
         NavigationBarType.Pills, NavigationBarType.JournalHome,
         NavigationBarType.Journal, NavigationBarType.DreamsHistory
     )
-
     val showArchive = type == NavigationBarType.Files
 
     Surface(
@@ -91,7 +104,7 @@ fun TopNavigationBar(
                 .padding(horizontal = 8.dp),
             contentAlignment = Alignment.Center
         ) {
-            // Back button
+            // Left: Back button
             Row(
                 modifier = Modifier.fillMaxSize(),
                 verticalAlignment = Alignment.CenterVertically
@@ -99,46 +112,35 @@ fun TopNavigationBar(
                 navController?.let {
                     IconButton(
                         onClick = {
-                            navController.let { nav ->
-                                when (type) {
-                                    is NavigationBarType.Journal,
-                                    is NavigationBarType.Notes -> {
-                                        nav.navigate(Routes.JOURNAL_HOME) {
-                                            launchSingleTop = true
-                                            popUpTo(Routes.HOME) { inclusive = false }
-                                        }
-                                    }
-
-                                    is NavigationBarType.DreamsHistory -> {
-                                        nav.navigate(Routes.DREAMS_HOME) {
-                                            launchSingleTop = true
-                                            popUpTo(Routes.DREAMS) {
-                                                inclusive = true
-                                            }  // ensure previous "Dreams" flow is cleared
-                                        }
-                                    }
-
-                                    is NavigationBarType.DreamsHome -> {
-                                        nav.navigate(Routes.DREAMS) {
-                                            launchSingleTop = true
-                                            popUpTo(Routes.HOME) { inclusive = false }
-                                        }
-                                    }
-
-                                    is NavigationBarType.DreamsTemplate -> {
-                                        nav.navigate(Routes.DREAMS_HOME) {
-                                            launchSingleTop = true
-                                            popUpTo(Routes.DREAMS_HOME) { inclusive = true }
-                                        }
-                                    }
-
-                                    else -> {
-                                        nav.popBackStack()
+                            // Custom back navigation per screen
+                            when (type) {
+                                NavigationBarType.Journal, NavigationBarType.Notes -> {
+                                    navController.navigate(Routes.JOURNAL_HOME) {
+                                        launchSingleTop = true
+                                        popUpTo(Routes.HOME)
                                     }
                                 }
+                                NavigationBarType.DreamsHistory -> {
+                                    navController.navigate(Routes.DREAMS_HOME) {
+                                        launchSingleTop = true
+                                        popUpTo(Routes.DREAMS) { inclusive = true }
+                                    }
+                                }
+                                NavigationBarType.DreamsHome -> {
+                                    navController.navigate(Routes.DREAMS) {
+                                        launchSingleTop = true
+                                        popUpTo(Routes.HOME)
+                                    }
+                                }
+                                NavigationBarType.DreamsTemplate -> {
+                                    navController.navigate(Routes.DREAMS_HOME) {
+                                        launchSingleTop = true
+                                        popUpTo(Routes.DREAMS_HOME) { inclusive = true }
+                                    }
+                                }
+                                else -> navController.popBackStack()
                             }
                         },
-
                         modifier = Modifier.size(48.dp)
                     ) {
                         Icon(
@@ -151,7 +153,7 @@ fun TopNavigationBar(
                 }
             }
 
-            // Center icon
+            // Center: Icon header
             if (useIconHeader) {
                 headerIconVector?.let {
                     Icon(it, contentDescription = "Header Icon", modifier = Modifier.size(75.dp))
@@ -160,7 +162,7 @@ fun TopNavigationBar(
                 }
             }
 
-            // Right-side action buttons
+            // Right: Archive / Search icons
             Row(
                 modifier = Modifier
                     .wrapContentWidth()
@@ -193,6 +195,13 @@ fun TopNavigationBar(
     }
 }
 
+/**
+ * Bottom navigation bar with center FAB (or Scanner shortcut) and contextual tabs.
+ *
+ * @param navController Navigation controller to drive destination changes
+ * @param type Current screen type (affects icons and compose logic)
+ * @param onCompose Optional override for compose button logic
+ */
 @Composable
 fun BottomNavigationBar(
     navController: NavController,
@@ -202,6 +211,7 @@ fun BottomNavigationBar(
     val bgColor = Color.LightGray
     var showComposePicker by remember { mutableStateOf(false) }
 
+    // Display the compose picker modal when triggered
     if (showComposePicker) {
         ComposePickerSheet(
             onDismiss = { showComposePicker = false },
@@ -219,8 +229,8 @@ fun BottomNavigationBar(
         )
     }
 
-
     Column {
+        // Top shadow gradient separator above the nav bar
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -231,6 +241,7 @@ fun BottomNavigationBar(
                     )
                 )
         )
+
         BottomAppBar(
             modifier = Modifier.fillMaxWidth(),
             containerColor = bgColor,
@@ -241,7 +252,7 @@ fun BottomNavigationBar(
                 horizontalArrangement = Arrangement.SpaceEvenly,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                // Left: Home or Settings
+                // Left: Toggle between Home and Settings
                 IconButton(onClick = {
                     val destination = if (type is NavigationBarType.Home)
                         Routes.SETTINGS else Routes.HOME
@@ -258,7 +269,7 @@ fun BottomNavigationBar(
                     )
                 }
 
-                // Pills
+                // Pills Tab
                 IconButton(onClick = {
                     navController.navigate(Routes.PILLS) {
                         launchSingleTop = true
@@ -272,7 +283,7 @@ fun BottomNavigationBar(
                     )
                 }
 
-                // Compose FAB or spacer
+                // Center: Compose FAB (Scanner or Picker)
                 if (type != NavigationBarType.Dreams) {
                     Box(
                         modifier = Modifier
@@ -322,15 +333,11 @@ fun BottomNavigationBar(
                         }
                     }
                 } else {
-                    Box(
-                        modifier = Modifier
-                            .size(72.dp)
-                            .background(Color.Transparent) // No visual fill
-                    )
-                    //Spacer(modifier = Modifier.width(72.dp))
+                    // Spacer if Dreams screen disables the FAB
+                    Box(modifier = Modifier.size(72.dp))
                 }
 
-                // Journal
+                // Journal Tab
                 IconButton(onClick = {
                     navController.navigate(Routes.JOURNAL_HOME) {
                         launchSingleTop = true
@@ -340,7 +347,7 @@ fun BottomNavigationBar(
                     Icon(Icons.Default.Edit, contentDescription = "Journal", tint = Color.Black)
                 }
 
-                // Calendar
+                // Calendar Tab
                 IconButton(onClick = {
                     navController.navigate(Routes.CALENDAR) {
                         launchSingleTop = true
@@ -353,4 +360,3 @@ fun BottomNavigationBar(
         }
     }
 }
-

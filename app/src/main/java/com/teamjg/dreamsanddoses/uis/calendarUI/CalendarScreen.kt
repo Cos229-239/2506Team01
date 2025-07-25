@@ -1,5 +1,6 @@
 package com.teamjg.dreamsanddoses.uis.calendarUI
 
+// Import necessary Jetpack Compose and Android components
 import android.app.DatePickerDialog
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -17,23 +18,26 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+
+// Custom composables for layout and navigation
 import com.teamjg.dreamsanddoses.navigation.AnimatedScreenWrapper
 import com.teamjg.dreamsanddoses.navigation.BottomNavigationBar
 import com.teamjg.dreamsanddoses.navigation.NavigationBarType
 import com.teamjg.dreamsanddoses.navigation.TopNavigationBar
 import com.teamjg.dreamsanddoses.navigation.Routes
+
+// Java time and utility
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
 
 /**
- * - Better spacing and layout that adapts to different screen sizes
- * - Improved visual hierarchy with cards and proper elevation
- * - Modern bottom sheet design for better user experience
- * - Consistent color scheme throughout
+ * CalendarScreen composable provides the main UI for the Calendar section of the app.
+ * Includes: animated transitions, top & bottom navigation bars, date picker dialog,
+ * bottom sheet modal for reminders, and calendar grid.
  *
- * @param navController for navigation handling and back stack management
- * @param viewModel provides calendar UI state and navigation callbacks
+ * @param navController for navigation handling
+ * @param viewModel provides calendar state and logic
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -41,24 +45,22 @@ fun CalendarScreen(
     navController: NavController,
     viewModel: CalendarViewModel = viewModel()
 ) {
-    // Collect UI state from ViewModel, auto-updates on changes
+    // Observe state from ViewModel
     val state by viewModel.uiState.collectAsState()
 
-    // Get screen configuration for responsive design
+    // Get screen height for responsive layout
     val configuration = LocalConfiguration.current
     val screenHeight = configuration.screenHeightDp.dp
 
-    // State for controlling bottom sheet visibility
+    // Bottom sheet and dialog visibility states
     var showBottomSheet = remember { mutableStateOf(false) }
-
     var launchedFromCompose by remember { mutableStateOf(false) }
     var showDateDialog by remember { mutableStateOf(false) }
 
-    // Bottom sheet state with improved configuration
-    val sheetState = rememberModalBottomSheetState(
-        skipPartiallyExpanded = false // Allow partial expansion for better UX
-    )
+    // Create modal bottom sheet state
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = false)
 
+    // Show bottom sheet if needed
     if (showBottomSheet.value) {
         ModalBottomSheet(
             onDismissRequest = { showBottomSheet.value = false },
@@ -66,25 +68,24 @@ fun CalendarScreen(
             containerColor = Color.Transparent,
             dragHandle = null
         ) {
-
+            // Container card inside the modal
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
                     .heightIn(min = 200.dp, max = screenHeight * 0.7f)
                     .padding(16.dp),
                 shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp, bottomStart = 16.dp, bottomEnd = 16.dp),
-                colors = CardDefaults.cardColors(
-                    containerColor = MaterialTheme.colorScheme.surface
-                ),
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
                 elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
             ) {
+                // Scrollable column content inside the sheet
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(24.dp)
                         .verticalScroll(rememberScrollState())
                 ) {
-
+                    // Drag handle indicator
                     Box(
                         modifier = Modifier
                             .width(40.dp)
@@ -96,28 +97,27 @@ fun CalendarScreen(
 
                     Spacer(modifier = Modifier.height(16.dp))
 
+                    // Section label
                     Text(
                         text = "Selected Date",
-                        style = MaterialTheme.typography.labelLarge.copy(
-                            fontWeight = FontWeight.Medium
-                        ),
+                        style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Medium),
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
 
                     Spacer(modifier = Modifier.height(4.dp))
 
+                    // Display selected date or fallback message
                     Text(
                         text = state.selectedDate?.format(
                             DateTimeFormatter.ofPattern("EEEE, MMMM dd, yyyy")
                         ) ?: "No date selected",
-                        style = MaterialTheme.typography.headlineSmall.copy(
-                            fontWeight = FontWeight.Bold
-                        ),
+                        style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold),
                         color = MaterialTheme.colorScheme.onSurface
                     )
 
                     Spacer(modifier = Modifier.height(24.dp))
 
+                    // Placeholder for medication reminders
                     Card(
                         modifier = Modifier.fillMaxWidth(),
                         colors = CardDefaults.cardColors(
@@ -125,16 +125,10 @@ fun CalendarScreen(
                         ),
                         shape = RoundedCornerShape(12.dp)
                     ) {
-                        Column(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(16.dp)
-                        ) {
+                        Column(modifier = Modifier.fillMaxWidth().padding(16.dp)) {
                             Text(
                                 text = "Medication Reminders",
-                                style = MaterialTheme.typography.titleMedium.copy(
-                                    fontWeight = FontWeight.SemiBold
-                                ),
+                                style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.SemiBold),
                                 color = MaterialTheme.colorScheme.onPrimaryContainer
                             )
 
@@ -150,6 +144,7 @@ fun CalendarScreen(
 
                     Spacer(modifier = Modifier.height(16.dp))
 
+                    // Action buttons at the bottom of the sheet
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.spacedBy(12.dp)
@@ -165,7 +160,7 @@ fun CalendarScreen(
                         Button(
                             onClick = {
                                 showBottomSheet.value = false
-                                navController.navigate(Routes.PILLS)  // Dante added - This will open the Pills/reminder screen
+                                navController.navigate(Routes.PILLS) // Navigate to pills/reminders
                             },
                             modifier = Modifier.weight(1f),
                             shape = RoundedCornerShape(12.dp)
@@ -177,25 +172,26 @@ fun CalendarScreen(
             }
         }
     }
-        if (showDateDialog) {
-            DatePickerDialog(
-                initialDate = LocalDate.now(),
-                onDateSelected = { date ->
-                    viewModel.onDaySelected(date)
-                    showDateDialog = false
 
-                    if (launchedFromCompose) {
-                        showBottomSheet.value = true
-                        launchedFromCompose = false
-                    }
-                },
-                onDismiss = { showDateDialog = false }
-            )
-        }
+    // Show native Android DatePicker dialog
+    if (showDateDialog) {
+        DatePickerDialog(
+            initialDate = LocalDate.now(),
+            onDateSelected = { date ->
+                viewModel.onDaySelected(date)  // Update view model
+                showDateDialog = false
 
+                // Open bottom sheet if launched from FAB
+                if (launchedFromCompose) {
+                    showBottomSheet.value = true
+                    launchedFromCompose = false
+                }
+            },
+            onDismiss = { showDateDialog = false }
+        )
+    }
 
-
-    // Wrap screen content with enter/exit animations
+    // Apply screen animations and layout
     AnimatedScreenWrapper(navController = navController) {
         Scaffold(
             topBar = {
@@ -216,17 +212,15 @@ fun CalendarScreen(
                 )
             }
         ) { innerPadding ->
-            // FIXED: Main content WITHOUT verticalScroll() to avoid conflict with LazyVerticalGrid
             Column(
                 modifier = Modifier
                     .fillMaxSize()
                     .background(Color.LightGray)
                     .padding(innerPadding)
-                // REMOVED: .verticalScroll(rememberScrollState()) - This was causing the crash!
             ) {
                 Spacer(modifier = Modifier.height(8.dp))
 
-                // Calendar month navigation header with improved styling
+                // Calendar month header with navigation arrows
                 CalendarHeader(
                     currentMonth = state.currentMonth,
                     onPreviousMonth = viewModel::goToPreviousMonth,
@@ -235,28 +229,30 @@ fun CalendarScreen(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // The Calendar weekday headers with modern styling
+                // Row showing weekday labels (Sun, Mon, etc.)
                 CalendarWeekdayHeader()
 
                 Spacer(modifier = Modifier.height(8.dp))
 
-                // The calendar grid with improved design - this contains LazyVerticalGrid
+                // Grid of days in the current month
                 CalendarGrid(
                     currentMonth = state.currentMonth,
                     selectedDate = state.selectedDate,
                     onDayClick = { date ->
-                        viewModel.onDaySelected(date)  // Updates selected date
-                        showBottomSheet.value = true   // Shows the bottom sheet
+                        viewModel.onDaySelected(date) // Update selected date
+                        showBottomSheet.value = true  // Show modal sheet
                     }
                 )
 
-                // IMPROVED: Add some bottom padding for better appearance
                 Spacer(modifier = Modifier.height(24.dp))
             }
         }
     }
 }
 
+/**
+ * Native Android Date Picker dialog wrapped in Compose-friendly API
+ */
 @Composable
 fun DatePickerDialog(
     initialDate: LocalDate = LocalDate.now(),
@@ -268,15 +264,16 @@ fun DatePickerDialog(
         set(initialDate.year, initialDate.monthValue - 1, initialDate.dayOfMonth)
     }
 
+    // Launch Android DatePicker dialog with selected values
     DatePickerDialog(
         context,
         { _, year, month, dayOfMonth ->
-            onDateSelected(LocalDate.of(year, month + 1, dayOfMonth))
+            onDateSelected(LocalDate.of(year, month + 1, dayOfMonth)) // Handle result
         },
         calendar.get(Calendar.YEAR),
         calendar.get(Calendar.MONTH),
         calendar.get(Calendar.DAY_OF_MONTH)
     ).apply {
-        setOnCancelListener { onDismiss() }
+        setOnCancelListener { onDismiss() } // Dismiss callback
     }.show()
 }

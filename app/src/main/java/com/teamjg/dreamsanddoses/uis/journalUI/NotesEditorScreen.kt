@@ -16,40 +16,50 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.google.firebase.auth.FirebaseAuth
-import com.teamjg.dreamsanddoses.data.FireStoreService.addJournal
 import com.teamjg.dreamsanddoses.data.FireStoreService.addNote
 import com.teamjg.dreamsanddoses.navigation.Routes
 import java.text.SimpleDateFormat
 import java.util.*
 
-
+/**
+ * Composable screen for creating or editing a note.
+ *
+ * @param navController Navigation controller to handle screen navigation.
+ * @param noteId Optional ID of note to edit; null means creating a new note.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NotesEditorScreen(
     navController: NavController,
-    noteId: String? = null // null means new note
+    noteId: String? = null // null means new note creation
 ) {
+    // State holders for note title, content, and optional tag
     var titleState by remember { mutableStateOf("") }
     var contentState by remember { mutableStateOf("") }
     var tagState by remember { mutableStateOf("") }
+
+    // Record the current date/time when composable is first composed
     val lastEdited = remember { Date() }
+    // Formatter for displaying the last edited timestamp
     val dateFormat = SimpleDateFormat("MMM dd, yyyy · hh:mm a", Locale.getDefault())
 
+    // Scaffold layout with top app bar and content area
     Scaffold(
-        containerColor = Color.LightGray,
+        containerColor = Color.LightGray, // Background color of scaffold
         topBar = {
             TopAppBar(
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color.LightGray,
-                    titleContentColor = MaterialTheme.colorScheme.onSurface
+                    containerColor = Color.LightGray,                      // Top bar background color
+                    titleContentColor = MaterialTheme.colorScheme.onSurface // Title text color
                 ),
-                modifier = Modifier.padding(WindowInsets.statusBars.asPaddingValues()),
-                title = { Text("New Note") },
+                modifier = Modifier.padding(WindowInsets.statusBars.asPaddingValues()), // Add status bar padding
+                title = { Text("New Note") }, // Static title (can be dynamic if editing note)
                 navigationIcon = {
                     IconButton(onClick = {
+                        // Navigate back to notes tab of journal screen
                         navController.navigate(Routes.journalRoute(tab = "notes")) {
-                            popUpTo(Routes.HOME)
-                            launchSingleTop = true
+                            popUpTo(Routes.HOME)          // Pop backstack to HOME (non-inclusive)
+                            launchSingleTop = true        // Avoid duplicate destinations
                         }
                     }) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
@@ -58,14 +68,16 @@ fun NotesEditorScreen(
             )
         }
     ) { innerPadding ->
+        // Main content column with scrolling enabled
         Column(
             modifier = Modifier
-                .padding(innerPadding)
-                .padding(horizontal = 16.dp)
-                .verticalScroll(rememberScrollState())
+                .padding(innerPadding)                    // Apply scaffold padding
+                .padding(horizontal = 16.dp)              // Horizontal padding inside content
+                .verticalScroll(rememberScrollState())    // Enable vertical scroll for long content
         ) {
             Spacer(modifier = Modifier.height(16.dp))
 
+            // Title input text field with larger font size
             OutlinedTextField(
                 value = titleState,
                 onValueChange = { titleState = it },
@@ -73,14 +85,15 @@ fun NotesEditorScreen(
                 textStyle = TextStyle(fontSize = 22.sp),
                 modifier = Modifier.fillMaxWidth(),
                 colors = OutlinedTextFieldDefaults.colors(
-                    focusedContainerColor = Color.White,
-                    unfocusedContainerColor = Color.White,
-                    disabledContainerColor = Color.White
+                    focusedContainerColor = Color.White,      // White background when focused
+                    unfocusedContainerColor = Color.White,    // White background when unfocused
+                    disabledContainerColor = Color.White       // White background when disabled
                 )
             )
 
             Spacer(modifier = Modifier.height(12.dp))
 
+            // Optional tag input field, single line with smaller font size
             OutlinedTextField(
                 value = tagState,
                 onValueChange = { tagState = it },
@@ -97,15 +110,16 @@ fun NotesEditorScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
+            // Main note content input field: multiline, tall, scrollable
             OutlinedTextField(
                 value = contentState,
                 onValueChange = { contentState = it },
                 placeholder = { Text("Start writing your note...") },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .heightIn(min = 300.dp),
+                    .heightIn(min = 300.dp), // Minimum height for comfortable writing
                 textStyle = TextStyle(fontSize = 16.sp),
-                maxLines = Int.MAX_VALUE,
+                maxLines = Int.MAX_VALUE,  // Allow unlimited lines
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedContainerColor = Color.White,
                     unfocusedContainerColor = Color.White,
@@ -115,7 +129,7 @@ fun NotesEditorScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Templates Button (placeholder for now)
+            // Templates button placeholder - future feature for note templates
             OutlinedButton(
                 onClick = { /* TODO: show template picker */ },
                 modifier = Modifier.fillMaxWidth()
@@ -126,17 +140,18 @@ fun NotesEditorScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Save button complete
+            // Save button for persisting the note to Firestore and navigating back
             Button(
                 onClick = {
                     val userId = FirebaseAuth.getInstance().currentUser?.uid
                     if (userId != null) {
+                        // Call Firestore service to save note for the current user
                         addNote(userId, titleState, tagState, contentState)
                     }
-
+                    // Navigate back to notes tab of journal screen after save
                     navController.navigate(Routes.journalRoute(tab = "notes")) {
-                        popUpTo(Routes.HOME)
-                        launchSingleTop = true
+                        popUpTo(Routes.HOME)          // Pop backstack to HOME (non-inclusive)
+                        launchSingleTop = true        // Avoid duplicate destinations
                     }
                 },
                 modifier = Modifier
@@ -148,6 +163,7 @@ fun NotesEditorScreen(
 
             Spacer(modifier = Modifier.height(12.dp))
 
+            // Display last edited timestamp, centered horizontally below the save button
             Text(
                 text = "Last edited: ${dateFormat.format(lastEdited)}",
                 style = MaterialTheme.typography.labelSmall,

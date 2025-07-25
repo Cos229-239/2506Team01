@@ -24,6 +24,14 @@ import com.teamjg.dreamsanddoses.navigation.Routes
 import com.teamjg.dreamsanddoses.navigation.TopNavigationBar
 
 
+/**
+ * A reusable composable dialog for entering or editing text associated with a label.
+ *
+ * @param label The title label for the dialog.
+ * @param value The current text value in the text field.
+ * @param onValueChange Callback to update the text value when user types.
+ * @param onDismiss Callback to dismiss the dialog.
+ */
 @Composable
 fun EntryDialog(
     label: String,
@@ -44,21 +52,29 @@ fun EntryDialog(
                 value = value,
                 onValueChange = onValueChange,
                 modifier = Modifier.fillMaxWidth(),
-                singleLine = false
+                singleLine = false // Allows multi-line input for longer text
             )
         }
     )
 }
 
 
+/**
+ * A square grid item button with rounded corners, centered bold text,
+ * and a click handler.
+ *
+ * @param label The text label shown inside the grid item.
+ * @param onClick Callback invoked when the item is clicked.
+ * @param modifier Modifier for custom layout adjustments.
+ */
 @Composable
 fun GridItem(label: String, onClick: () -> Unit, modifier: Modifier = Modifier) {
     Box(
         modifier = modifier
-            .aspectRatio(1f) // Keeps square shape
-            .background(Color.White, shape = RoundedCornerShape(12.dp))
+            .aspectRatio(1f) // Ensures a square shape regardless of width
+            .background(Color.White, shape = RoundedCornerShape(12.dp)) // White background with rounded corners
             .clickable { onClick() }
-            .padding(16.dp),
+            .padding(16.dp), // Inner padding around the text
         contentAlignment = Alignment.Center
     ) {
         Text(
@@ -71,17 +87,27 @@ fun GridItem(label: String, onClick: () -> Unit, modifier: Modifier = Modifier) 
 }
 
 
+/**
+ * The main template screen for streamlining dream journaling.
+ * Allows quick access to enter common metadata fields such as Vibe, Location, People, and Time.
+ * Also provides navigation to a color picker and journaling editor.
+ *
+ * @param navController Navigation controller to handle navigation actions.
+ * @param entryId Optional dream entry ID for editing existing entries (not yet implemented).
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DreamsTemplateScreen(
     navController: NavController,
     entryId: String? = null
 ) {
+    // State variables holding the current input values for each metadata field
     var vibe by remember { mutableStateOf("") }
     var location by remember { mutableStateOf("") }
     var people by remember { mutableStateOf("") }
     var time by remember { mutableStateOf("") }
 
+    // Tracks which dialog is currently active; null means no dialog open
     var activeDialog by remember { mutableStateOf<String?>(null) }
 
     Box(modifier = Modifier.fillMaxSize()) {
@@ -92,7 +118,7 @@ fun DreamsTemplateScreen(
                     type = NavigationBarType.Dreams,
                     navController = navController,
                     useIconHeader = true,
-                    onSearchClick = { /* backlog search logic */ }
+                    onSearchClick = { /* backlog search logic - TODO */ }
                 )
             },
             bottomBar = {
@@ -107,11 +133,12 @@ fun DreamsTemplateScreen(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(innerPadding)
-                    .verticalScroll(rememberScrollState())
+                    .verticalScroll(rememberScrollState()) // Enable scrolling if content is too tall
                     .background(Color.LightGray)
-                    .padding(16.dp),
+                    .padding(16.dp), // Outer padding around content
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
+                // Instructional text at top, centered and styled prominently
                 Text(
                     text = "Streamline your dreams, or skip right to journaling through Compose →",
                     style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.SemiBold),
@@ -121,6 +148,8 @@ fun DreamsTemplateScreen(
                         .align(Alignment.CenterHorizontally),
                     textAlign = TextAlign.Center
                 )
+
+                // Button to navigate to color picker screen
                 Button(
                     onClick = { navController.navigate(Routes.COLOR_PICKER) },
                     modifier = Modifier.fillMaxWidth()
@@ -130,10 +159,12 @@ fun DreamsTemplateScreen(
 
                 Spacer(modifier = Modifier.height(48.dp))
 
+                // Grid of quick access items to enter metadata fields
                 Column(
                     verticalArrangement = Arrangement.spacedBy(16.dp),
                     modifier = Modifier.fillMaxWidth()
                 ) {
+                    // First row: Vibe and Location fields
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.spacedBy(16.dp)
@@ -141,6 +172,7 @@ fun DreamsTemplateScreen(
                         GridItem("Vibe/Feeling", { activeDialog = "Vibe" }, modifier = Modifier.weight(1f))
                         GridItem("Location", { activeDialog = "Location" }, modifier = Modifier.weight(1f))
                     }
+                    // Second row: People and Time fields
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.spacedBy(16.dp)
@@ -149,10 +181,11 @@ fun DreamsTemplateScreen(
                         GridItem("Time", { activeDialog = "Time" }, modifier = Modifier.weight(1f))
                     }
                 }
+
                 Spacer(modifier = Modifier.height(24.dp))
             }
 
-            // Dialog logic
+            // Show appropriate EntryDialog based on which field is active for editing
             when (activeDialog) {
                 "Vibe" -> EntryDialog("Vibe/Feeling", vibe, { vibe = it }) { activeDialog = null }
                 "Location" -> EntryDialog("Location", location, { location = it }) { activeDialog = null }
@@ -161,17 +194,18 @@ fun DreamsTemplateScreen(
             }
         }
 
+        // Large floating compose icon to start a new dream entry directly
         Icon(
             painter = painterResource(R.drawable.dreams_compose_icon),
             contentDescription = "New Dream",
             modifier = Modifier
                 .size(120.dp)
                 .align(Alignment.BottomCenter)
-                .offset(y = (-32).dp)
+                .offset(y = (-32).dp) // Slightly overlaps bottom navigation bar for prominence
                 .clickable {
                     navController.navigate(Routes.DREAMS_EDITOR)
                 },
-            tint = Color.Unspecified
+            tint = Color.Unspecified // Preserve original icon colors
         )
     }
 }
