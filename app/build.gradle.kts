@@ -106,6 +106,9 @@ dependencies {
     //ViewModel support for Compose (Need for Calendar)
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.9.2")
 
+    // This is to trigger and push notifications for scheduled Medication reminders
+    //implementation("androidx.work:work-runtime-ktx:2.10.2")
+
     //Core library desugaring to get local time for Java 8+
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.5")
 

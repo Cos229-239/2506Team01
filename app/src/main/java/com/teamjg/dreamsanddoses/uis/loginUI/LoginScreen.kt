@@ -1,5 +1,7 @@
 package com.teamjg.dreamsanddoses.uis.loginUI
-import com.teamjg.dreamsanddoses.uis.commonUI.ShowPasswordCheckbox// Dante added for UX Password
+
+// Dante added for UX Password
+import com.teamjg.dreamsanddoses.uis.commonUI.ShowPasswordCheckbox
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -38,18 +40,22 @@ import com.google.firebase.auth.FirebaseAuth
 import com.teamjg.dreamsanddoses.R
 import com.teamjg.dreamsanddoses.navigation.Routes
 
-//Dante added concerning Login screen
+// Dante added concerning Login screen
 @Composable
 fun LoginScreen(navController: NavController) {
-    // User input fields
+
+    // Stores what the user types for email and password
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-    var showPassword by remember { mutableStateOf(false) }// Dante added for UX Password
 
-    // Dante added concerning FireBase Authentication setup
+    // Show/hide password toggle
+    var showPassword by remember { mutableStateOf(false) } // Dante added for UX Password
+
+    // Firebase setup for authentication
     val context = LocalContext.current
     val auth = FirebaseAuth.getInstance()
 
+    // Main vertical layout container
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -60,7 +66,7 @@ fun LoginScreen(navController: NavController) {
     ) {
         Spacer(modifier = Modifier.height(50.dp))
 
-        //App title for Login screen
+        // App title at the top
         Text(
             text = "Dreams and Doses",
             fontSize = 24.sp,
@@ -70,7 +76,7 @@ fun LoginScreen(navController: NavController) {
 
         Spacer(modifier = Modifier.height(10.dp))
 
-        // App logo centered horizontally
+        // App icon logo below the title
         Image(
             painter = painterResource(id = R.drawable.ic_main_logo_icon),
             contentDescription = "App Logo",
@@ -82,6 +88,7 @@ fun LoginScreen(navController: NavController) {
 
         Spacer(modifier = Modifier.height(40.dp))
 
+        // Section header for login
         Text(
             text = "Sign in",
             fontWeight = FontWeight.Bold,
@@ -90,7 +97,7 @@ fun LoginScreen(navController: NavController) {
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // User email input
+        // Email input field
         TextField(
             value = email,
             onValueChange = { email = it },
@@ -100,7 +107,7 @@ fun LoginScreen(navController: NavController) {
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        // User password input
+        // Password input field with visibility toggle
         TextField(
             value = password,
             onValueChange = { password = it },
@@ -109,7 +116,7 @@ fun LoginScreen(navController: NavController) {
             modifier = Modifier.fillMaxWidth()
         )
 
-        // Dante added for UX Password
+        // Password visibility checkbox (Show/Hide password)
         ShowPasswordCheckbox(
             isChecked = showPassword,
             onCheckedChange = { showPassword = it }
@@ -117,7 +124,7 @@ fun LoginScreen(navController: NavController) {
 
         Spacer(modifier = Modifier.height(4.dp))
 
-        //Dante added for the forgot password link
+        // Forgot password link on the right
         TextButton(
             onClick = { navController.navigate(Routes.FORGOT_PASSWORD) },
             modifier = Modifier.align(Alignment.End)
@@ -131,14 +138,16 @@ fun LoginScreen(navController: NavController) {
 
         Spacer(modifier = Modifier.height(16.dp))
 
+        // Main login button
         Button(
             onClick = {
+                // Only try login if both fields are filled
                 if (email.isNotBlank() && password.isNotBlank()) {
                     auth.signInWithEmailAndPassword(email, password)
                         .addOnCompleteListener { task ->
                             if (task.isSuccessful) {
                                 Toast.makeText(context, "Login successful!", Toast.LENGTH_SHORT).show()
-                                navController.navigate("home") // or your destination
+                                navController.navigate("home") // go home screen after login
                             } else {
                                 Toast.makeText(context, "Error: ${task.exception?.message}", Toast.LENGTH_LONG).show()
                             }
@@ -152,15 +161,15 @@ fun LoginScreen(navController: NavController) {
             Text("Continue")
         }
 
-        //Dante added concerning Login screen
+        // Dante added concerning Login screen
         Spacer(modifier = Modifier.height(8.dp))
 
-// "or" separator
+        // Simple text divider
         Text(text = "or")
 
         Spacer(modifier = Modifier.height(8.dp))
 
-// Register now
+        // Button to navigate to Register screen
         TextButton(
             onClick = { navController.navigate(Routes.REGISTER) }
         ) {
@@ -169,20 +178,23 @@ fun LoginScreen(navController: NavController) {
 
         Spacer(modifier = Modifier.height(8.dp))
 
-// Guest button area
+        // Guest login area (for users who don’t want to log in)
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.fillMaxWidth()
         ) {
             TextButton(
-                onClick = { /* ----TODO: Temporary login !!---- */
-                    navController.navigate("home") }
+                onClick = {
+                    // ----TODO: Temporary login for guest users----
+                    navController.navigate("home")
+                }
             ) {
                 Text(text = "Continue as guest")
             }
 
             Spacer(modifier = Modifier.height(4.dp))
 
+            // Info about limited access for guest users
             Text(
                 text = "Limited access – some features may be restricted",
                 fontSize = 12.sp,
