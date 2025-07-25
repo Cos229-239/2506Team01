@@ -11,6 +11,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.History
+import androidx.compose.material.icons.filled.Save
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -23,6 +24,7 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.navigation.NavController
 import com.teamjg.dreamsanddoses.navigation.Routes
+import com.teamjg.dreamsanddoses.uis.FirestoreService.saveCanvas
 
 data class Line(val points: MutableList<Offset>)
 
@@ -61,6 +63,17 @@ fun CanvasEditorScreen(navController: NavController) {
                     }
                 }) {
                     Icon(Icons.Default.History, contentDescription = "Undo") }
+                IconButton(onClick = {
+                    saveCanvas(
+                        lines = paths,
+                        title = "${System.currentTimeMillis()}",
+                        previewUrl = null // or pass a URL if generated
+                    ) { success ->
+                        if (success) navController.navigate(Routes.CANVAS)
+                    }
+                }) {
+                    Icon(Icons.Default.Save, contentDescription = "Save Canvas")
+                }
             }
         }
     ) { innerPadding ->

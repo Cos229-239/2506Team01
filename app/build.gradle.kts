@@ -78,7 +78,7 @@ dependencies {
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.firebase:firebase-auth-ktx")
     implementation("com.google.firebase:firebase-common-ktx")
-    implementation("com.google.android.gms:play-services-auth:21.3.0")
+    implementation("com.google.android.gms:play-services-auth:21.4.0")
 
 
     // Import the BoM for the Firebase platform
@@ -107,6 +107,13 @@ dependencies {
 
     //Core library desugaring to get local time for Java 8+
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.5")
+
+    implementation("io.coil-kt:coil-compose:2.5.0")
+
+    implementation("com.google.firebase:firebase-storage-ktx:21.0.2")
+    implementation ("androidx.compose.ui:ui-graphics:1.8.3")
+    implementation ("androidx.core:core-ktx:1.16.0") // Needed for bitmap conversion
+    implementation("com.google.firebase:firebase-appcheck-playintegrity:19.0.0")
 
 
 }

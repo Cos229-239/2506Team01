@@ -2,13 +2,14 @@ package com.teamjg.dreamsanddoses.uis
 
 import android.util.Log
 import com.google.firebase.Timestamp
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.teamjg.dreamsanddoses.uis.dreamsUI.DreamEntry
+import com.teamjg.dreamsanddoses.uis.journalUI.Line
 import java.text.SimpleDateFormat
-import java.util.Locale
-import java.util.UUID
 import java.util.*
+
 
 object FirestoreService {
 
@@ -116,6 +117,76 @@ object FirestoreService {
             }
     }
 
+    fun saveCanvas(
+        lines: List<Line>,
+        title: String,
+        previewUrl: String? = null,
+        onComplete: (Boolean) -> Unit
+    ) {
+        val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return onComplete(false)
+        val db = FirebaseFirestore.getInstance()
+
+        val lineData = lines.map { line ->
+            mapOf("points" to line.points.map { pt -> mapOf("x" to pt.x, "y" to pt.y) })
+        }
+
+        val canvas = hashMapOf(
+            "title" to title,
+            "createdAt" to Timestamp.now(),
+            "lines" to lineData,
+            "previewUrl" to previewUrl
+        )
+
+        db.collection("users")
+            .document(userId)
+            .collection("canvases")
+            .add(canvas)
+            .addOnSuccessListener { onComplete(true) }
+            .addOnFailureListener { onComplete(false) }
+    }
+
+    data class CanvasPreview(
+        val id: String,
+        val title: String,
+        val previewUrl: String?,
+        val createdAt: Timestamp,
+        val tags: List<String> = emptyList()
+    )
+
+    fun fetchCanvasPreviews(
+        onResult: (List<CanvasPreview>) -> Unit,
+        onError: (Exception) -> Unit
+    ) {
+        val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return
+        val db = FirebaseFirestore.getInstance()
+
+        db.collection("users")
+            .document(userId)
+            .collection("canvases")
+            .orderBy("createdAt", Query.Direction.DESCENDING)
+            .get()
+            .addOnSuccessListener { snapshot ->
+                val previews = snapshot.documents.mapNotNull { doc ->
+                    val title = doc.getString("title") ?: "Untitled"
+                    val previewUrl = doc.getString("previewUrl")
+                    val createdAt = doc.getTimestamp("createdAt") ?: Timestamp.now()
+                    val tags = doc.get("tags") as? List<String> ?: emptyList()
+
+                    CanvasPreview(
+                        id = doc.id,
+                        title = title,
+                        previewUrl = previewUrl,
+                        createdAt = createdAt,
+                        tags = tags
+                    )
+                }
+                onResult(previews)
+            }
+            .addOnFailureListener { error ->
+                onError(error)
+            }
+    }
+
     //Saved the scanned content based on type
     fun saveScannedContent(
         userID: String,
@@ -125,7 +196,7 @@ object FirestoreService {
         onSuccess: () -> Unit,
         onFailure: (Exception) -> Unit
     ) {
-        val timestamp = com.google.firebase.Timestamp.now()
+        val timestamp = Timestamp.now()
         val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
 
         //Create document data
@@ -227,7 +298,7 @@ object FirestoreService {
 
         db.collection(collectionName)
             .whereEqualTo("userId", userId)
-            .orderBy("createdAt", com.google.firebase.firestore.Query.Direction.DESCENDING)
+            .orderBy("createdAt", Query.Direction.DESCENDING)
             .get()
             .addOnSuccessListener { documents ->
                 val contentList = documents.map { it.data }
@@ -252,7 +323,7 @@ object FirestoreService {
         collections.forEach { collectionName ->
             db.collection(collectionName)
                 .whereEqualTo("userId", userId)
-                .orderBy("createdAt", com.google.firebase.firestore.Query.Direction.DESCENDING)
+                .orderBy("createdAt", Query.Direction.DESCENDING)
                 .get()
                 .addOnSuccessListener { documents ->
                     allContent.addAll(documents.map { it.data })
@@ -264,7 +335,7 @@ object FirestoreService {
                         val sortedContent = allContent.sortedByDescending { document ->
                             val createdAt = document["createdAt"]
                             when (createdAt) {
-                                is com.google.firebase.Timestamp -> createdAt.toDate().time
+                                is Timestamp -> createdAt.toDate().time
                                 is Date -> createdAt.time
                                 else -> 0L
                             }
@@ -282,7 +353,7 @@ object FirestoreService {
                         val sortedContent = allContent.sortedByDescending { document ->
                             val createdAt = document["createdAt"]
                             when (createdAt) {
-                                is com.google.firebase.Timestamp -> createdAt.toDate().time
+                                is Timestamp -> createdAt.toDate().time
                                 is Date -> createdAt.time
                                 else -> 0L
                             }
