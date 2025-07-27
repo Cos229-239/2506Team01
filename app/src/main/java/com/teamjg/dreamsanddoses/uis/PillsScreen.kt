@@ -77,13 +77,19 @@ fun PillsScreen(navController: NavController) {
     ) { innerPadding ->
         val scrollState = rememberScrollState()
 
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.LightGray) // Ensures entire screen is styled, including behind bars
+                .padding(innerPadding)
+        )
         // Content section that allows scrolling
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(scrollState)
                 .padding(innerPadding)
-                .background(Color.White)
+                .background(Color.LightGray)
                 .padding(24.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {

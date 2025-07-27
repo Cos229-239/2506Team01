@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
 import android.util.Log
+import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.camera.core.CameraSelector
@@ -20,13 +21,17 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.luminance
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
+import androidx.core.view.WindowCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.NavController
 import com.google.mlkit.vision.common.InputImage
@@ -34,6 +39,7 @@ import com.google.mlkit.vision.text.TextRecognition
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions
 import com.teamjg.dreamsanddoses.R
 import com.teamjg.dreamsanddoses.navigation.AnimatedScreenWrapper
+import com.teamjg.dreamsanddoses.navigation.BottomNavigationBar
 import com.teamjg.dreamsanddoses.navigation.NavigationBarType
 import com.teamjg.dreamsanddoses.navigation.TopNavigationBar
 import java.util.concurrent.ExecutorService
@@ -56,6 +62,18 @@ fun ScannerScreen(navController: NavController) {
                 Manifest.permission.CAMERA
             ) == PackageManager.PERMISSION_GRANTED
         )
+    }
+
+    val window = (context as? ComponentActivity)?.window
+    val view = LocalView.current
+
+    // For proper contrast
+    val statusBarColor = Color.LightGray
+    val useDarkIcons = statusBarColor.luminance() > 0.5
+
+    SideEffect {
+        window?.statusBarColor = statusBarColor.toArgb()
+        WindowCompat.getInsetsController(window!!, view).isAppearanceLightStatusBars = useDarkIcons
     }
 
     //Show scan results
@@ -83,6 +101,13 @@ fun ScannerScreen(navController: NavController) {
                     type = NavigationBarType.Files, // Using Files type since scanner is part of file management
                     navController = navController,
                     useIconHeader = true
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+            },
+            bottomBar = {
+                BottomNavigationBar(
+                    type = NavigationBarType.Files,
+                    navController = navController,
                 )
             }
         ) { innerPadding ->
@@ -228,7 +253,7 @@ fun CameraScannerContent(
             cameraExecutor.shutdown()
         }
     }
-    Box(modifier = modifier.fillMaxSize()) {
+    Box(modifier = modifier.fillMaxSize().background(Color.LightGray)) {
         //Camera preview takes full screen
         AndroidView(
             factory = { previewView },
@@ -381,7 +406,7 @@ fun ScanResultScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.surface)
+            .background(Color.LightGray)
     ) {
         Column(
             modifier = Modifier
@@ -403,7 +428,7 @@ fun ScanResultScreen(
                 }
             }
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(111.dp))
 
             // Type selection
             Text(
