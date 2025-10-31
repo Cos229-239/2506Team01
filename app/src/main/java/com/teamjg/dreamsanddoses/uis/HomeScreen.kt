@@ -306,7 +306,7 @@ fun QuickAccessButton(
                 Icon(
                     painter = painterResource(id = it),
                     contentDescription = "$title Icon",
-                    tint = MaterialTheme.colorScheme.onPrimaryContainer,
+                    tint = Color(0xFF1A1A1A),
                     modifier = iconModifier
                 )
             }
@@ -315,7 +315,7 @@ fun QuickAccessButton(
             Text(
                 text = title,
                 style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.onPrimaryContainer
+                color = Color(0xFF1A1A1A)
             )
         }
     }
